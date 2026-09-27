@@ -5,6 +5,7 @@ import { AppHeader } from '../components/layout/AppHeader'
 import { AppFooter } from '../components/layout/AppFooter'
 import { LandingScreen } from '../screens/LandingScreen'
 import { AuthScreen } from '../screens/AuthScreen'
+import { SignInScreen } from '../screens/SignInScreen'
 import { HomeScreen } from '../screens/HomeScreen'
 import { DashboardScreen } from '../screens/DashboardScreen'
 import { WithdrawalScreen } from '../screens/WithdrawalScreen'
@@ -74,7 +75,7 @@ export function AppShell() {
     <Routes>
       <Route path="/" element={
         <LandingScreen
-          onLogin={() => navigate('/login')}
+          onLogin={() => navigate('/signin')}
           onRegister={() => navigate('/login')}
         />
       } />
@@ -87,6 +88,11 @@ export function AppShell() {
         estaAutenticado
           ? <Navigate to="/home" replace />
           : <AuthScreen onAuth={handleAuth} onVolver={() => navigate('/')} />
+      } />
+      <Route path="/signin" element={
+        estaAutenticado
+          ? <Navigate to="/home" replace />
+          : <SignInScreen onAuth={handleAuth} onVolver={() => navigate('/')} onRegister={() => navigate('/login')} />
       } />
       <Route path="/*" element={
         estaAutenticado

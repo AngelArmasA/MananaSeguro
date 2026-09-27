@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { TriangleAlert, ArrowRight, ArrowLeft } from 'lucide-react'
+import { TriangleAlert } from 'lucide-react'
 import Footer from './components/Footer'
 import LandingNavbar from './components/LandingNavbar'
 import { conectarWallet } from '../lib/wallet'
@@ -187,7 +187,7 @@ export function AuthScreen({ onAuth, onVolver }) {
                   {!loading && (
                     <button
                       className="w-full bg-brand hover:bg-brand-dark text-white font-semibold py-4 rounded-xl transition-all hover:-translate-y-px hover:shadow-lg hover:shadow-brand/30 cursor-pointer text-base"
-                      onClick={() => setPaso('freighter')}
+                      onClick={() => setPaso('registro')}
                     >
                       Crear cuenta con correo
                     </button>
@@ -218,45 +218,27 @@ export function AuthScreen({ onAuth, onVolver }) {
                 </div>
               )}
 
-              {/* Paso freighter */}
-              {paso === 'freighter' && (
-                <div className="flex flex-col items-center text-center gap-6">
-                  <div className="w-16 h-16 rounded-2xl bg-brand/10 flex items-center justify-center">
-                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#e3730d" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                      <rect x="2" y="7" width="20" height="14" rx="2" />
-                      <path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2" />
-                      <line x1="12" y1="12" x2="12" y2="16" />
-                      <line x1="10" y1="14" x2="14" y2="14" />
+              {/* Paso registro — próximamente */}
+              {paso === 'registro' && (
+                <div className="flex flex-col items-center gap-6 py-4">
+                  <div className="w-14 h-14 rounded-2xl bg-brand/10 flex items-center justify-center">
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#e37310" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
+                      <circle cx="9" cy="7" r="4" />
+                      <line x1="19" y1="8" x2="19" y2="14" />
+                      <line x1="22" y1="11" x2="16" y2="11" />
                     </svg>
                   </div>
-                  <div>
-                    <h3 className="font-display font-black text-ink dark:text-white text-2xl mb-2">{t('auth.conectar')}</h3>
-                    <p className="text-ink/45 dark:text-white/45 text-sm leading-relaxed max-w-xs mx-auto">{t('auth.descWallet')}</p>
+                  <div className="text-center">
+                    <h2 className="font-display font-bold text-white text-2xl mb-2">Datos personales</h2>
+                    <p className="text-white/45 text-sm leading-relaxed max-w-xs mx-auto">
+                      El formulario de registro estará disponible próximamente.
+                    </p>
                   </div>
-                  {error && (
-                    <div className="w-full bg-red-500/8 border border-dashed border-red-400/40 text-red-500 text-sm text-center px-4 py-3 rounded-xl">
-                      <TriangleAlert size={16} className="inline shrink-0" aria-hidden="true" /> {error}
-                      {error.includes('freighter.app') && (
-                        <a href="https://freighter.app" target="_blank" rel="noopener noreferrer" className="block mt-2 text-brand underline font-medium">
-                          {t('auth.instalar')} <ArrowRight size={14} className="inline" aria-hidden="true" />
-                        </a>
-                      )}
-                    </div>
-                  )}
                   <button
-                    className="w-full bg-brand hover:bg-brand-dark text-white font-semibold py-4 rounded-xl transition-all hover:-translate-y-px hover:shadow-lg hover:shadow-brand/30 cursor-pointer disabled:opacity-50"
-                    onClick={handleConectarFreighter}
-                    disabled={loading}>
-                    {loading ? (
-                      <span className="flex items-center justify-center gap-2">
-                        <svg aria-hidden="true" className="animate-spin" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21 12a9 9 0 1 1-6.219-8.56" /></svg>
-                        {t('auth.conectando')}
-                      </span>
-                    ) : t('auth.conectar')}
-                  </button>
-                  <button className="text-sm text-ink/30 dark:text-white/30 hover:text-ink/60 transition-colors cursor-pointer"
+                    className="text-xs font-bold px-3 py-1.5 rounded-lg border border-white/20 text-white/70 hover:text-white hover:border-white/40 transition-all cursor-pointer"
                     onClick={() => { setPaso('inicio'); setError(null) }}>
-                    <ArrowLeft size={14} className="inline" aria-hidden="true" /> {t('nav.volverInicio')}
+                    Volver
                   </button>
                 </div>
               )}
