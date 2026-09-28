@@ -707,8 +707,22 @@
     "minimoInline": "Minimum ${{min}} MXN",
     "nombreDefault": "Main Retirement"
   },
+  "verificacion": {
+    "tituloIzq": "Verification",
+    "descIzq": "Confirm your identity with the one-time code we sent to your device.",
+    "titulo": "Verification code",
+    "subtitulo": "One-time code · valid for 3 minutes",
+    "instruccion": "We sent a 5-digit code to your {{medio}}, enter it below to access.",
+    "medio": "phone number",
+    "acceder": "Access",
+    "verificando": "Verifying...",
+    "reenviarEn": "Request another code in {{tiempo}} seconds",
+    "solicitarOtro": "Request another code",
+    "errorTitulo": "Error: incorrect data",
+    "errorCodigo": "The code entered is not valid. Check and try again.",
+    "regresar": "Go back"
+  },
   "errorBoundary": {
-    "titulo": "Something went wrong",
     "descripcion": "An unexpected error occurred while processing your request. Your money and information are safe. Try again or go back home.",
     "reintentar": "Try again",
     "volverInicio": "Back to home",

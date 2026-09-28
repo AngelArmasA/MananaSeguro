@@ -44,12 +44,12 @@ const SOCIAL_LINKS = [
     { icon: MailIcon, href: 'mailto: contactomananaseguro@gmail.com', labelKey: 'footer.social.correo' },
 ]
 
-function Footer() {
+function Footer({ dark = false }) {
     const { t } = useTranslation()
     const year = new Date().getFullYear()
 
     return (
-        <footer className="bg-cream dark:bg-[#0f0e0d] border-t border-ink/8 dark:border-white/8 py-8">
+        <footer className={`${dark ? 'bg-bg border-white/8' : 'bg-cream dark:bg-bg border-ink/8 dark:border-white/8'} border-t py-8`}>
             <div className="container mx-auto px-4 flex flex-col gap-6">
 
                 {/* Fila principal */}
@@ -58,9 +58,9 @@ function Footer() {
                     {/* Logo */}
                     <div className="flex items-center gap-2">
                         <img src={logoCompleto} alt={t('nav.logoAlt')} className="h-8 w-auto rounded-lg" />
-                        <span className="font-display font-bold text-lg text-ink dark:text-white tracking-tight">
-                            {t('nav.marca')} <span className="text-brand">{t('nav.marcaAccent')}</span>
-                        </span>
+                             <span className="font-display font-bold text-lg text-white tracking-tight">
+                                 {t('nav.marca')} <span className="text-brand">{t('nav.marcaAccent')}</span>
+                             </span>
                     </div>
 
                     {/* Redes sociales */}

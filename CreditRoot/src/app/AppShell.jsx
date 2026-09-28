@@ -6,6 +6,7 @@ import { AppFooter } from '../components/layout/AppFooter'
 import { LandingScreen } from '../screens/LandingScreen'
 import { AuthScreen } from '../screens/AuthScreen'
 import { SignInScreen } from '../screens/SignInScreen'
+import { VerificacionScreen } from '../screens/VerificacionScreen'
 import { MainScreen } from '../screens/MainScreen'
 import { HomeScreen } from '../screens/HomeScreen'
 import { DashboardScreen } from '../screens/DashboardScreen'
@@ -17,15 +18,11 @@ function AppLayout({ usuario, onLogout }) {
     <div className="bg-surface dark:bg-[#0f0e0d] min-h-screen">
       <AppHeader usuario={usuario} onLogout={onLogout} />
       <main>
-        {/* Si DepositFlow / WithdrawalFlow (u otra pantalla) lanzan durante el
-            polling, el ErrorBoundary muestra un fallback en vez de dejar la
-            app en blanco. */}
         <ErrorBoundary>
           <Routes>
             <Route path="/home"       element={<HomeScreen usuario={usuario} />} />
             <Route path="/dashboard"  element={<DashboardScreen />} />
             <Route path="/withdrawal" element={<WithdrawalScreen />} />
-            {/* Simulador redirige al dashboard donde está integrado */}
             <Route path="/planner"    element={<Navigate to="/dashboard" replace />} />
             <Route path="*"           element={<Navigate to="/home" replace />} />
           </Routes>
@@ -48,6 +45,9 @@ export function AppShell() {
     }
   })
 
+  // identificador (email) que viene de /signin hacia /verificacion
+  const [identificador, setIdentificador] = useState(null)
+
   useEffect(() => {
     function onStorage(e) {
       if (e.key === 'ms_usuario') {
@@ -61,12 +61,12 @@ export function AppShell() {
   function handleAuth(datos) {
     setUsuario(datos)
     localStorage.setItem('ms_usuario', JSON.stringify(datos))
-    // Mock users van a /main, usuarios reales van a /home
-    navigate(datos.walletAddress ? '/main' : '/home')
+    navigate('/main')
   }
 
   function handleLogout() {
     setUsuario(null)
+    setIdentificador(null)
     localStorage.removeItem('ms_usuario')
     navigate('/')
   }
@@ -83,18 +83,33 @@ export function AppShell() {
       } />
       <Route path="/login" element={
         estaAutenticado
-          ? <Navigate to="/home" replace />
+          ? <Navigate to="/main" replace />
           : <AuthScreen onAuth={handleAuth} onVolver={() => navigate('/')} />
       } />
       <Route path="/register" element={
         estaAutenticado
-          ? <Navigate to="/home" replace />
+          ? <Navigate to="/main" replace />
           : <AuthScreen onAuth={handleAuth} onVolver={() => navigate('/')} />
       } />
       <Route path="/signin" element={
         estaAutenticado
           ? <Navigate to="/main" replace />
-          : <SignInScreen onAuth={handleAuth} onVolver={() => navigate('/')} onRegister={() => navigate('/login')} />
+          : <SignInScreen
+              onVerificar={(email) => { setIdentificador(email); navigate('/verificacion') }}
+              onVolver={() => navigate('/')}
+              onRegister={() => navigate('/login')}
+            />
+      } />
+      <Route path="/verificacion" element={
+        estaAutenticado
+          ? <Navigate to="/main" replace />
+          : identificador
+            ? <VerificacionScreen
+                identificador={identificador}
+                onAuth={handleAuth}
+                onVolver={() => navigate('/signin')}
+              />
+            : <Navigate to="/signin" replace />
       } />
       <Route path="/main" element={
         estaAutenticado
@@ -103,8 +118,8 @@ export function AppShell() {
       } />
       <Route path="/*" element={
         estaAutenticado
-          ? <AppLayout usuario={usuario} onLogout={handleLogout} />
-          : <Navigate to="/login" replace />
+          ? <Navigate to="/main" replace />
+          : <Navigate to="/signin" replace />
       } />
     </Routes>
   )

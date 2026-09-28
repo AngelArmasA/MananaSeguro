@@ -707,6 +707,21 @@
     "minimoInline": "Mínimo ${{min}} MXN",
     "nombreDefault": "Retiro Principal"
   },
+  "verificacion": {
+    "tituloIzq": "Verificación",
+    "descIzq": "Confirma tu identidad con el código de un solo uso que enviamos a tu dispositivo.",
+    "titulo": "Código de verificación",
+    "subtitulo": "Código de un solo uso · duración 3 minutos",
+    "instruccion": "Enviamos un código de 5 dígitos a tu {{medio}}, ingrésalo debajo para acceder.",
+    "medio": "número de teléfono",
+    "acceder": "Acceder",
+    "verificando": "Verificando...",
+    "reenviarEn": "Solicitar otro código en {{tiempo}} segundos",
+    "solicitarOtro": "Solicitar otro código",
+    "errorTitulo": "Error: datos incorrectos",
+    "errorCodigo": "El código ingresado no es válido. Verifica e intenta de nuevo.",
+    "regresar": "Regresar"
+  },
   "errorBoundary": {
     "titulo": "Algo salió mal",
     "descripcion": "Ocurrió un error inesperado al procesar tu solicitud. Tu dinero y tu información están seguros. Intenta de nuevo o vuelve al inicio.",

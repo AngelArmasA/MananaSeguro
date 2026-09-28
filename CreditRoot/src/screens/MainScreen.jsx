@@ -1,16 +1,64 @@
 import { useTranslation } from 'react-i18next'
-import { ArrowUpRight, ArrowDownLeft, Flame } from 'lucide-react'
-import logoPng from '/src/assets/LogoPng.png'
+import { ArrowUpRight, ArrowDownLeft, ExternalLink, Flame } from 'lucide-react'
 import { BrandLogo } from '../components/ui/BrandLogo'
+import Footer from './components/Footer'
+import logoPng from '/src/assets/LogoPng.png'
 
-const pillCls = 'text-xs font-bold px-3 py-1.5 rounded-lg border border-white/20 text-white/70 hover:text-white hover:border-white/40 transition-all cursor-pointer'
+// ── Shared constants ────────────────────────────────────────────────────────
+const navBtnBase = 'border border-white/20 text-white/70 hover:text-white hover:border-white/40 transition-all cursor-pointer'
+const pillCls    = `text-xs font-bold px-3 py-1.5 rounded-lg ${navBtnBase}`
+const cardCls    = 'bg-card border border-white/10 rounded-2xl'
+
+const mxnFmt = new Intl.NumberFormat('es-MX', {
+  style: 'currency', currency: 'MXN',
+  minimumFractionDigits: 2, maximumFractionDigits: 2,
+})
+const mxnFmtInt = new Intl.NumberFormat('es-MX', {
+  style: 'currency', currency: 'MXN', maximumFractionDigits: 0,
+})
+
+// ── Sub-components ───────────────────────────────────────────────────────────
+
+function HistorialItem({ item }) {
+  const esIngreso = item.monto > 0
+  return (
+    <div className="flex items-center gap-3">
+      <div className="w-10 h-10 rounded-full bg-white/8 flex items-center justify-center shrink-0">
+        {esIngreso
+          ? <ArrowUpRight size={16} className="text-white/60" />
+          : <ArrowDownLeft size={16} className="text-white/60" />
+        }
+      </div>
+      <div className="flex-1 min-w-0">
+        <p className="text-white text-sm font-semibold leading-tight">
+          {item.tipo === 'deposito' ? 'Depósito' : 'Retiro de emergencia'}
+        </p>
+        <p className="text-white/40 text-xs">{item.fecha}&nbsp;&nbsp;{item.hora} hr.</p>
+      </div>
+      <span className={`text-sm font-semibold shrink-0 ${esIngreso ? 'text-success' : 'text-white/60'}`}>
+        {esIngreso ? '+ ' : '- '}{mxnFmt.format(Math.abs(item.monto))} MXN
+      </span>
+    </div>
+  )
+}
+
+function PromoCard({ children }) {
+  return (
+    <div className={`${cardCls} p-5 flex flex-col items-center text-center gap-1.5`}>
+      {children}
+      <button className="mt-2 flex items-center gap-1.5 bg-brand hover:bg-brand-dark rounded-md px-3 py-1.5 text-xs font-semibold text-white transition-all cursor-pointer">
+        <ExternalLink size={12} />
+        Conoce más
+      </button>
+    </div>
+  )
+}
 
 function Navbar({ onLogout }) {
   const { i18n } = useTranslation()
   function toggleLang() { i18n.changeLanguage(i18n.language === 'es' ? 'en' : 'es') }
-
   return (
-    <nav className="sticky top-0 z-50 bg-[#0f0e0d] border-b border-white/8 px-4 py-1.5">
+    <nav className="sticky top-0 z-50 bg-bg border-b border-white/8 px-4 py-1.5">
       <div className="container mx-auto flex justify-between items-center">
         <div className="flex items-center gap-2">
           <img src={logoPng} alt="Logo" className="h-7 w-7 object-contain rounded-lg shrink-0" />
@@ -24,7 +72,7 @@ function Navbar({ onLogout }) {
           </button>
           <button
             onClick={onLogout}
-            className="w-8 h-8 rounded-full border border-white/20 flex items-center justify-center text-white/70 hover:text-white hover:border-white/40 transition-all cursor-pointer"
+            className={`w-8 h-8 rounded-full flex items-center justify-center ${navBtnBase}`}
             aria-label="Perfil"
           >
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
@@ -38,21 +86,20 @@ function Navbar({ onLogout }) {
   )
 }
 
-const mxnFmt = new Intl.NumberFormat('es-MX', { style: 'currency', currency: 'MXN', maximumFractionDigits: 0 })
+// ── MainScreen ───────────────────────────────────────────────────────────────
 
 export function MainScreen({ usuario, onLogout }) {
   const u = usuario
 
   return (
-    <div className="bg-[#0f0e0d] min-h-screen text-white">
+    <div className="bg-bg min-h-screen text-white">
       <Navbar onLogout={onLogout} />
 
-      <div className="container mx-auto px-4 py-5 max-w-4xl">
+      <div className="container mx-auto px-4 py-5 max-w-5xl">
 
-        {/* ── Fila 1: Hero izq + Balance der ── */}
+        {/* Fila 1: Hero + Balance */}
         <div className="grid lg:grid-cols-2 gap-3 mb-3">
 
-          {/* Hero */}
           <div className="flex flex-col justify-center gap-4">
             <div className="flex items-center gap-4">
               <BrandLogo size="lg" />
@@ -70,125 +117,103 @@ export function MainScreen({ usuario, onLogout }) {
             </h1>
           </div>
 
-          {/* Balance card */}
-          <div className="bg-[#1a1814] border border-white/10 rounded-2xl p-5 flex flex-col gap-3">
+          <div className={`${cardCls} p-5 flex flex-col gap-3`}>
             <p className="text-white/50 text-xs">Cuenta principal</p>
             <p
               className="font-display font-bold text-white leading-none"
               style={{ fontSize: 'clamp(2.2rem,5vw,3.2rem)', letterSpacing: '-1px' }}
             >
-              {mxnFmt.format(u.saldoMXN)}
+              {mxnFmtInt.format(u.saldoMXN)}
             </p>
             <p className="text-white/50 text-xs">
               Activo CETES <span className="text-brand font-semibold">{u.tasaCetes}%</span>
             </p>
-            {/* Botones horizontales — igual que Figma */}
             <div className="grid grid-cols-2 gap-2 mt-1">
-              <button className="flex items-center justify-center gap-2 bg-brand hover:bg-brand-dark rounded-xl py-2.5 px-4 transition-all cursor-pointer">
-                <ArrowUpRight size={16} />
+              <button className="flex flex-col items-center justify-center gap-1.5 bg-brand hover:bg-brand-dark rounded-xl py-4 transition-all cursor-pointer">
+                <ArrowUpRight size={22} />
                 <span className="text-xs font-semibold">Depositar</span>
               </button>
-              <button className="flex items-center justify-center gap-2 bg-white/10 hover:bg-white/15 rounded-xl py-2.5 px-4 transition-all cursor-pointer text-white/60">
-                <ArrowDownLeft size={16} />
+              <button className="flex flex-col items-center justify-center gap-1.5 bg-white/10 rounded-xl py-4 transition-all cursor-not-allowed text-white/40" disabled>
+                <ArrowDownLeft size={22} />
                 <span className="text-xs font-semibold">Retirar</span>
               </button>
             </div>
           </div>
         </div>
 
-        {/* ── Fila 2: Meta (2fr) + Historial (3fr) ── */}
-        <div className="grid lg:grid-cols-[2fr_3fr] gap-3 mb-3">
+        {/* Fila 2: [Meta | Meses] + Historial */}
+        <div className="grid lg:grid-cols-2 gap-3 mb-3">
 
-          {/* Meta + Meses — dos sub-cards apiladas */}
-          <div className="flex flex-col gap-3">
+          <div className="grid grid-cols-2 gap-3">
             {/* Meta */}
-            <div className="bg-[#1a1814] border border-white/10 rounded-2xl p-4 flex flex-col gap-2">
-              <p className="text-white/70 text-sm font-medium">
+            <div className={`${cardCls} p-4 flex flex-col gap-2`}>
+              <p className="text-white/70 text-base font-medium">
                 Meta a <span className="text-white font-bold">{u.metaAnios} años</span>
               </p>
-              <svg viewBox="0 0 120 40" className="w-full h-8" preserveAspectRatio="none">
-                <polyline
-                  points="0,38 20,32 40,28 60,22 80,16 100,10 120,4"
-                  fill="none" stroke="#e37310" strokeWidth="2"
-                  strokeLinecap="round" strokeLinejoin="round" opacity="0.7"
+              <svg viewBox="0 0 120 44" className="w-full h-10" preserveAspectRatio="none">
+                <defs>
+                  <filter id="glow">
+                    <feGaussianBlur stdDeviation="2" result="blur" />
+                    <feMerge><feMergeNode in="blur" /><feMergeNode in="SourceGraphic" /></feMerge>
+                  </filter>
+                </defs>
+                <path
+                  d="M0,40 C20,38 30,30 50,22 C70,14 90,8 120,2"
+                  fill="none" stroke="#3ecf8e" strokeWidth="2.5"
+                  strokeLinecap="round" filter="url(#glow)" opacity="0.9"
                 />
               </svg>
-              <p className="text-white/40 text-xs">
-                Total estimado:{' '}
-                <span className="text-brand font-semibold">{mxnFmt.format(u.totalEstimadoMXN)} MXN</span>
-              </p>
+              <div className="mt-auto">
+                <p className="text-white/40 text-xs">Total estimado:</p>
+                <p className="text-brand font-bold text-xs leading-tight">
+                  {mxnFmt.format(u.totalEstimadoMXN)} MXN
+                </p>
+              </div>
             </div>
 
-            {/* Meses activo */}
-            <div className="bg-[#1a1814] border border-white/10 rounded-2xl p-4 flex flex-col items-center justify-center gap-1">
-              <Flame size={40} className="text-brand" />
-              <p className="font-display font-bold text-brand leading-none" style={{ fontSize: '2.8rem' }}>
+            {/* Meses */}
+            <div className={`${cardCls} p-4 flex flex-col items-center justify-center gap-1`}>
+              <Flame size={56} className="text-brand" />
+              <p className="font-display font-bold text-brand leading-none" style={{ fontSize: '2.4rem' }}>
                 {u.mesesActivo}
               </p>
-              <p className="text-white/60 text-sm">meses</p>
+              <p className="text-white text-base font-light">meses</p>
             </div>
           </div>
 
           {/* Historial */}
-          <div className="bg-[#1a1814] border border-white/10 rounded-2xl p-5 flex flex-col gap-3">
-            <p className="text-white/50 text-xs font-medium">Historial de transferencias</p>
+          <div className={`${cardCls} p-5 flex flex-col gap-3`}>
+            <p className="text-white/70 text-sm font-semibold">Historial de transferencias</p>
             {u.historial.map((item, i) => (
-              <div key={i} className="flex items-center gap-3">
-                <div className="w-8 h-8 rounded-lg bg-white/8 flex items-center justify-center shrink-0">
-                  {item.monto > 0
-                    ? <ArrowUpRight size={15} className="text-white/60" />
-                    : <ArrowDownLeft size={15} className="text-white/60" />
-                  }
-                </div>
-                <div className="flex-1 min-w-0">
-                  <p className="text-white text-sm font-medium leading-tight">
-                    {item.tipo === 'deposito' ? 'Depósito' : 'Retiro de emergencia'}
-                  </p>
-                  <p className="text-white/40 text-xs">{item.fecha}&nbsp;&nbsp;{item.hora} hr.</p>
-                </div>
-                <span className={`text-sm font-semibold shrink-0 ${item.monto > 0 ? 'text-brand' : 'text-white/70'}`}>
-                  {item.monto > 0 ? '+ ' : '- '}{mxnFmt.format(Math.abs(item.monto))} MXN
-                </span>
-              </div>
+              <HistorialItem key={i} item={item} />
             ))}
           </div>
         </div>
 
-        {/* ── Fila 3: Promo cards ── */}
+        {/* Fila 3: Promo cards */}
         <div className="grid lg:grid-cols-2 gap-3">
-
-          {/* Rendimiento */}
-          <div className="bg-[#1a1814] border border-white/10 rounded-2xl p-5 flex flex-col items-center text-center gap-1.5">
+          <PromoCard>
             <p className="text-white/60 text-sm">Recibe hasta el</p>
             <p className="font-display font-bold text-brand leading-none" style={{ fontSize: '2.8rem' }}>5%</p>
             <p className="text-white/60 text-sm leading-relaxed">
               de <span className="text-white font-semibold">rendimiento total</span><br />
               generado por tu ahorro constante.
             </p>
-            <button className="mt-2 flex items-center gap-1.5 border border-white/20 rounded-lg px-3 py-1.5 text-xs text-white/60 hover:text-white hover:border-white/40 transition-all cursor-pointer">
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 9h6M9 12h6M9 15h4"/></svg>
-              Conoce más
-            </button>
-          </div>
+          </PromoCard>
 
-          {/* Emergencia */}
-          <div className="bg-[#1a1814] border border-white/10 rounded-2xl p-5 flex flex-col items-center text-center gap-1.5">
+          <PromoCard>
             <p className="text-white/60 text-sm">¿Tienes una emergencia?</p>
-            <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#e37310" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+            <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="#e37310" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
               <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
             </svg>
-            <p className="text-brand font-semibold text-sm">Te entendemos</p>
+            <p className="text-white font-bold text-sm">Te entendemos</p>
             <p className="text-white/50 text-xs leading-relaxed">
               Conoce cómo tomar prestado hasta el 30% de tu ahorro.
             </p>
-            <button className="mt-2 flex items-center gap-1.5 border border-white/20 rounded-lg px-3 py-1.5 text-xs text-white/60 hover:text-white hover:border-white/40 transition-all cursor-pointer">
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 9h6M9 12h6M9 15h4"/></svg>
-              Conoce más
-            </button>
-          </div>
-
+          </PromoCard>
         </div>
       </div>
+      <Footer dark />
     </div>
   )
 }

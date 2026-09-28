@@ -6,7 +6,7 @@ import Footer from './components/Footer'
 import { BrandLogo } from '../components/ui/BrandLogo'
 import { autenticarUsuario } from '../data/mockUsers'
 
-export function SignInScreen({ onAuth, onVolver, onRegister }) {
+export function SignInScreen({ onVerificar, onVolver, onRegister }) {
   const { t } = useTranslation()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -25,7 +25,7 @@ export function SignInScreen({ onAuth, onVolver, onRegister }) {
       const usuario = autenticarUsuario(email, password)
       setLoading(false)
       if (usuario) {
-        onAuth(usuario)
+        onVerificar(email)   // pasa el identificador a /verificacion
       } else {
         setError('Correo o contraseña incorrectos.')
       }
