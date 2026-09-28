@@ -4,6 +4,7 @@ import { Mail, Lock, TriangleAlert } from 'lucide-react'
 import LandingNavbar from './components/LandingNavbar'
 import Footer from './components/Footer'
 import { BrandLogo } from '../components/ui/BrandLogo'
+import { autenticarUsuario } from '../data/mockUsers'
 
 export function SignInScreen({ onAuth, onVolver, onRegister }) {
   const { t } = useTranslation()
@@ -20,11 +21,15 @@ export function SignInScreen({ onAuth, onVolver, onRegister }) {
     }
     setLoading(true)
     setError(null)
-    // Placeholder — lógica real se implementará próximamente
     setTimeout(() => {
+      const usuario = autenticarUsuario(email, password)
       setLoading(false)
-      setError('Inicio de sesión no disponible aún. Próximamente.')
-    }, 800)
+      if (usuario) {
+        onAuth(usuario)
+      } else {
+        setError('Correo o contraseña incorrectos.')
+      }
+    }, 600)
   }
 
   return (

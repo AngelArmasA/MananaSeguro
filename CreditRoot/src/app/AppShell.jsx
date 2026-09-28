@@ -6,6 +6,7 @@ import { AppFooter } from '../components/layout/AppFooter'
 import { LandingScreen } from '../screens/LandingScreen'
 import { AuthScreen } from '../screens/AuthScreen'
 import { SignInScreen } from '../screens/SignInScreen'
+import { MainScreen } from '../screens/MainScreen'
 import { HomeScreen } from '../screens/HomeScreen'
 import { DashboardScreen } from '../screens/DashboardScreen'
 import { WithdrawalScreen } from '../screens/WithdrawalScreen'
@@ -60,7 +61,8 @@ export function AppShell() {
   function handleAuth(datos) {
     setUsuario(datos)
     localStorage.setItem('ms_usuario', JSON.stringify(datos))
-    navigate('/home')
+    // Mock users van a /main, usuarios reales van a /home
+    navigate(datos.walletAddress ? '/main' : '/home')
   }
 
   function handleLogout() {
@@ -91,8 +93,13 @@ export function AppShell() {
       } />
       <Route path="/signin" element={
         estaAutenticado
-          ? <Navigate to="/home" replace />
+          ? <Navigate to="/main" replace />
           : <SignInScreen onAuth={handleAuth} onVolver={() => navigate('/')} onRegister={() => navigate('/login')} />
+      } />
+      <Route path="/main" element={
+        estaAutenticado
+          ? <MainScreen usuario={usuario} onLogout={handleLogout} />
+          : <Navigate to="/signin" replace />
       } />
       <Route path="/*" element={
         estaAutenticado
