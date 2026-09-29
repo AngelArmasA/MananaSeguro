@@ -6,6 +6,8 @@ import { createClient } from '@supabase/supabase-js'
 import { createHmac, timingSafeEqual } from 'crypto'
 import { createLogger, errorBody } from './_lib/logger.js'
 import { canTransition } from './_lib/orderStateMachine.js'
+import { ejecutarIntent, IntentError } from './_lib/soroban.js'
+
 
 //  Constantes 
 
@@ -97,36 +99,27 @@ async function handleOrderUpdated(payload, supabase, log) {
     updated_at: updatedAt,
   }
 
-  // Traemos el estado actual de la orden (si ya existía) para poder
-  // comparar contra el webhook entrante y detectar duplicados/reintentos.
-  // Si la orden es nueva, ordenExistente será null.
   const { data: ordenExistente, error } = await supabase
     .from('ordenes')
-    .select('order_id, updated_at, status')
+    .select('order_id, updated_at, status, usuario_id')  // ← agregué usuario_id, lo necesitas abajo
     .eq('order_id', orderId)
     .limit(1)
     .single()
 
-  // Si hay una transacción de claim pendiente (wallet nueva), guardarla
-  // El frontend la firmará con la llave custodial del usuario
   if (stellarClaimTransaction) {
     updates.stellar_claim_transaction = stellarClaimTransaction
   }
 
-  // Idempotencia: Etherfuse reintenta webhooks (hasta 3 veces) si no
-  // recibe 200 a tiempo. Un reintento trae exactamente el mismo status
-  // y updatedAt que el webhook original — si ambos coinciden con lo que
-  // ya teníamos guardado, es un duplicado y no debe reprocesarse.
   const esDuplicado = ordenExistente && status == ordenExistente.status && updatedAt == ordenExistente.updated_at
 
-   if (esDuplicado) {
+  if (esDuplicado) {
     log.info('Duplicado detectado, ignorando', { orderId })
   } else {
     const estadoActual = ordenExistente?.status ?? null
 
     if (!canTransition(estadoActual, status)) {
       log.warn('Transición inválida rechazada', { orderId, desde: estadoActual, hacia: status })
-      return 
+      return
     }
 
     const { error } = await supabase.from('ordenes').update(updates).eq('order_id', orderId)
@@ -137,10 +130,42 @@ async function handleOrderUpdated(payload, supabase, log) {
       log.info('Orden actualizada', { orderId, status })
     }
 
-    // TODO cuando status === 'completed':
-    // 1. Si hay stellarClaimTransaction → firmarla con la llave custodial
-    //    y enviarla a Stellar para que el usuario reciba sus CETES
-    // 2. Notificar al usuario (push notification, email, etc.)
+    if (status === 'completed') {
+      const usuarioId = ordenExistente?.usuario_id
+
+      if (!usuarioId) {
+        log.error('Orden sin usuario_id, no se puede acreditar', { orderId })
+        return
+      }
+
+      const { data: usuario, error: errorUsuario } = await supabase
+        .from('usuarios')
+        .select('*')
+        .eq('id', usuarioId)
+        .single()
+
+      if (errorUsuario || !usuario) {
+        log.error('Usuario no encontrado para acreditar', { orderId, usuarioId })
+        return
+      }
+
+      try {
+        const { hash } = await ejecutarIntent(
+          { type: 'deposit', amountUsdc: amountInTokens, lockYears: usuario.lock_years_default ?? 5 },
+          usuario
+        )
+
+        await supabase
+          .from('ordenes')
+          .update({ stellar_tx_hash: hash })
+          .eq('order_id', orderId)
+
+        log.info('Depósito acreditado en Stellar', { orderId, hash })
+      } catch (err) {
+        const codigo = err instanceof IntentError ? err.code : 'INTERNAL'
+        log.error('Fallo al acreditar en Stellar', { orderId, codigo, detail: err.message })
+      }
+    }
   }
 }
 
@@ -176,7 +201,7 @@ export async function handler(event) {
 
   // Verificar contra ambos secrets — cada eventType tiene el suyo
   const firmaValida = verificarFirma(bodyRaw, firma, secreto1) ||
-                      (secreto2 && verificarFirma(bodyRaw, firma, secreto2))
+    (secreto2 && verificarFirma(bodyRaw, firma, secreto2))
 
   if (!firmaValida) {
     log.warn('Firma inválida — posible request no autorizado')
