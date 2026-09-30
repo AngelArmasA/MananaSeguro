@@ -47,6 +47,11 @@ export function SettingsScreen({ usuario, onLogout, onAction }) {
 
     if (actionId === 'privacy') {
       navigate('/change-password', { state: { from: '/settings' } })
+      return
+    }
+
+    if (actionId === 'about') {
+      navigate('/about', { state: { from: location.pathname } })
     }
   }
 

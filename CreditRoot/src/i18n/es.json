@@ -218,6 +218,30 @@
       "about": "Acerca de"
     }
   },
+  "about": {
+    "back": "Regresar",
+    "goHome": "Ir al inicio de Mañana Seguro",
+    "promise1": "Tu dinero,",
+    "promiseAccent1": "tus reglas.",
+    "promise2": "Tu",
+    "promiseAccent2": "futuro,",
+    "promise3": "tu",
+    "promiseAccent3": "retiro.",
+    "title": "Acerca de",
+    "company": "Mañana Seguro S.A. de C.V.",
+    "developedBy": "Desarrollado por",
+    "teamTitle": "Equipo de desarrollo",
+    "teamRole": "[Cargo / área]",
+    "team": {
+      "member1": "[Nombre del equipo 1]",
+      "member2": "[Nombre del equipo 2]",
+      "member3": "[Nombre del equipo 3]",
+      "member4": "[Nombre del equipo 4]",
+      "member5": "[Nombre del equipo 5]"
+    },
+    "partners": "Nuestros aliados",
+    "socialTitle": "Redes sociales"
+  },
   "footer": {
     "stellar": "Construido sobre Stellar",
     "etherfuse": "Powered by Etherfuse",

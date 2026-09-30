@@ -218,6 +218,30 @@
       "about": "About"
     }
   },
+  "about": {
+    "back": "Back",
+    "goHome": "Go to Mañana Seguro home",
+    "promise1": "Your money,",
+    "promiseAccent1": "your rules.",
+    "promise2": "Your",
+    "promiseAccent2": "future,",
+    "promise3": "your",
+    "promiseAccent3": "retirement.",
+    "title": "About",
+    "company": "Mañana Seguro S.A. de C.V.",
+    "developedBy": "Developed by",
+    "teamTitle": "Development team",
+    "teamRole": "[Role / area]",
+    "team": {
+      "member1": "[Team member 1]",
+      "member2": "[Team member 2]",
+      "member3": "[Team member 3]",
+      "member4": "[Team member 4]",
+      "member5": "[Team member 5]"
+    },
+    "partners": "Our partners",
+    "socialTitle": "Social media"
+  },
   "footer": {
     "stellar": "Built on Stellar",
     "etherfuse": "Powered by Etherfuse",
