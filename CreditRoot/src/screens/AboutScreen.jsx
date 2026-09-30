@@ -1,6 +1,6 @@
 import { useNavigate, useLocation } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import { ArrowLeft, ArrowUpRight, Camera, Coins, Landmark, Mail } from 'lucide-react'
+import { ArrowLeft, Camera, Mail } from 'lucide-react'
 import brandLogo from '../assets/LOGO_MS.png'
 
 const teamMembers = ['member1', 'member2', 'member3', 'member4', 'member5']
@@ -95,18 +95,27 @@ export function AboutScreen() {
           <div className="mt-6 border-t border-white/10 pt-5">
             <h3 className="text-center text-sm font-medium text-white/70">{t('about.partners')}</h3>
             <div className="mt-3 flex flex-wrap items-center justify-center gap-x-7 gap-y-3">
-              <span className="inline-flex items-center gap-2 text-sm font-semibold text-white/80">
-                <Landmark size={19} className="text-[#e97816]" aria-hidden="true" />
-                Stellar
-              </span>
-              <span className="inline-flex items-center gap-2 text-sm font-semibold text-white/80">
-                <ArrowUpRight size={19} className="text-[#e97816]" aria-hidden="true" />
-                Etherfuse
-              </span>
-              <span className="inline-flex items-center gap-2 text-sm font-semibold text-white/80">
-                <Coins size={19} className="text-[#e97816]" aria-hidden="true" />
-                CETES
-              </span>
+              <div className="flex flex-col items-center gap-2 text-xs font-semibold text-white/80">
+                {/* Reemplazar por el logo de Stellar */}
+                <span className="flex h-12 w-24 items-center justify-center rounded-md border border-dashed border-white/20 bg-black/20">
+                  <img alt="" aria-hidden="true" className="h-8 w-20 object-contain" />
+                </span>
+                <span>Stellar</span>
+              </div>
+              <div className="flex flex-col items-center gap-2 text-xs font-semibold text-white/80">
+                {/* Reemplazar por el logo de BAF */}
+                <span className="flex h-12 w-24 items-center justify-center rounded-md border border-dashed border-white/20 bg-black/20">
+                  <img alt="" aria-hidden="true" className="h-8 w-20 object-contain" />
+                </span>
+                <span>BAF</span>
+              </div>
+              <div className="flex flex-col items-center gap-2 text-xs font-semibold text-white/80">
+                {/* Reemplazar por el logo de Etherfuse */}
+                <span className="flex h-12 w-24 items-center justify-center rounded-md border border-dashed border-white/20 bg-black/20">
+                  <img alt="" aria-hidden="true" className="h-8 w-20 object-contain" />
+                </span>
+                <span>Etherfuse</span>
+              </div>
             </div>
           </div>
 
