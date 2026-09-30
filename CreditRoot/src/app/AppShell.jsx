@@ -8,6 +8,10 @@ import { AuthScreen } from '../screens/AuthScreen'
 import { HomeScreen } from '../screens/HomeScreen'
 import { DashboardScreen } from '../screens/DashboardScreen'
 import { WithdrawalScreen } from '../screens/WithdrawalScreen'
+import { PerfilMetaScreen } from '../screens/PerfilMetaScreen'
+import { GoalEstablishedScreen } from '../screens/GoalEstablishedScreen'
+import { IncentivesScreen } from '../screens/IncentivesScreen'
+import { ProfileInfoScreen } from '../screens/ProfileInfoScreen'
 import { ErrorBoundary } from '../components/ErrorBoundary'
 
 function AppLayout({ usuario, onLogout }) {
@@ -20,12 +24,16 @@ function AppLayout({ usuario, onLogout }) {
             app en blanco. */}
         <ErrorBoundary>
           <Routes>
-            <Route path="/home"       element={<HomeScreen usuario={usuario} />} />
-            <Route path="/dashboard"  element={<DashboardScreen />} />
-            <Route path="/withdrawal" element={<WithdrawalScreen />} />
+            <Route path="/home"             element={<HomeScreen usuario={usuario} />} />
+            <Route path="/perfil-meta"      element={<PerfilMetaScreen />} />
+            <Route path="/goal-established" element={<GoalEstablishedScreen />} />
+            <Route path="/incentives"       element={<IncentivesScreen />} />
+            <Route path="/profile-info"     element={<ProfileInfoScreen />} />
+            <Route path="/dashboard"        element={<DashboardScreen />} />
+            <Route path="/withdrawal"       element={<WithdrawalScreen />} />
             {/* Simulador redirige al dashboard donde está integrado */}
-            <Route path="/planner"    element={<Navigate to="/dashboard" replace />} />
-            <Route path="*"           element={<Navigate to="/home" replace />} />
+            <Route path="/planner"          element={<Navigate to="/dashboard" replace />} />
+            <Route path="*"                element={<Navigate to="/home" replace />} />
           </Routes>
         </ErrorBoundary>
       </main>

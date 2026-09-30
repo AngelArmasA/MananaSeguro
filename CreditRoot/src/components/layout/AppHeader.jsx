@@ -32,8 +32,9 @@ export function AppHeader({ usuario, onLogout }) {
           {/* Logo */}
           <div className="flex items-center gap-2 cursor-pointer" onClick={() => navigate('/home')}>
             <img src={logoCompleto} alt={t('nav.logoAlt')} className="h-8 w-auto rounded-lg" />
+            {/* Marca en un solo color, como en el diseño */}
             <span className="font-display font-bold text-xl text-ink dark:text-white tracking-tight">
-              {t('nav.marca')} <span className="text-brand">{t('nav.marcaAccent')}</span>
+              {t('nav.marca')} {t('nav.marcaAccent')}
             </span>
           </div>
 
