@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useDarkMode } from '../../hooks/useDarkMode'
-import logoCompleto from '../../assets/LOGO_MS.png'
+import logoBlanco from '../../assets/LOGO_MS_white.png'
 
-function LandingNavbar({ onLogin, onRegister, onVolver, soloVolver }) {
+function LandingNavbar({ onLogin, onRegister, onVolver, soloVolver, compactRegister = false }) {
     const [scrolled, setScrolled] = useState(false)
     const { t, i18n } = useTranslation()
     const { dark, toggle } = useDarkMode()
@@ -18,25 +18,54 @@ function LandingNavbar({ onLogin, onRegister, onVolver, soloVolver }) {
         i18n.changeLanguage(i18n.language === 'es' ? 'en' : 'es')
     }
 
+    if (compactRegister) {
+        return (
+            <nav className={`sticky top-0 z-50 px-4 py-3 transition-shadow duration-300 bg-surface/90 dark:bg-[#0f0e0d]/90 backdrop-blur-md border-b border-ink/8 dark:border-white/8 ${scrolled ? 'shadow-md' : ''}`}>
+                <div className="container mx-auto flex justify-between items-center">
+                    <div className="flex items-center gap-2">
+                        <img src={logoBlanco} alt={t('nav.logoAlt')} className="h-8 w-auto rounded-lg" />
+                        <span className="font-display font-bold text-xl text-white tracking-tight">
+                            {t('nav.marca')} {t('nav.marcaAccent')}
+                        </span>
+                    </div>
+                    <button
+                        className="text-xs font-bold px-3 py-1.5 rounded-lg border border-ink/10 dark:border-white/10 text-ink/50 dark:text-white/50 hover:text-ink dark:hover:text-white hover:border-ink/20 dark:hover:border-white/20 transition-all cursor-pointer"
+                        onClick={toggleLang}
+                        aria-label={t('nav.cambiarIdioma')}>
+                        {i18n.language === 'es' ? 'EN' : 'ES'}
+                    </button>
+                </div>
+            </nav>
+        )
+    }
+
     return (
         <nav className={`sticky top-0 z-50 px-4 py-3 transition-shadow duration-300 bg-surface/90 dark:bg-[#0f0e0d]/90 backdrop-blur-md border-b border-ink/8 dark:border-white/8 ${scrolled ? 'shadow-md' : ''}`}>
             <div className="container mx-auto flex justify-between items-center">
 
                 <div className="flex items-center gap-2">
-                    <img src={logoCompleto} alt={t('nav.logoAlt')} className="h-8 w-auto rounded-lg" />
-                    <span className="font-display font-bold text-xl text-ink dark:text-white tracking-tight">
-                        {t('nav.marca')} <span className="text-brand">{t('nav.marcaAccent')}</span>
+                    <img src={logoBlanco} alt={t('nav.logoAlt')} className="h-8 w-auto rounded-lg" />
+                    <span className="font-display font-bold text-xl text-white tracking-tight">
+                        {t('nav.marca')} {t('nav.marcaAccent')}
                     </span>
                 </div>
 
                 {soloVolver ? (
-                    <button className="text-gray hover:text-ink dark:hover:text-white text-sm font-medium transition-colors cursor-pointer" onClick={onVolver}>
-                        {t('nav.volverInicio')}
-                    </button>
+                    <div className="flex items-center gap-2">
+                        <button
+                            className="text-gray hover:text-ink dark:hover:text-white text-xs font-medium px-2 py-1.5 rounded-lg hover:bg-ink/5 dark:hover:bg-white/5 transition-all cursor-pointer"
+                            onClick={onVolver}>
+                            {t('nav.volverInicio')}
+                        </button>
+                        <button
+                            className="text-xs font-bold px-3 py-1.5 rounded-lg border border-ink/10 dark:border-white/10 text-ink/50 dark:text-white/50 hover:text-ink dark:hover:text-white hover:border-ink/20 dark:hover:border-white/20 transition-all cursor-pointer"
+                            onClick={toggleLang}
+                            aria-label={t('nav.cambiarIdioma')}>
+                            {i18n.language === 'es' ? 'EN' : 'ES'}
+                        </button>
+                    </div>
                 ) : (
                     <div className="flex items-center gap-2">
-
-                        {/* Toggle idioma */}
                         <button
                             className="text-xs font-bold px-3 py-1.5 rounded-lg border border-ink/10 dark:border-white/10 text-ink/50 dark:text-white/50 hover:text-ink dark:hover:text-white hover:border-ink/20 dark:hover:border-white/20 transition-all cursor-pointer"
                             onClick={toggleLang}
@@ -44,7 +73,6 @@ function LandingNavbar({ onLogin, onRegister, onVolver, soloVolver }) {
                             {i18n.language === 'es' ? 'EN' : 'ES'}
                         </button>
 
-                        {/* Toggle dark mode */}
                         <button
                             className="text-xs font-bold px-3 py-1.5 rounded-lg border border-ink/10 dark:border-white/10 text-ink/50 dark:text-white/50 hover:text-ink dark:hover:text-white hover:border-ink/20 transition-all cursor-pointer"
                             onClick={toggle}
