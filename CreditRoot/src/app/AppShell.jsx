@@ -12,6 +12,11 @@ import { PerfilMetaScreen } from '../screens/PerfilMetaScreen'
 import { GoalEstablishedScreen } from '../screens/GoalEstablishedScreen'
 import { IncentivesScreen } from '../screens/IncentivesScreen'
 import { ProfileInfoScreen } from '../screens/ProfileInfoScreen'
+import { QuickConnectScreen } from '../screens/QuickConnectScreen'
+import { ChangePasswordScreen } from '../screens/ChangePasswordScreen'
+import { EmergencyWithdrawalScreen } from '../screens/EmergencyWithdrawalScreen'
+import { SettingsScreen } from '../screens/SettingsScreen'
+import { AboutScreen } from '../screens/AboutScreen'
 import { ErrorBoundary } from '../components/ErrorBoundary'
 
 function AppLayout({ usuario, onLogout }) {
@@ -83,19 +88,39 @@ export function AppShell() {
       <Route path="/" element={
         <LandingScreen
           onLogin={() => navigate('/login')}
-          onRegister={() => navigate('/login')}
+          onRegister={() => navigate('/register')}
         />
       } />
       <Route path="/login" element={
         estaAutenticado
           ? <Navigate to="/home" replace />
-          : <AuthScreen onAuth={handleAuth} onVolver={() => navigate('/')} />
+          : <AuthScreen initialStep="inicio" onAuth={handleAuth} onVolver={() => navigate('/')} />
       } />
       <Route path="/register" element={
         estaAutenticado
           ? <Navigate to="/home" replace />
-          : <AuthScreen onAuth={handleAuth} onVolver={() => navigate('/')} />
+          : <AuthScreen initialStep="registro" onAuth={handleAuth} onVolver={() => navigate('/')} />
       } />
+      <Route path="/quick-connect" element={<QuickConnectScreen />} />
+      <Route path="/change-password" element={<ChangePasswordScreen />} />
+      <Route path="/emergency-withdrawal" element={<EmergencyWithdrawalScreen />} />
+      <Route path="/about" element={<AboutScreen />} />
+      <Route path="/settings" element={
+        estaAutenticado
+          ? <SettingsScreen usuario={usuario} onLogout={handleLogout} />
+          : <Navigate to="/login" replace />
+      } />
+      {import.meta.env.DEV && (
+        <Route
+          path="/settings-preview"
+          element={
+            <SettingsScreen
+              usuario={{ nombre: '[Nombre]', apellidoPaterno: '[Apellido]' }}
+              onLogout={() => navigate('/login')}
+            />
+          }
+        />
+      )}
       <Route path="/*" element={
         estaAutenticado
           ? <AppLayout usuario={usuario} onLogout={handleLogout} />
