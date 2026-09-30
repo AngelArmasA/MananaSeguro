@@ -179,6 +179,23 @@
     "showConfirmPassword": "Show or hide password confirmation",
     "submit": "Change password"
   },
+  "emergencyWithdrawal": {
+    "brand": "We are",
+    "brandAccent": "MañanaSeguro.",
+    "title": "Emergency",
+    "titleAccent": "withdrawal",
+    "accountLabel": "Main account",
+    "availableLabel": "Available",
+    "rateLabel": "CETES asset",
+    "stepOne": "Step 1: Select amount to withdraw:",
+    "stepTwo": "Step 2: Select the months to pay back your contribution:",
+    "optionLabel": "months",
+    "disposable": "30% available",
+    "terms": "I accept the terms and conditions of use",
+    "submit": "Access emergency withdrawal",
+    "statusLabel": "Request ready",
+    "statusMessage": "The request is ready to be sent to the backend when the integration is connected."
+  },
   "footer": {
     "stellar": "Built on Stellar",
     "etherfuse": "Powered by Etherfuse",

@@ -179,6 +179,23 @@
     "showConfirmPassword": "Mostrar u ocultar confirmación de contraseña",
     "submit": "Cambiar contraseña"
   },
+  "emergencyWithdrawal": {
+    "brand": "Somos",
+    "brandAccent": "MañanaSeguro.",
+    "title": "Retiro de",
+    "titleAccent": "emergencia",
+    "accountLabel": "Cuenta principal",
+    "availableLabel": "Disponible",
+    "rateLabel": "Activo CETES",
+    "stepOne": "Paso 1: Seleccione cantidad a retirar:",
+    "stepTwo": "Paso 2: Seleccione los meses a pagar su aporte:",
+    "optionLabel": "meses",
+    "disposable": "Disponible del 30%",
+    "terms": "Acepto los términos y condiciones de uso",
+    "submit": "Acceder a retiro de emergencia",
+    "statusLabel": "Solicitud lista",
+    "statusMessage": "La solicitud está preparada para enviarse al backend cuando se conecte la integración."
+  },
   "footer": {
     "stellar": "Construido sobre Stellar",
     "etherfuse": "Powered by Etherfuse",

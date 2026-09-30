@@ -4,226 +4,14 @@ import { Shield, TriangleAlert, Lock, Zap, Building2, ArrowRight, ArrowLeft } fr
 import Footer from './components/Footer'
 import LandingNavbar from './components/LandingNavbar'
 import { conectarWallet } from '../lib/wallet'
+import { COUNTRY_LIST, COUNTRY_LOOKUP, getLocalizedCountryName } from '../data/countries'
 import ardilla from '../assets/Ardilla_vector.png'
 import pollarLogo from '../assets/polo.webp'
 
 const GOOGLE_CLIENT_ID = import.meta.env.VITE_GOOGLE_CLIENT_ID
 
-const COUNTRY_LIST = [
-  { name: 'Afganistán', code: '+93', flag: '🇦🇫' },
-  { name: 'Albania', code: '+355', flag: '🇦🇱' },
-  { name: 'Alemania', code: '+49', flag: '🇩🇪' },
-  { name: 'Andorra', code: '+376', flag: '🇦🇩' },
-  { name: 'Angola', code: '+244', flag: '🇦🇴' },
-  { name: 'Anguila', code: '+1', flag: '🇦🇮' },
-  { name: 'Antigua y Barbuda', code: '+1', flag: '🇦🇬' },
-  { name: 'Arabia Saudita', code: '+966', flag: '🇸🇦' },
-  { name: 'Argelia', code: '+213', flag: '🇩🇿' },
-  { name: 'Argentina', code: '+54', flag: '🇦🇷' },
-  { name: 'Armenia', code: '+374', flag: '🇦🇲' },
-  { name: 'Aruba', code: '+297', flag: '🇦🇼' },
-  { name: 'Australia', code: '+61', flag: '🇦🇺' },
-  { name: 'Austria', code: '+43', flag: '🇦🇹' },
-  { name: 'Azerbaiyán', code: '+994', flag: '🇦🇿' },
-  { name: 'Bahamas', code: '+1', flag: '🇧🇸' },
-  { name: 'Bahrein', code: '+973', flag: '🇧🇭' },
-  { name: 'Bangladés', code: '+880', flag: '🇧🇩' },
-  { name: 'Barbados', code: '+1', flag: '🇧🇧' },
-  { name: 'Bélgica', code: '+32', flag: '🇧🇪' },
-  { name: 'Belice', code: '+501', flag: '🇧🇿' },
-  { name: 'Benín', code: '+229', flag: '🇧🇯' },
-  { name: 'Bermudas', code: '+1', flag: '🇧🇲' },
-  { name: 'Bielorrusia', code: '+375', flag: '🇧🇾' },
-  { name: 'Bolivia', code: '+591', flag: '🇧🇴' },
-  { name: 'Bosnia y Herzegovina', code: '+387', flag: '🇧🇦' },
-  { name: 'Botsuana', code: '+267', flag: '🇧🇼' },
-  { name: 'Brasil', code: '+55', flag: '🇧🇷' },
-  { name: 'Brunéi', code: '+673', flag: '🇧🇳' },
-  { name: 'Bulgaria', code: '+359', flag: '🇧🇬' },
-  { name: 'Burkina Faso', code: '+226', flag: '🇧🇫' },
-  { name: 'Burundi', code: '+257', flag: '🇧🇮' },
-  { name: 'Bután', code: '+975', flag: '🇧🇹' },
-  { name: 'Cabo Verde', code: '+238', flag: '🇨🇻' },
-  { name: 'Camboya', code: '+855', flag: '🇰🇭' },
-  { name: 'Camerún', code: '+237', flag: '🇨🇲' },
-  { name: 'Canadá', code: '+1', flag: '🇨🇦' },
-  { name: 'Catar', code: '+974', flag: '🇶🇦' },
-  { name: 'Chad', code: '+235', flag: '🇹🇩' },
-  { name: 'Chequia', code: '+420', flag: '🇨🇿' },
-  { name: 'Chile', code: '+56', flag: '🇨🇱' },
-  { name: 'China', code: '+86', flag: '🇨🇳' },
-  { name: 'Chipre', code: '+357', flag: '🇨🇾' },
-  { name: 'Colombia', code: '+57', flag: '🇨🇴' },
-  { name: 'Comoras', code: '+269', flag: '🇰🇲' },
-  { name: 'Corea del Norte', code: '+850', flag: '🇰🇵' },
-  { name: 'Corea del Sur', code: '+82', flag: '🇰🇷' },
-  { name: 'Costa de Marfil', code: '+225', flag: '🇨🇮' },
-  { name: 'Costa Rica', code: '+506', flag: '🇨🇷' },
-  { name: 'Croacia', code: '+385', flag: '🇭🇷' },
-  { name: 'Cuba', code: '+53', flag: '🇨🇺' },
-  { name: 'Curazao', code: '+599', flag: '🇨🇼' },
-  { name: 'Dinamarca', code: '+45', flag: '🇩🇰' },
-  { name: 'Dominica', code: '+1', flag: '🇩🇲' },
-  { name: 'Ecuador', code: '+593', flag: '🇪🇨' },
-  { name: 'Egipto', code: '+20', flag: '🇪🇬' },
-  { name: 'El Salvador', code: '+503', flag: '🇸🇻' },
-  { name: 'Emiratos Árabes Unidos', code: '+971', flag: '🇦🇪' },
-  { name: 'Eritrea', code: '+291', flag: '🇪🇷' },
-  { name: 'Eslovaquia', code: '+421', flag: '🇸🇰' },
-  { name: 'Eslovenia', code: '+386', flag: '🇸🇮' },
-  { name: 'España', code: '+34', flag: '🇪🇸' },
-  { name: 'Estados Unidos', code: '+1', flag: '🇺🇸' },
-  { name: 'Estonia', code: '+372', flag: '🇪🇪' },
-  { name: 'Etiopía', code: '+251', flag: '🇪🇹' },
-  { name: 'Filipinas', code: '+63', flag: '🇵🇭' },
-  { name: 'Finlandia', code: '+358', flag: '🇫🇮' },
-  { name: 'Fiyi', code: '+679', flag: '🇫🇯' },
-  { name: 'Francia', code: '+33', flag: '🇫🇷' },
-  { name: 'Gabón', code: '+241', flag: '🇬🇦' },
-  { name: 'Gambia', code: '+220', flag: '🇬🇲' },
-  { name: 'Georgia', code: '+995', flag: '🇬🇪' },
-  { name: 'Ghana', code: '+233', flag: '🇬🇭' },
-  { name: 'Granada', code: '+1', flag: '🇬🇩' },
-  { name: 'Grecia', code: '+30', flag: '🇬🇷' },
-  { name: 'Groenlandia', code: '+299', flag: '🇬🇱' },
-  { name: 'Guadalupe', code: '+590', flag: '🇬🇵' },
-  { name: 'Guam', code: '+1', flag: '🇬🇺' },
-  { name: 'Guatemala', code: '+502', flag: '🇬🇹' },
-  { name: 'Guayana Francesa', code: '+594', flag: '🇬🇫' },
-  { name: 'Guinea', code: '+224', flag: '🇬🇳' },
-  { name: 'Guinea-Bisáu', code: '+245', flag: '🇬🇼' },
-  { name: 'Guinea Ecuatorial', code: '+240', flag: '🇬🇶' },
-  { name: 'Guyana', code: '+592', flag: '🇬🇾' },
-  { name: 'Haití', code: '+509', flag: '🇭🇹' },
-  { name: 'Honduras', code: '+504', flag: '🇭🇳' },
-  { name: 'Hungría', code: '+36', flag: '🇭🇺' },
-  { name: 'India', code: '+91', flag: '🇮🇳' },
-  { name: 'Indonesia', code: '+62', flag: '🇮🇩' },
-  { name: 'Irán', code: '+98', flag: '🇮🇷' },
-  { name: 'Irak', code: '+964', flag: '🇮🇶' },
-  { name: 'Irlanda', code: '+353', flag: '🇮🇪' },
-  { name: 'Islandia', code: '+354', flag: '🇮🇸' },
-  { name: 'Islas Caimán', code: '+1', flag: '🇰🇾' },
-  { name: 'Islas Cook', code: '+682', flag: '🇨🇰' },
-  { name: 'Islas Feroe', code: '+298', flag: '🇫🇴' },
-  { name: 'Islas Marshall', code: '+692', flag: '🇲🇭' },
-  { name: 'Islas Salomón', code: '+677', flag: '🇸🇧' },
-  { name: 'Israel', code: '+972', flag: '🇮🇱' },
-  { name: 'Italia', code: '+39', flag: '🇮🇹' },
-  { name: 'Jamaica', code: '+1', flag: '🇯🇲' },
-  { name: 'Japón', code: '+81', flag: '🇯🇵' },
-  { name: 'Jordania', code: '+962', flag: '🇯🇴' },
-  { name: 'Kazajistán', code: '+7', flag: '🇰🇿' },
-  { name: 'Kenia', code: '+254', flag: '🇰🇪' },
-  { name: 'Kirguistán', code: '+996', flag: '🇰🇬' },
-  { name: 'Kiribati', code: '+686', flag: '🇰🇮' },
-  { name: 'Kosovo', code: '+383', flag: '🇽🇰' },
-  { name: 'Kuwait', code: '+965', flag: '🇰🇼' },
-  { name: 'Laos', code: '+856', flag: '🇱🇦' },
-  { name: 'Lesoto', code: '+266', flag: '🇱🇸' },
-  { name: 'Letonia', code: '+371', flag: '🇱🇻' },
-  { name: 'Líbano', code: '+961', flag: '🇱🇧' },
-  { name: 'Liberia', code: '+231', flag: '🇱🇷' },
-  { name: 'Libia', code: '+218', flag: '🇱🇾' },
-  { name: 'Liechtenstein', code: '+423', flag: '🇱🇮' },
-  { name: 'Lituania', code: '+370', flag: '🇱🇹' },
-  { name: 'Luxemburgo', code: '+352', flag: '🇱🇺' },
-  { name: 'Macedonia del Norte', code: '+389', flag: '🇲🇰' },
-  { name: 'Madagascar', code: '+261', flag: '🇲🇬' },
-  { name: 'Malasia', code: '+60', flag: '🇲🇾' },
-  { name: 'Malaui', code: '+265', flag: '🇲🇼' },
-  { name: 'Maldivas', code: '+960', flag: '🇲🇻' },
-  { name: 'Malí', code: '+223', flag: '🇲🇱' },
-  { name: 'Malta', code: '+356', flag: '🇲🇹' },
-  { name: 'Marruecos', code: '+212', flag: '🇲🇦' },
-  { name: 'Martinica', code: '+596', flag: '🇲🇶' },
-  { name: 'Mauricio', code: '+230', flag: '🇲🇺' },
-  { name: 'Mauritania', code: '+222', flag: '🇲🇷' },
-  { name: 'México', code: '+52', flag: '🇲🇽' },
-  { name: 'Micronesia', code: '+691', flag: '🇫🇲' },
-  { name: 'Moldavia', code: '+373', flag: '🇲🇩' },
-  { name: 'Mónaco', code: '+377', flag: '🇲🇨' },
-  { name: 'Mongolia', code: '+976', flag: '🇲🇳' },
-  { name: 'Montenegro', code: '+382', flag: '🇲🇪' },
-  { name: 'Mozambique', code: '+258', flag: '🇲🇿' },
-  { name: 'Myanmar', code: '+95', flag: '🇲🇲' },
-  { name: 'Namibia', code: '+264', flag: '🇳🇦' },
-  { name: 'Nauru', code: '+674', flag: '🇳🇷' },
-  { name: 'Nepal', code: '+977', flag: '🇳🇵' },
-  { name: 'Nicaragua', code: '+505', flag: '🇳🇮' },
-  { name: 'Níger', code: '+227', flag: '🇳🇪' },
-  { name: 'Nigeria', code: '+234', flag: '🇳🇬' },
-  { name: 'Noruega', code: '+47', flag: '🇳🇴' },
-  { name: 'Nueva Zelanda', code: '+64', flag: '🇳🇿' },
-  { name: 'Omán', code: '+968', flag: '🇴🇲' },
-  { name: 'Países Bajos', code: '+31', flag: '🇳🇱' },
-  { name: 'Pakistán', code: '+92', flag: '🇵🇰' },
-  { name: 'Palaos', code: '+680', flag: '🇵🇼' },
-  { name: 'Panamá', code: '+507', flag: '🇵🇦' },
-  { name: 'Papúa Nueva Guinea', code: '+675', flag: '🇵🇬' },
-  { name: 'Paraguay', code: '+595', flag: '🇵🇾' },
-  { name: 'Perú', code: '+51', flag: '🇵🇪' },
-  { name: 'Polonia', code: '+48', flag: '🇵🇱' },
-  { name: 'Portugal', code: '+351', flag: '🇵🇹' },
-  { name: 'Puerto Rico', code: '+1', flag: '🇵🇷' },
-  { name: 'Reino Unido', code: '+44', flag: '🇬🇧' },
-  { name: 'República Centroafricana', code: '+236', flag: '🇨🇫' },
-  { name: 'República Dominicana', code: '+1', flag: '🇩🇴' },
-  { name: 'República del Congo', code: '+242', flag: '🇨🇬' },
-  { name: 'República Democrática del Congo', code: '+243', flag: '🇨🇩' },
-  { name: 'Ruanda', code: '+250', flag: '🇷🇼' },
-  { name: 'Rumania', code: '+40', flag: '🇷🇴' },
-  { name: 'Rusia', code: '+7', flag: '🇷🇺' },
-  { name: 'Samoa', code: '+685', flag: '🇼🇸' },
-  { name: 'Samoa Americana', code: '+1', flag: '🇦🇸' },
-  { name: 'San Cristóbal y Nieves', code: '+1', flag: '🇰🇳' },
-  { name: 'San Marino', code: '+378', flag: '🇸🇲' },
-  { name: 'San Vicente y las Granadinas', code: '+1', flag: '🇻🇨' },
-  { name: 'Santa Lucía', code: '+1', flag: '🇱🇨' },
-  { name: 'Santo Tomé y Príncipe', code: '+239', flag: '🇸🇹' },
-  { name: 'Senegal', code: '+221', flag: '🇸🇳' },
-  { name: 'Serbia', code: '+381', flag: '🇷🇸' },
-  { name: 'Seychelles', code: '+248', flag: '🇸🇨' },
-  { name: 'Sierra Leona', code: '+232', flag: '🇸🇱' },
-  { name: 'Singapur', code: '+65', flag: '🇸🇬' },
-  { name: 'Siria', code: '+963', flag: '🇸🇾' },
-  { name: 'Somalia', code: '+252', flag: '🇸🇴' },
-  { name: 'Sri Lanka', code: '+94', flag: '🇱🇰' },
-  { name: 'Sudáfrica', code: '+27', flag: '🇿🇦' },
-  { name: 'Sudán', code: '+249', flag: '🇸🇩' },
-  { name: 'Sudán del Sur', code: '+211', flag: '🇸🇸' },
-  { name: 'Suecia', code: '+46', flag: '🇸🇪' },
-  { name: 'Suiza', code: '+41', flag: '🇨🇭' },
-  { name: 'Surinam', code: '+597', flag: '🇸🇷' },
-  { name: 'Tailandia', code: '+66', flag: '🇹🇭' },
-  { name: 'Taiwán', code: '+886', flag: '🇹🇼' },
-  { name: 'Tanzania', code: '+255', flag: '🇹🇿' },
-  { name: 'Tayikistán', code: '+992', flag: '🇹🇯' },
-  { name: 'Timor Oriental', code: '+670', flag: '🇹🇱' },
-  { name: 'Togo', code: '+228', flag: '🇹🇬' },
-  { name: 'Tonga', code: '+676', flag: '🇹🇴' },
-  { name: 'Trinidad y Tobago', code: '+1', flag: '🇹🇹' },
-  { name: 'Túnez', code: '+216', flag: '🇹🇳' },
-  { name: 'Turkmenistán', code: '+993', flag: '🇹🇲' },
-  { name: 'Turquía', code: '+90', flag: '🇹🇷' },
-  { name: 'Tuvalu', code: '+688', flag: '🇹🇻' },
-  { name: 'Ucrania', code: '+380', flag: '🇺🇦' },
-  { name: 'Uganda', code: '+256', flag: '🇺🇬' },
-  { name: 'Uruguay', code: '+598', flag: '🇺🇾' },
-  { name: 'Uzbekistán', code: '+998', flag: '🇺🇿' },
-  { name: 'Vanuatu', code: '+678', flag: '🇻🇺' },
-  { name: 'Venezuela', code: '+58', flag: '🇻🇪' },
-  { name: 'Vietnam', code: '+84', flag: '🇻🇳' },
-  { name: 'Yemen', code: '+967', flag: '🇾🇪' },
-  { name: 'Yibuti', code: '+253', flag: '🇩🇯' },
-  { name: 'Zambia', code: '+260', flag: '🇿🇲' },
-  { name: 'Zimbabue', code: '+263', flag: '🇿🇼' },
-]
-
-const COUNTRY_LOOKUP = Object.fromEntries(COUNTRY_LIST.map((country) => [country.name, country]))
-
 export function AuthScreen({ onAuth, onVolver, initialStep = 'inicio' }) {
-  const { t } = useTranslation()
+  const { t, i18n } = useTranslation()
   const [paso, setPaso] = useState(initialStep) // 'inicio' | 'registro' | 'freighter' | 'nombre'
   const [walletAddressFreighter, setWalletAddressFreighter] = useState(null)
   const [nombre, setNombre] = useState('')
@@ -245,6 +33,7 @@ export function AuthScreen({ onAuth, onVolver, initialStep = 'inicio' }) {
   const [countrySearch, setCountrySearch] = useState('')
   const googleBtnRef = useRef(null)
   const selectedCountry = COUNTRY_LOOKUP[formRegistro.pais] ?? COUNTRY_LOOKUP['México']
+  const selectedCountryName = getLocalizedCountryName(selectedCountry, i18n.resolvedLanguage ?? i18n.language)
   const telefonoPrefix = selectedCountry.code
 
   useEffect(() => {
@@ -375,19 +164,19 @@ export function AuthScreen({ onAuth, onVolver, initialStep = 'inicio' }) {
     }
 
     if (!payload.nombre || !payload.email || !payload.password || !payload.telefono || !payload.apellidoPaterno || !payload.apellidoMaterno) {
-      setError('Completa nombre, apellidos, email, contraseña y teléfono para continuar.')
+      setError(t('auth.registro.errorCampos'))
       setLoading(false)
       return
     }
 
     if (payload.password !== payload.confirmPassword) {
-      setError('Las contraseñas no coinciden.')
+      setError(t('auth.registro.errorPassword'))
       setLoading(false)
       return
     }
 
     if (!payload.aceptaTerminos) {
-      setError('Debes aceptar los términos y condiciones para crear tu cuenta.')
+      setError(t('auth.registro.errorTerminos'))
       setLoading(false)
       return
     }
@@ -400,13 +189,13 @@ export function AuthScreen({ onAuth, onVolver, initialStep = 'inicio' }) {
       })
       const data = await res.json().catch(() => ({}))
       if (!res.ok) {
-        throw new Error(data.error || data.message || 'No fue posible crear la cuenta.')
+        throw new Error(data.error || data.message || t('auth.registro.errorCrear'))
       }
 
       localStorage.setItem('ms_usuario', JSON.stringify(data.usuario))
       onAuth(data.usuario)
     } catch (err) {
-      setError(err.message || 'Error al crear la cuenta. Inténtalo otra vez.')
+      setError(err.message || t('auth.registro.errorReintentar'))
     } finally {
       setLoading(false)
     }
@@ -425,39 +214,39 @@ export function AuthScreen({ onAuth, onVolver, initialStep = 'inicio' }) {
           <div className="mx-auto max-w-[1380px] px-4 pt-4 sm:px-6 lg:px-8">
             <div className="flex items-center gap-3 px-2 py-2 text-[#f2efe8]">
               <span className="text-[2.2rem] font-black tracking-[-0.04em] text-[#f3ecdf] sm:text-[2.5rem]">
-                Mañana Seguro
+                {t('nav.marca')} {t('nav.marcaAccent')}
               </span>
             </div>
 
             <div className="grid gap-10 pt-4 pb-10 lg:grid-cols-[1.08fr_0.92fr] lg:gap-12 lg:pt-8">
               <section className="px-2 pb-2 pt-1 lg:pt-10">
                 <h1 className="font-display text-[3.2rem] font-black leading-[0.9] tracking-[-0.07em] text-[#f3ecdf] sm:text-[4rem] lg:text-[6.2rem]">
-                  Datos
+                  {t('auth.registro.tituloDatos')}
                 </h1>
                 <h2 className="font-display text-[3.2rem] font-black leading-[0.9] tracking-[-0.07em] text-[#e4741d] sm:text-[4rem] lg:text-[6.2rem]">
-                  personales
+                  {t('auth.registro.tituloPersonales')}
                 </h2>
 
                 <p className="mt-5 max-w-[430px] text-[1.05rem] leading-relaxed text-[#d2c9c0] sm:text-[1.35rem]">
-                  Para poder crear tu cuenta necesitamos algunos datos personales.
+                  {t('auth.registro.descripcion')}
                 </p>
 
                 <div className="mt-14 space-y-10">
                   <div className="border-l border-[#e4741d] pl-4">
                     <h3 className="font-display text-[2.3rem] font-black leading-none tracking-[-0.05em] text-[#f2efe8] sm:text-[2.8rem]">
-                      Tus datos, seguros
+                      {t('auth.registro.datosSeguros')}
                     </h3>
                     <p className="mt-3 max-w-[360px] text-[1.05rem] leading-relaxed text-[#d2c9c0] sm:text-[1.25rem]">
-                      Toda la información que compartes está protegida bajo los más altos estándares de seguridad.
+                      {t('auth.registro.descripcionSeguridad')}
                     </p>
                   </div>
 
                   <div className="border-l border-[#e4741d] pl-4">
                     <h3 className="font-display text-[2.3rem] font-black leading-none tracking-[-0.05em] text-[#f2efe8] sm:text-[2.8rem]">
-                      Proceso rápido
+                      {t('auth.registro.procesoRapido')}
                     </h3>
                     <p className="mt-3 max-w-[360px] text-[1.05rem] leading-relaxed text-[#d2c9c0] sm:text-[1.25rem]">
-                      Completa tu registro en menos de 3 minutos y accede a todos los beneficios de tu cuenta.
+                      {t('auth.registro.descripcionRapido')}
                     </p>
                   </div>
                 </div>
@@ -466,7 +255,7 @@ export function AuthScreen({ onAuth, onVolver, initialStep = 'inicio' }) {
               <section className="flex justify-center lg:justify-end lg:pr-2">
                 <div className="w-full max-w-[540px] rounded-[18px] border border-[#3f3a38] bg-[#1e1c1b]/90 p-5 shadow-[0_0_0_1px_rgba(255,255,255,0.03)] backdrop-blur-sm sm:p-6 lg:p-7">
                   <h3 className="font-display text-[2.2rem] font-black leading-none tracking-[-0.04em] text-[#f3efe8] sm:text-[2.6rem]">
-                    Regístrate en minutos
+                    {t('auth.registro.tituloFormulario')}
                   </h3>
 
                   <form onSubmit={handleSubmitRegistro} className="mt-6 space-y-3.5">
@@ -480,7 +269,7 @@ export function AuthScreen({ onAuth, onVolver, initialStep = 'inicio' }) {
                     <input
                       name="nombre"
                       type="text"
-                      placeholder="Nombre(s)*"
+                      placeholder={t('auth.registro.nombre')}
                       value={formRegistro.nombre}
                       onChange={handleRegistroChange}
                       className="w-full rounded-xl border border-[#4a4744] bg-[#2b2927] px-4 py-3.5 text-base text-[#f3efe8] placeholder:text-[#b6aea7] outline-none transition focus:border-[#d98a37] focus:ring-2 focus:ring-[#d98a37]/20"
@@ -488,7 +277,7 @@ export function AuthScreen({ onAuth, onVolver, initialStep = 'inicio' }) {
                     <input
                       name="apellidoPaterno"
                       type="text"
-                      placeholder="Apellido paterno*"
+                      placeholder={t('auth.registro.apellidoPaterno')}
                       value={formRegistro.apellidoPaterno}
                       onChange={handleRegistroChange}
                       className="w-full rounded-xl border border-[#4a4744] bg-[#2b2927] px-4 py-3.5 text-base text-[#f3efe8] placeholder:text-[#b6aea7] outline-none transition focus:border-[#d98a37] focus:ring-2 focus:ring-[#d98a37]/20"
@@ -496,7 +285,7 @@ export function AuthScreen({ onAuth, onVolver, initialStep = 'inicio' }) {
                     <input
                       name="apellidoMaterno"
                       type="text"
-                      placeholder="Apellido materno*"
+                      placeholder={t('auth.registro.apellidoMaterno')}
                       value={formRegistro.apellidoMaterno}
                       onChange={handleRegistroChange}
                       className="w-full rounded-xl border border-[#4a4744] bg-[#2b2927] px-4 py-3.5 text-base text-[#f3efe8] placeholder:text-[#b6aea7] outline-none transition focus:border-[#d98a37] focus:ring-2 focus:ring-[#d98a37]/20"
@@ -507,15 +296,16 @@ export function AuthScreen({ onAuth, onVolver, initialStep = 'inicio' }) {
                           type="button"
                           onClick={() => setIsCountryPickerOpen((open) => !open)}
                           className="flex h-full items-center gap-2 border-r border-[#4a4744] bg-[#292623] px-3 py-3.5 text-base font-medium text-[#efe8df] transition hover:bg-[#312e2c]"
-                          aria-label="Seleccionar país"
+                          aria-label={t('auth.registro.seleccionarPais')}
                         >
                           <span>{selectedCountry.flag}</span>
+                          <span className="sr-only">{selectedCountryName}</span>
                           <span>{telefonoPrefix}</span>
                         </button>
                         <input
                           name="telefono"
                           type="tel"
-                          placeholder="Número de teléfono*"
+                          placeholder={t('auth.registro.telefono')}
                           value={formRegistro.telefono}
                           onChange={handleRegistroChange}
                           className="w-full bg-transparent px-4 py-3.5 text-base text-[#f3efe8] placeholder:text-[#b6aea7] outline-none"
@@ -529,7 +319,7 @@ export function AuthScreen({ onAuth, onVolver, initialStep = 'inicio' }) {
                               type="text"
                               value={countrySearch}
                               onChange={(e) => setCountrySearch(e.target.value)}
-                              placeholder="Busca país o código"
+                              placeholder={t('auth.registro.buscarPais')}
                               className="w-full rounded-lg border border-[#5a5551] bg-[#2b2927] px-3 py-2 text-sm text-[#f3efe8] placeholder:text-[#b6aea7] outline-none focus:border-[#d98a37]"
                             />
                           </div>
@@ -537,9 +327,11 @@ export function AuthScreen({ onAuth, onVolver, initialStep = 'inicio' }) {
                           <div className="max-h-72 overflow-y-auto">
                             {COUNTRY_LIST.filter((country) => {
                               const search = countrySearch.trim().toLowerCase()
+                              const localizedName = getLocalizedCountryName(country, i18n.resolvedLanguage ?? i18n.language)
                               if (!search) return true
                               return (
                                 country.name.toLowerCase().includes(search) ||
+                                localizedName.toLowerCase().includes(search) ||
                                 country.code.replace('+', '').includes(search.replace('+', ''))
                               )
                             }).map((country) => (
@@ -555,7 +347,7 @@ export function AuthScreen({ onAuth, onVolver, initialStep = 'inicio' }) {
                               >
                                 <span className="flex items-center gap-3">
                                   <span className="text-lg">{country.flag}</span>
-                                  <span>{country.name}</span>
+                                  <span>{getLocalizedCountryName(country, i18n.resolvedLanguage ?? i18n.language)}</span>
                                 </span>
                                 <span className="text-[#d8c7b4]">{country.code}</span>
                               </button>
@@ -567,7 +359,7 @@ export function AuthScreen({ onAuth, onVolver, initialStep = 'inicio' }) {
                     <input
                       name="email"
                       type="email"
-                      placeholder="Correo electrónico*"
+                      placeholder={t('auth.registro.email')}
                       value={formRegistro.email}
                       onChange={handleRegistroChange}
                       className="w-full rounded-xl border border-[#4a4744] bg-[#2b2927] px-4 py-3.5 text-base text-[#f3efe8] placeholder:text-[#b6aea7] outline-none transition focus:border-[#d98a37] focus:ring-2 focus:ring-[#d98a37]/20"
@@ -575,7 +367,7 @@ export function AuthScreen({ onAuth, onVolver, initialStep = 'inicio' }) {
                     <input
                       name="password"
                       type="password"
-                      placeholder="Contraseña*"
+                      placeholder={t('auth.registro.password')}
                       value={formRegistro.password}
                       onChange={handleRegistroChange}
                       className="w-full rounded-xl border border-[#4a4744] bg-[#2b2927] px-4 py-3.5 text-base text-[#f3efe8] placeholder:text-[#b6aea7] outline-none transition focus:border-[#d98a37] focus:ring-2 focus:ring-[#d98a37]/20"
@@ -583,7 +375,7 @@ export function AuthScreen({ onAuth, onVolver, initialStep = 'inicio' }) {
                     <input
                       name="confirmPassword"
                       type="password"
-                      placeholder="Confirma tu contraseña*"
+                      placeholder={t('auth.registro.confirmarPassword')}
                       value={formRegistro.confirmPassword}
                       onChange={handleRegistroChange}
                       className="w-full rounded-xl border border-[#4a4744] bg-[#2b2927] px-4 py-3.5 text-base text-[#f3efe8] placeholder:text-[#b6aea7] outline-none transition focus:border-[#d98a37] focus:ring-2 focus:ring-[#d98a37]/20"
@@ -598,11 +390,11 @@ export function AuthScreen({ onAuth, onVolver, initialStep = 'inicio' }) {
                         className="mt-0.5 h-4 w-4 rounded border-[#7a726b] bg-[#1d1b1a] text-[#e4741d] focus:ring-[#e4741d]"
                       />
                       <span className="leading-relaxed text-[#ece2d8]">
-                        Acepto los{' '}
+                        {t('auth.registro.acepto')} {' '}
                         <a href="#" className="font-medium text-[#f4efe8] underline underline-offset-2">
-                          términos y condiciones
+                          {t('footer.terminos')}
                         </a>{' '}
-                        y autorizo el tratamiento de mis datos para la creación de mi cuenta.
+                        {t('auth.registro.autorizacion')}
                       </span>
                     </label>
 
@@ -611,13 +403,13 @@ export function AuthScreen({ onAuth, onVolver, initialStep = 'inicio' }) {
                       disabled={loading}
                       className="mt-2 w-full rounded-xl bg-brand px-4 py-3.5 text-base font-semibold text-white transition hover:bg-brand-dark disabled:cursor-not-allowed disabled:opacity-70"
                     >
-                      {loading ? 'Creando cuenta...' : 'Continuar'}
+                      {loading ? t('auth.registro.creandoCuenta') : t('auth.registro.continuar')}
                     </button>
 
                     <p className="pt-1 text-center text-[0.75rem] leading-relaxed text-[#b9b0a8]">
-                      Puedes revisar cómo tratamos tus datos en nuestra{' '}
+                      {t('auth.registro.politicaIntro')}{' '}
                       <a href="#" className="text-[#f2efe8] underline underline-offset-2">
-                        política de privacidad
+                        {t('footer.privacidad')}
                       </a>
                     </p>
                   </form>

@@ -10,6 +10,7 @@ import { DashboardScreen } from '../screens/DashboardScreen'
 import { WithdrawalScreen } from '../screens/WithdrawalScreen'
 import { QuickConnectScreen } from '../screens/QuickConnectScreen'
 import { ChangePasswordScreen } from '../screens/ChangePasswordScreen'
+import { EmergencyWithdrawalScreen } from '../screens/EmergencyWithdrawalScreen'
 import { ErrorBoundary } from '../components/ErrorBoundary'
 
 function AppLayout({ usuario, onLogout }) {
@@ -92,6 +93,7 @@ export function AppShell() {
       } />
       <Route path="/quick-connect" element={<QuickConnectScreen />} />
       <Route path="/change-password" element={<ChangePasswordScreen />} />
+      <Route path="/emergency-withdrawal" element={<EmergencyWithdrawalScreen />} />
       <Route path="/*" element={
         estaAutenticado
           ? <AppLayout usuario={usuario} onLogout={handleLogout} />
