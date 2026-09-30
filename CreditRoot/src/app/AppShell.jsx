@@ -1,6 +1,6 @@
 // src/app/AppShell.jsx
 import { useEffect, useState } from 'react'
-import { Routes, Route, Navigate, useNavigate, useLocation } from 'react-router-dom'
+import { Routes, Route, Navigate, useNavigate } from 'react-router-dom'
 import { AppHeader } from '../components/layout/AppHeader'
 import { AppFooter } from '../components/layout/AppFooter'
 import { LandingScreen } from '../screens/LandingScreen'
@@ -9,6 +9,7 @@ import { HomeScreen } from '../screens/HomeScreen'
 import { DashboardScreen } from '../screens/DashboardScreen'
 import { WithdrawalScreen } from '../screens/WithdrawalScreen'
 import { QuickConnectScreen } from '../screens/QuickConnectScreen'
+import { ChangePasswordScreen } from '../screens/ChangePasswordScreen'
 import { ErrorBoundary } from '../components/ErrorBoundary'
 
 function AppLayout({ usuario, onLogout }) {
@@ -37,7 +38,6 @@ function AppLayout({ usuario, onLogout }) {
 
 export function AppShell() {
   const navigate = useNavigate()
-  const location = useLocation()
 
   const [usuario, setUsuario] = useState(() => {
     try {
@@ -91,6 +91,7 @@ export function AppShell() {
           : <AuthScreen initialStep="registro" onAuth={handleAuth} onVolver={() => navigate('/')} />
       } />
       <Route path="/quick-connect" element={<QuickConnectScreen />} />
+      <Route path="/change-password" element={<ChangePasswordScreen />} />
       <Route path="/*" element={
         estaAutenticado
           ? <AppLayout usuario={usuario} onLogout={handleLogout} />

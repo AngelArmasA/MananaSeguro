@@ -51,7 +51,19 @@ function LandingNavbar({ onLogin, onRegister, onVolver, soloVolver, compactRegis
                 </div>
 
                 {soloVolver ? (
-                    <div className="w-10" aria-hidden="true" />
+                    <div className="flex items-center gap-2">
+                        <button
+                            className="text-gray hover:text-ink dark:hover:text-white text-xs font-medium px-2 py-1.5 rounded-lg hover:bg-ink/5 dark:hover:bg-white/5 transition-all cursor-pointer"
+                            onClick={onVolver}>
+                            {t('nav.volverInicio')}
+                        </button>
+                        <button
+                            className="text-xs font-bold px-3 py-1.5 rounded-lg border border-ink/10 dark:border-white/10 text-ink/50 dark:text-white/50 hover:text-ink dark:hover:text-white hover:border-ink/20 dark:hover:border-white/20 transition-all cursor-pointer"
+                            onClick={toggleLang}
+                            aria-label={t('nav.cambiarIdioma')}>
+                            {i18n.language === 'es' ? 'EN' : 'ES'}
+                        </button>
+                    </div>
                 ) : (
                     <div className="flex items-center gap-2">
                         <button
