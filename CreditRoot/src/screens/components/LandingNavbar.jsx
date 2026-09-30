@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useDarkMode } from '../../hooks/useDarkMode'
-import logoCompleto from '../../assets/LOGO_MS.png'
+import logoBlanco from '../../assets/LOGO_MS_white.png'
 
 function LandingNavbar({ onLogin, onRegister, onVolver, soloVolver, compactRegister = false }) {
     const [scrolled, setScrolled] = useState(false)
@@ -23,9 +23,9 @@ function LandingNavbar({ onLogin, onRegister, onVolver, soloVolver, compactRegis
             <nav className={`sticky top-0 z-50 px-4 py-3 transition-shadow duration-300 bg-surface/90 dark:bg-[#0f0e0d]/90 backdrop-blur-md border-b border-ink/8 dark:border-white/8 ${scrolled ? 'shadow-md' : ''}`}>
                 <div className="container mx-auto flex justify-between items-center">
                     <div className="flex items-center gap-2">
-                        <img src={logoCompleto} alt={t('nav.logoAlt')} className="h-8 w-auto rounded-lg" />
-                        <span className="font-display font-bold text-xl text-ink dark:text-white tracking-tight">
-                            {t('nav.marca')} <span className="text-brand">{t('nav.marcaAccent')}</span>
+                        <img src={logoBlanco} alt={t('nav.logoAlt')} className="h-8 w-auto rounded-lg" />
+                        <span className="font-display font-bold text-xl text-white tracking-tight">
+                            {t('nav.marca')} {t('nav.marcaAccent')}
                         </span>
                     </div>
                     <button
@@ -44,9 +44,9 @@ function LandingNavbar({ onLogin, onRegister, onVolver, soloVolver, compactRegis
             <div className="container mx-auto flex justify-between items-center">
 
                 <div className="flex items-center gap-2">
-                    <img src={logoCompleto} alt={t('nav.logoAlt')} className="h-8 w-auto rounded-lg" />
-                    <span className="font-display font-bold text-xl text-ink dark:text-white tracking-tight">
-                        {t('nav.marca')} <span className="text-brand">{t('nav.marcaAccent')}</span>
+                    <img src={logoBlanco} alt={t('nav.logoAlt')} className="h-8 w-auto rounded-lg" />
+                    <span className="font-display font-bold text-xl text-white tracking-tight">
+                        {t('nav.marca')} {t('nav.marcaAccent')}
                     </span>
                 </div>
 
