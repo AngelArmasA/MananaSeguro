@@ -11,6 +11,7 @@ import { WithdrawalScreen } from '../screens/WithdrawalScreen'
 import { QuickConnectScreen } from '../screens/QuickConnectScreen'
 import { ChangePasswordScreen } from '../screens/ChangePasswordScreen'
 import { EmergencyWithdrawalScreen } from '../screens/EmergencyWithdrawalScreen'
+import { SettingsScreen } from '../screens/SettingsScreen'
 import { ErrorBoundary } from '../components/ErrorBoundary'
 
 function AppLayout({ usuario, onLogout }) {
@@ -94,6 +95,22 @@ export function AppShell() {
       <Route path="/quick-connect" element={<QuickConnectScreen />} />
       <Route path="/change-password" element={<ChangePasswordScreen />} />
       <Route path="/emergency-withdrawal" element={<EmergencyWithdrawalScreen />} />
+      <Route path="/settings" element={
+        estaAutenticado
+          ? <SettingsScreen usuario={usuario} onLogout={handleLogout} />
+          : <Navigate to="/login" replace />
+      } />
+      {import.meta.env.DEV && (
+        <Route
+          path="/settings-preview"
+          element={
+            <SettingsScreen
+              usuario={{ nombre: '[Nombre]', apellidoPaterno: '[Apellido]' }}
+              onLogout={() => navigate('/login')}
+            />
+          }
+        />
+      )}
       <Route path="/*" element={
         estaAutenticado
           ? <AppLayout usuario={usuario} onLogout={handleLogout} />

@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { ArrowLeft, Check, ChevronDown } from 'lucide-react'
 import LandingNavbar from './components/LandingNavbar'
 import Footer from './components/Footer'
+import brandLogo from '../assets/LOGO_MS.png'
 
 const monthOptions = [12, 18, 24, 36]
 
@@ -36,18 +37,13 @@ export function EmergencyWithdrawalScreen() {
           <div className="grid items-center gap-8 lg:grid-cols-[1.08fr_0.92fr] lg:gap-12 xl:gap-16">
             <section className="w-full max-w-[560px]">
               <div className="mb-8 flex items-center gap-3">
-                <div className="flex h-16 w-16 items-center justify-center rounded-[22px] bg-[#e4741d] text-2xl font-black text-white shadow-[0_10px_24px_rgba(228,116,29,0.35)]">
-                  M
+                <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-[22px] bg-[#e4741d] shadow-[0_10px_24px_rgba(228,116,29,0.35)]">
+                  <img src={brandLogo} alt="" className="h-10 w-10 object-contain" />
                 </div>
                 <div className="text-[2rem] font-black leading-none tracking-[-0.06em] text-[#f5efe8] sm:text-[2.6rem]">
                   {t('emergencyWithdrawal.brand')}{' '}
                   <span className="text-[#e4741d]">{t('emergencyWithdrawal.brandAccent')}</span>
                 </div>
-              </div>
-
-              <div className="mb-6 text-[1.05rem] font-medium text-[#d4cac2] sm:text-[1.3rem]">
-                {t('emergencyWithdrawal.title')}
-                <span className="mt-2 block text-[#e4741d]">{t('emergencyWithdrawal.titleAccent')}</span>
               </div>
 
               <h1 className="text-[3.1rem] font-black leading-[0.9] tracking-[-0.08em] text-[#f8f3ee] sm:text-[4.3rem] lg:text-[5.6rem]">
@@ -79,7 +75,7 @@ export function EmergencyWithdrawalScreen() {
 
                 <div className="mt-4 rounded-[16px] border border-[#332f2d] bg-[#171513]/80 p-4 text-[#d7cec7]">
                   <div className="text-[1.1rem] leading-relaxed text-[#d7cec7]">
-                    Cantidad disponible para retiro de emergencia. Este valor se usa como base del cálculo del 30%.
+                    {t('emergencyWithdrawal.availableExplanation')}
                   </div>
                   <div className="mt-5 text-[2.2rem] font-black leading-none tracking-[-0.06em] text-[#f5efe8] sm:text-[3rem]">
                     ${new Intl.NumberFormat('en-US', { maximumFractionDigits: 0 }).format(1200000)}
@@ -129,7 +125,7 @@ export function EmergencyWithdrawalScreen() {
                       <ChevronDown className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-[#d7cdc5]" size={18} />
                     </div>
                     <div className="mt-3 text-[0.78rem] text-[#b8ada4]">
-                      Cada mes retraso se paga mensualmente equivalente a 1% menos de rendimiento por 1 año.
+                      {t('emergencyWithdrawal.termDetails')}
                     </div>
                   </div>
 
