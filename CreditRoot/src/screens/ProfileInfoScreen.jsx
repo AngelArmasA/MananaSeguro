@@ -93,22 +93,23 @@ export function ProfileInfoScreen({ initialData = {}, onSubmit }) {
   const [form, setForm] = useState({ ...INITIAL_FORM, ...initialData })
   const [fotoPreview, setFotoPreview] = useState(null)
 
-  // Vista previa de la foto (y liberar la URL al cambiarla)
+  // Libera la URL de la vista previa anterior al cambiar de foto
+  // o al salir de la pantalla (el efecto ya no llama a setState).
   useEffect(() => {
-    if (!form.foto) return setFotoPreview(null)
-    const url = URL.createObjectURL(form.foto)
-    setFotoPreview(url)
-    return () => URL.revokeObjectURL(url)
-  }, [form.foto])
+    if (!fotoPreview) return
+    return () => URL.revokeObjectURL(fotoPreview)
+  }, [fotoPreview])
 
   const handleChange = (e) => {
     const { name, value } = e.target
     setForm((prev) => ({ ...prev, [name]: value }))
   }
 
+  // La vista previa se crea aquí, en el evento, y no dentro de un efecto
   const handleFile = (e) => {
     const file = e.target.files?.[0] ?? null
     setForm((prev) => ({ ...prev, foto: file }))
+    setFotoPreview(file ? URL.createObjectURL(file) : null)
   }
 
   const passwordsMismatch =
