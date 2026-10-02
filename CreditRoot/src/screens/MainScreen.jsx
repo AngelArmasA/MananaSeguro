@@ -173,8 +173,8 @@ export function MainScreen({ usuario, onLogout }) {
 
             {/* Meses */}
             <div className={`${cardCls} p-4 flex flex-col items-center justify-center gap-1`}>
-              <Flame size={56} className="text-brand" />
-              <p className="font-display font-bold text-brand leading-none" style={{ fontSize: '2.4rem' }}>
+              <Flame size={116} className="text-brand" />
+              <p className="font-display font-bold text-brand leading-none" style={{ fontSize: '3.4rem' }}>
                 {u.mesesActivo}
               </p>
               <p className="text-white text-base font-light">meses</p>
