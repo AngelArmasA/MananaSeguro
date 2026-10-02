@@ -3,23 +3,35 @@ import { useTranslation } from 'react-i18next'
 import { TriangleAlert, ArrowRight, ArrowLeft } from 'lucide-react'
 import Footer from './components/Footer'
 import LandingNavbar from './components/LandingNavbar'
-import { conectarWallet } from '../lib/wallet'
 import ardilla from '../assets/Ardilla_vector.png'
 import { BrandLogo } from '../components/ui/BrandLogo'
 
 const GOOGLE_CLIENT_ID = import.meta.env.VITE_GOOGLE_CLIENT_ID
 
-export function AuthScreen({ onAuth, onVolver }) {
-  const { t } = useTranslation()
-  const [paso, setPaso] = useState('inicio') // 'inicio' | 'freighter' | 'nombre'
-  const [walletAddressFreighter, setWalletAddressFreighter] = useState(null)
-  const [nombre, setNombre] = useState('')
+export function AuthScreen({ onAuth, onVolver, initialStep = 'inicio' }) {
+  const { t, i18n } = useTranslation()
+  const [paso, setPaso] = useState(initialStep)
+  const [formRegistro, setFormRegistro] = useState({
+    nombre: '',
+    apellidoPaterno: '',
+    apellidoMaterno: '',
+    email: '',
+    password: '',
+    confirmPassword: '',
+    pais: 'México',
+    telefono: '',
+    aceptaTerminos: false,
+  })
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(null)
   const [googleListo, setGoogleListo] = useState(false)
   const googleBtnRef = useRef(null)
 
-  // Callback de Google , cuando el usuario selecciona su cuenta
+  useEffect(() => {
+    setPaso(initialStep)
+  }, [initialStep])
+
+  // Callback de Google, cuando el usuario selecciona su cuenta
   const handleCredentialResponse = useCallback(async (response) => {
     if (!response.credential) {
       setError(t('auth.errorSinCredencial'))
@@ -86,34 +98,68 @@ export function AuthScreen({ onAuth, onVolver }) {
     document.head.appendChild(script)
   }, [inicializarGoogle, t])
 
-  // Freighter: conectar wallet
-  async function handleConectarFreighter() {
+  function handleRegistroChange(e) {
+    const { name, value, type, checked } = e.target
+    setFormRegistro(prev => ({
+      ...prev,
+      [name]: type === 'checkbox' ? checked : value,
+    }))
+    if (error) setError(null)
+  }
+
+  async function handleSubmitRegistro(e) {
+    e.preventDefault()
     setLoading(true)
     setError(null)
+
+    const payload = {
+      nombre: formRegistro.nombre.trim(),
+      apellidoPaterno: formRegistro.apellidoPaterno.trim(),
+      apellidoMaterno: formRegistro.apellidoMaterno.trim(),
+      email: formRegistro.email.trim(),
+      password: formRegistro.password,
+      confirmPassword: formRegistro.confirmPassword,
+      pais: formRegistro.pais.trim() || 'México',
+      telefono: formRegistro.telefono.trim(),
+      aceptaTerminos: formRegistro.aceptaTerminos,
+    }
+
+    if (!payload.nombre || !payload.email || !payload.password || !payload.telefono || !payload.apellidoPaterno || !payload.apellidoMaterno) {
+      setError(t('auth.registro.errorCampos'))
+      setLoading(false)
+      return
+    }
+
+    if (payload.password !== payload.confirmPassword) {
+      setError(t('auth.registro.errorPassword'))
+      setLoading(false)
+      return
+    }
+
+    if (!payload.aceptaTerminos) {
+      setError(t('auth.registro.errorTerminos'))
+      setLoading(false)
+      return
+    }
+
     try {
-      const address = await conectarWallet()
-      setWalletAddressFreighter(address)
-      setPaso('nombre')
-    } catch (e) {
-      if (e.message.includes('Freighter no está disponible')) {
-        setError(t('auth.errorFreighterNoInstalado'))
-      } else if (e.message.includes('Cancelaste')) {
-        setError(t('auth.errorConexionCancelada'))
-      } else {
-        setError(e.message ?? t('auth.errorWalletConexion'))
+      const res = await fetch('/api/register-email', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      })
+      const data = await res.json().catch(() => ({}))
+      if (!res.ok) {
+        throw new Error(data.error || data.message || t('auth.registro.errorCrear'))
       }
+
+      localStorage.setItem('ms_usuario', JSON.stringify(data.usuario))
+      onAuth(data.usuario)
+    } catch (err) {
+      setError(err.message || t('auth.registro.errorReintentar'))
     } finally {
       setLoading(false)
     }
-  }
-
-  function handleSubmit(e) {
-    e.preventDefault()
-    if (!nombre.trim()) {
-      setError(t('auth.errorCampoRequerido', { campo: t('auth.nombreLabel') }))
-      return
-    }
-    onAuth({ nombre: nombre.trim(), walletAddress: walletAddressFreighter })
   }
 
   return (
@@ -157,7 +203,7 @@ export function AuthScreen({ onAuth, onVolver }) {
                       Regístrate
                     </h2>
                     <p className="text-white/55 text-base leading-relaxed">
-                      Tener tu futuro en tus manos<br />nuca había sido tan fácil
+                      Tener tu futuro en tus manos<br />nunca había sido tan fácil
                     </p>
                   </div>
 
@@ -187,7 +233,7 @@ export function AuthScreen({ onAuth, onVolver }) {
                   {!loading && (
                     <button
                       className="w-full bg-brand hover:bg-brand-dark text-white font-semibold py-4 rounded-xl transition-all hover:-translate-y-px hover:shadow-lg hover:shadow-brand/30 cursor-pointer text-base"
-                      onClick={() => setPaso('freighter')}
+                      onClick={() => setPaso('registro')}
                     >
                       Crear cuenta con correo
                     </button>
@@ -218,8 +264,8 @@ export function AuthScreen({ onAuth, onVolver }) {
                 </div>
               )}
 
-              {/* Paso freighter */}
-              {paso === 'freighter' && (
+              {/* Paso registro */}
+              {paso === 'registro' && (
                 <div className="flex flex-col items-center text-center gap-6">
                   <div className="w-16 h-16 rounded-2xl bg-brand/10 flex items-center justify-center">
                     <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#e3730d" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
@@ -230,75 +276,16 @@ export function AuthScreen({ onAuth, onVolver }) {
                     </svg>
                   </div>
                   <div>
-                    <h3 className="font-display font-black text-ink dark:text-white text-2xl mb-2">{t('auth.conectar')}</h3>
-                    <p className="text-ink/45 dark:text-white/45 text-sm leading-relaxed max-w-xs mx-auto">{t('auth.descWallet')}</p>
+                    <h3 className="font-display font-bold text-white text-2xl mb-2">Datos personales</h3>
+                    <p className="text-white/45 text-sm leading-relaxed max-w-xs mx-auto">Próximamente</p>
                   </div>
-                  {error && (
-                    <div className="w-full bg-red-500/8 border border-dashed border-red-400/40 text-red-500 text-sm text-center px-4 py-3 rounded-xl">
-                      <TriangleAlert size={16} className="inline shrink-0" aria-hidden="true" /> {error}
-                      {error.includes('freighter.app') && (
-                        <a href="https://freighter.app" target="_blank" rel="noopener noreferrer" className="block mt-2 text-brand underline font-medium">
-                          {t('auth.instalar')} <ArrowRight size={14} className="inline" aria-hidden="true" />
-                        </a>
-                      )}
-                    </div>
-                  )}
                   <button
-                    className="w-full bg-brand hover:bg-brand-dark text-white font-semibold py-4 rounded-xl transition-all hover:-translate-y-px hover:shadow-lg hover:shadow-brand/30 cursor-pointer disabled:opacity-50"
-                    onClick={handleConectarFreighter}
-                    disabledew={loading}>
-                    {loading ? (
-                      <span className="flex items-center justify-center gap-2">
-                        <svg aria-hidden="true" className="animate-spin" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21 12a9 9 0 1 1-6.219-8.56" /></svg>
-                        {t('auth.conectando')}
-                      </span>
-                    ) : t('auth.conectar')}
-                  </button>
-                  <button className="text-sm text-ink/30 dark:text-white/30 hover:text-ink/60 transition-colors cursor-pointer"
-                    onClick={() => { setPaso('inicio'); setError(null) }}>
+                    className="text-sm text-white/30 hover:text-white/60 transition-colors cursor-pointer"
+                    onClick={() => { setPaso('inicio'); setError(null) }}
+                  >
                     <ArrowLeft size={14} className="inline" aria-hidden="true" /> {t('nav.volverInicio')}
                   </button>
                 </div>
-              )}
-
-              {/* Paso nombre (Freighter) */}
-              {paso === 'nombre' && (
-                <form onSubmit={handleSubmit} className="flex flex-col gap-6">
-                  <div className="bg-green-500/8 border border-green-500/20 rounded-xl px-4 py-3 flex items-center gap-3">
-                    <span className="w-2 h-2 rounded-full bg-green-500 shrink-0" />
-                    <div className="min-w-0">
-                      <p className="text-xs text-green-700 font-semibold mb-0.5">{t('auth.walletConectada')}</p>
-                      <p className="text-xs text-ink/40 dark:text-white/40 font-mono truncate">{walletAddressFreighter}</p>
-                    </div>
-                  </div>
-                  <div>
-                    <h3 className="font-display font-black text-ink dark:text-white text-2xl mb-1">
-                      {t('auth.tituloNombre')} <em className="text-brand italic">{t('auth.tituloNombreAccent')}</em>
-                    </h3>
-                    <p className="text-ink/40 dark:text-white/40 text-sm">{t('auth.descNombre')}</p>
-                  </div>
-                  <div>
-                    <label htmlFor="auth-nombre" className="block text-xs font-semibold text-ink/40 dark:text-white/40 uppercase tracking-widest mb-2">{t('auth.nombreLabel')}</label>
-                    <input
-                      id="auth-nombre"
-                      className="w-full rounded-xl px-5 py-3.5 text-base bg-white dark:bg-white/5 outline-none transition-all duration-200 border border-ink/10 dark:border-white/10 focus:border-brand focus:ring-2 focus:ring-brand/20 text-ink dark:text-white"
-                      placeholder={t('auth.nombrePlaceholder')}
-                      value={nombre}
-                      onChange={e => setNombre(e.target.value)}
-                      autoFocus
-                    />
-                  </div>
-                  {error && (
-                    <div className="bg-red-500/8 border border-dashed border-red-400/40 text-red-500 text-sm text-center px-4 py-3 rounded-xl"><TriangleAlert size={16} className="inline shrink-0" aria-hidden="true" /> {error}</div>
-                  )}
-                  <button type="submit" className="w-full bg-brand hover:bg-brand-dark text-white font-semibold py-4 rounded-xl transition-all hover:-translate-y-px hover:shadow-lg hover:shadow-brand/30 cursor-pointer">
-                    {t('auth.entrar')}
-                  </button>
-                  <button type="button" className="text-sm text-ink/30 dark:text-white/30 hover:text-ink/60 dark:hover:text-white/60 transition-colors cursor-pointer"
-                    onClick={() => { setPaso('inicio'); setError(null) }}>
-                    {t('auth.cambiarWallet')}
-                  </button>
-                </form>
               )}
 
             </div>
@@ -306,6 +293,7 @@ export function AuthScreen({ onAuth, onVolver }) {
 
         </div>
       </div>
+
       <Footer />
     </div>
   )

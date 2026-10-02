@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useDarkMode } from '../../hooks/useDarkMode'
-import logoPng from "/src/assets/LogoPng.png";
+import logoPng from "/src/assets/LogoPng.png"
 
 function LandingNavbar({ onLogin, onRegister, onVolver, soloVolver }) {
     const [scrolled, setScrolled] = useState(false)

@@ -32,8 +32,9 @@ export function AppHeader({ usuario, onLogout }) {
           {/* Logo */}
           <div className="flex items-center gap-2 cursor-pointer" onClick={() => navigate('/home')}>
             <img src={logoCompleto} alt={t('nav.logoAlt')} className="h-8 w-auto rounded-lg" />
+            {/* Marca en un solo color, como en el diseño */}
             <span className="font-display font-bold text-xl text-ink dark:text-white tracking-tight">
-              {t('nav.marca')} <span className="text-brand">{t('nav.marcaAccent')}</span>
+              {t('nav.marca')} {t('nav.marcaAccent')}
             </span>
           </div>
 
@@ -78,14 +79,19 @@ export function AppHeader({ usuario, onLogout }) {
             </span>
 
             {usuario && (
-              <div className="flex items-center gap-2">
+              <button
+                type="button"
+                onClick={() => navigate('/settings', { state: { from: location.pathname } })}
+                aria-label={t('settings.openProfile')}
+                className="flex items-center gap-2 rounded-lg px-2 py-1 transition-colors hover:bg-ink/5 dark:hover:bg-white/5"
+              >
                 <div className="w-8 h-8 rounded-full bg-brand flex items-center justify-center text-white text-xs font-bold shrink-0">
-                  {usuario.nombre.charAt(0).toUpperCase()}
+                  {(usuario.nombre ?? '?').charAt(0).toUpperCase()}
                 </div>
                 <span className="text-sm text-ink/50 dark:text-white/50">
-                  {usuario.nombre.split(' ')[0]}
+                  {(usuario.nombre ?? '').split(' ')[0]}
                 </span>
-              </div>
+              </button>
             )}
 
             {onLogout && (
@@ -163,10 +169,10 @@ export function AppHeader({ usuario, onLogout }) {
               <div className="flex items-center justify-between px-2 pt-2">
                 <div className="flex items-center gap-2">
                   <div className="w-8 h-8 rounded-full bg-brand flex items-center justify-center text-white text-xs font-bold shrink-0">
-                    {usuario.nombre.charAt(0).toUpperCase()}
+                    {(usuario.nombre ?? '?').charAt(0).toUpperCase()}
                   </div>
                   <span className="text-sm text-ink/50 dark:text-white/50">
-                    {usuario.nombre.split(' ')[0]}
+                    {(usuario.nombre ?? '').split(' ')[0]}
                   </span>
                 </div>
                 {onLogout && (
