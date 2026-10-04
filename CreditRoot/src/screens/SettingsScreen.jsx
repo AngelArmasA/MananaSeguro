@@ -13,7 +13,7 @@ import {
   Zap,
 } from 'lucide-react'
 import ardilla from '../assets/Ardilla_vector.png'
-import brandLogo from '../assets/LOGO_MS.png'
+import whiteLogo from '../assets/LOGO_MS_white.png'
 
 const settingsActions = [
   { id: 'profile', icon: <UserRound size={19} strokeWidth={2} aria-hidden="true" /> },
@@ -74,8 +74,8 @@ export function SettingsScreen({ usuario, onLogout, onAction }) {
             className="flex min-h-10 items-center gap-2 text-left"
             aria-label={t('settings.goHome')}
           >
-            <img src={brandLogo} alt="" className="h-8 w-8 object-contain" />
-            <span className="hidden text-lg font-bold sm:inline sm:text-xl">
+            <img src={whiteLogo} alt="" className="h-8 w-8 object-contain" />
+            <span className="hidden text-lg font-bold text-white sm:inline sm:text-xl">
               {t('nav.marca')} {t('nav.marcaAccent')}
             </span>
           </button>

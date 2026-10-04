@@ -2,6 +2,7 @@ import { useNavigate, useLocation } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { ArrowLeft, Camera, Mail } from 'lucide-react'
 import brandLogo from '../assets/LOGO_MS.png'
+import whiteLogo from '../assets/LOGO_MS_white.png'
 import stellarLogo from '../assets/LOGO_Stellar.png'
 import bafLogo from '../assets/LOGO_BAF.png'
 import etherfuseLogo from '../assets/LOGO_Etherfuse.png'
@@ -44,8 +45,8 @@ export function AboutScreen() {
             className="flex items-center gap-2 text-left"
             aria-label={t('about.goHome')}
           >
-            <img src={brandLogo} alt="" className="h-8 w-8 object-contain" />
-            <span className="text-lg font-bold sm:text-xl">Mañana Seguro</span>
+            <img src={whiteLogo} alt="" className="h-8 w-8 object-contain" />
+            <span className="text-lg font-bold text-white sm:text-xl">Mañana Seguro</span>
           </button>
         </div>
         <button
