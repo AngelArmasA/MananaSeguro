@@ -1,6 +1,8 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
+import LandingNavbar from './components/LandingNavbar'
+import Footer from './components/Footer'
 
 // TODO: reemplazar por catálogos reales (API / constantes)
 const YEARS = Array.from({ length: 100 }, (_, i) => String(new Date().getFullYear() - i))
@@ -68,33 +70,35 @@ export function PerfilMetaScreen({ onSubmit }) {
     setForm((prev) => ({ ...prev, [name]: value }))
   }
 
-  // TODO: validación real
-  const isComplete = Object.values(form).every((v) => v !== '')
+  const isComplete = true
 
   const handleSubmit = () => {
-    // TODO: enviar datos al backend
-    onSubmit ? onSubmit(form) : navigate('/goal-established')
+    onSubmit ? onSubmit(form) : navigate('/datos-cuenta')
   }
 
   return (
-    <section className="bg-[#0f0e0d] min-h-[calc(100dvh-57px)] flex items-center justify-center p-4 sm:p-6 lg:p-12 text-white font-sans antialiased">
+    <div className="bg-bg min-h-screen flex flex-col overflow-x-hidden">
+      <LandingNavbar soloVolver onVolver={() => navigate('/verificacion-registro')} />
+
+      <section className="flex-1 py-10 px-4 sm:px-6 lg:px-12">
       <div className="w-full max-w-6xl mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-20 items-start">
 
-          {/* SECCIÓN IZQUIERDA (Escritorio / lg) */}
-          <div className="hidden lg:flex flex-col justify-center items-start space-y-6 lg:sticky lg:top-[calc(57px+3rem)] lg:h-[calc(100dvh-57px-6rem)]">
-            <h1 className="font-display font-black text-white text-5xl xl:text-6xl tracking-tight leading-[1.05]">
+          {/* SECCIÓN IZQUIERDA */}
+          <div className="hidden lg:flex flex-col justify-start items-start space-y-6 pt-2">
+            <h1 className="font-display font-bold text-white tracking-tight leading-[1.05]"
+              style={{ fontSize: 'clamp(3rem,6vw,5rem)' }}>
               {t('perfilMeta.tituloParte1', 'Perfil y')}{' '}
-              <span className="text-[#d96b00]">{t('perfilMeta.tituloParte2', 'meta')}</span>
+              <em className="text-brand not-italic">{t('perfilMeta.tituloParte2', 'meta')}</em>
             </h1>
-            <p className="text-white/70 text-lg leading-relaxed max-w-md">
+            <p className="text-white/55 text-base leading-relaxed max-w-md">
               {t('perfilMeta.descripcion', 'Cuéntanos algunas cosas sobre ti para poder personalizar tu cuenta')}
             </p>
           </div>
 
           {/* TARJETA PRINCIPAL (Móvil & Escritorio) */}
           <div className="w-full max-w-md mx-auto">
-            <div className="bg-[#141312] sm:bg-[#181716] p-6 sm:p-10 rounded-3xl border border-white/10 shadow-2xl shadow-black/80 flex flex-col">
+            <div className="bg-card border border-white/10 shadow-2xl shadow-black/80 p-6 sm:p-10 rounded-3xl flex flex-col">
 
               {/* Botón "Regresar" (solo móvil) */}
               <button
@@ -110,23 +114,23 @@ export function PerfilMetaScreen({ onSubmit }) {
 
               {/* Encabezado Móvil */}
               <div className="lg:hidden mb-6 text-left">
-                <h2 className="text-3xl font-black text-white tracking-tight mb-2">
+                <h2 className="font-display font-bold text-white text-3xl tracking-tight mb-2">
                   {t('perfilMeta.titulo', 'Perfil y meta')}
                 </h2>
-                <p className="text-white/60 text-sm leading-relaxed">
+                <p className="text-white/55 text-sm leading-relaxed">
                   {t('perfilMeta.descripcion', 'Cuéntanos algunas cosas sobre ti para poder personalizar tu cuenta.')}
                 </p>
               </div>
 
               {/* Encabezado Escritorio */}
               <div className="hidden lg:block mb-8 text-center">
-                <h3 className="font-display font-black text-2xl text-white">
+                <h3 className="font-display font-bold text-2xl text-white">
                   {t('perfilMeta.cardTitulo', 'Proyecta tu meta')}
                 </h3>
               </div>
 
               {/*Fecha de nacimiento */}
-              <fieldset className="mb-5">
+              <fieldset className="mb-3">
                 <legend className="text-sm font-semibold text-white mb-2">
                   {t('perfilMeta.fechaNacimiento', 'Fecha de nacimiento')}
                 </legend>
@@ -138,14 +142,14 @@ export function PerfilMetaScreen({ onSubmit }) {
               </fieldset>
 
               {/* Actividades y segmentación */}
-              <fieldset className="mb-5">
+              <fieldset className="mb-3">
                 <legend className="text-sm font-semibold text-white">
                   {t('perfilMeta.segmentacion', 'Actividades y segmentación')}
                 </legend>
                 <p className="text-xs text-white/60 mb-2">
                   {t('perfilMeta.segmentacionNota', 'Estos datos no afectan tu perfil.')}
                 </p>
-                <div className="flex flex-col gap-2.5">
+                <div className="flex flex-col gap-2">
                   {SEGMENT_FIELDS.map((field) => (
                     <SelectField
                       key={field.name}
@@ -160,7 +164,7 @@ export function PerfilMetaScreen({ onSubmit }) {
               </fieldset>
 
               {/* Elige tu meta */}
-              <fieldset className="mb-6">
+              <fieldset className="mb-4">
                 <legend className="text-sm font-semibold text-white mb-2">
                   {t('perfilMeta.eligeMeta', 'Elige tu meta')}
                 </legend>
@@ -178,7 +182,7 @@ export function PerfilMetaScreen({ onSubmit }) {
                 type="button"
                 disabled={!isComplete}
                 onClick={handleSubmit}
-                className="w-full bg-[#d96b00] hover:bg-[#c45f00] active:scale-[0.98] disabled:opacity-40 disabled:cursor-not-allowed disabled:active:scale-100 text-white font-semibold py-4 px-6 rounded-xl transition-all shadow-lg shadow-[#d96b00]/20 mb-5 text-base cursor-pointer"
+                className="w-full bg-brand hover:bg-brand-dark active:scale-[0.98] disabled:opacity-40 disabled:cursor-not-allowed text-white font-semibold py-4 px-6 rounded-xl transition-all hover:-translate-y-px hover:shadow-lg hover:shadow-brand/30 mb-5 text-base cursor-pointer"
               >
                 {t('perfilMeta.continuar', 'Continuar')}
               </button>
@@ -197,6 +201,9 @@ export function PerfilMetaScreen({ onSubmit }) {
 
         </div>
       </div>
-    </section>
+      </section>
+
+      <Footer dark />
+    </div>
   )
 }

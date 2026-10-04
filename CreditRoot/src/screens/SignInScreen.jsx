@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { useLocation } from 'react-router-dom'
 import { Mail, Lock, TriangleAlert } from 'lucide-react'
 import LandingNavbar from './components/LandingNavbar'
 import Footer from './components/Footer'
@@ -8,6 +9,8 @@ import { autenticarUsuario } from '../data/mockUsers'
 
 export function SignInScreen({ onVerificar, onVolver, onRegister }) {
   const { t } = useTranslation()
+  const location = useLocation()
+  const cuentaCreada = location.state?.cuentaCreada ?? false
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [loading, setLoading] = useState(false)
@@ -71,6 +74,12 @@ export function SignInScreen({ onVerificar, onVolver, onRegister }) {
                     Accede a tu cuenta,<br />ingresa tu correo y contraseña
                   </p>
                 </div>
+
+                {cuentaCreada && (
+                  <div className="bg-green-500/10 border border-green-500/30 text-green-400 text-sm text-center px-4 py-3 rounded-xl font-medium">
+                    ✓ Cuenta creada correctamente
+                  </div>
+                )}
 
                 {error && (
                   <div className="bg-red-500/8 border border-dashed border-red-400/40 text-red-500 text-sm text-center px-4 py-3 rounded-xl">

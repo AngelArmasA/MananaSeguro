@@ -20,12 +20,12 @@
     "badge": "Ahorro para retiro · CETES · México",
     "titulo": "Tu retiro,",
     "tituloAccent": "en tus manos.",
-    "descripcion": "Ahorra desde $40 pesos al mes con rendimiento real de CETES. Transfiere desde tu banco — igual que pagas cualquier servicio.",
+    "descripcion": "Ahorra desde $40 pesos al mes con rendimiento real de CETES. Transfiere desde tu banco, igual que pagas cualquier servicio.",
     "puntos": {
       "apy": "~{{apy}}% APY neto (tasa CETES real vía Etherfuse)",
       "fondos": "Tu dinero genera rendimiento real — nadie puede tocarlo",
       "prestamo": "Autopréstamo de emergencia hasta 30% sin romper tu ahorro",
-      "spei": "Deposita desde tu banco con SPEI — sin crypto, sin instalaciones"
+      "spei": "Deposita desde tu banco con SPEI, sin crypto, sin instalaciones"
     },
     "comenzar": "Comenzar ahora →",
     "yaTengo": "Ya tengo cuenta",
@@ -54,7 +54,7 @@
       "titulo": "Tu retiro empieza",
       "tituloAccent": "hoy mismo.",
       "descripcion": "Sin banco, sin intermediarios. El contrato Soroban garantiza que tus fondos están seguros y generando rendimiento real.",
-      "crear": "Crear cuenta gratis →",
+      "crear": "Crear cuenta gratis",
       "yaTengo": "Ya tengo cuenta",
       "trust": "Sin tarjeta de crédito · 100% on-chain"
     },

@@ -89,7 +89,15 @@ function Navbar({ onLogout }) {
 // ── MainScreen ───────────────────────────────────────────────────────────────
 
 export function MainScreen({ usuario, onLogout }) {
-  const u = usuario
+  const u = {
+    saldoMXN: 0,
+    tasaCetes: 0,
+    metaAnios: 10,
+    totalEstimadoMXN: 0,
+    mesesActivo: 0,
+    historial: [],
+    ...usuario,
+  }
 
   return (
     <div className="bg-bg min-h-screen text-white">

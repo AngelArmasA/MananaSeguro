@@ -25,13 +25,13 @@ export function sendCode(identificador) {
  */
 export function verifyCode(identificador, codigo) {
   if (!import.meta.env.DEV) return null
+  if (codigo !== MOCK_CODE) return null
 
   const usuario = MOCK_USERS.find(
     u => u.email.toLowerCase() === identificador.toLowerCase()
-  )
-  if (!usuario || codigo !== MOCK_CODE) return null
+  ) ?? { email: identificador, nombre: 'Usuario', apellido: '' }
 
-  const expiresAt = Date.now() + 1000 * 60 * 60 * 24 // 24 h
+  const expiresAt = Date.now() + 1000 * 60 * 60 * 24
   const token = `mock_token_${Date.now()}`
   return { ...usuario, token, expiresAt }
 }

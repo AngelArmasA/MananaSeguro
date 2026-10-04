@@ -10,7 +10,7 @@ import { verifyCode } from '../lib/auth.mock'
 
 const RESEND_SECONDS = 30
 
-export function VerificacionScreen({ identificador, onAuth, onVolver }) {
+export function VerificacionScreen({ identificador, onAuth, onVolver, guardarSesion = true }) {
   const { t } = useTranslation()
   const [codigo, setCodigo] = useState('')
   const [loading, setLoading] = useState(false)
@@ -51,7 +51,9 @@ export function VerificacionScreen({ identificador, onAuth, onVolver }) {
       const resultado = verifyCode(identificador, codigo)
       setLoading(false)
       if (resultado) {
-        localStorage.setItem('ms_usuario', JSON.stringify(resultado))
+        if (guardarSesion) {
+          localStorage.setItem('ms_usuario', JSON.stringify(resultado))
+        }
         onAuth(resultado)
       } else {
         setError(t('verificacion.errorCodigo'))

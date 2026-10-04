@@ -20,12 +20,12 @@
     "badge": "Retirement savings · CETES · Mexico",
     "titulo": "Your retirement,",
     "tituloAccent": "in your hands.",
-    "descripcion": "Save from $40 pesos/month with real CETES yield. Transfer from your bank — just like paying any bill.",
+    "descripcion": "Save from $40 pesos/month with real CETES yield. Transfer from your bank, just like paying any bill.",
     "puntos": {
       "apy": "~{{apy}}% net APY (real CETES rate via Etherfuse)",
       "fondos": "Your money earns real yield — nobody can touch it",
       "prestamo": "Emergency autoloan up to 30% without breaking your savings",
-      "spei": "Deposit from your bank via SPEI — no crypto, no installs"
+      "spei": "Deposit from your bank via SPEI, no crypto, no installs"
     },
     "comenzar": "Get started →",
     "yaTengo": "I already have an account",
@@ -54,7 +54,7 @@
       "titulo": "Your retirement starts",
       "tituloAccent": "today.",
       "descripcion": "No bank, no intermediaries. The Soroban contract guarantees your funds are safe and earning real yield.",
-      "crear": "Create free account →",
+      "crear": "Create free account",
       "yaTengo": "I already have an account",
       "trust": "No credit card · 100% on-chain"
     },

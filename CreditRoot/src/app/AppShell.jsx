@@ -19,7 +19,8 @@ import { QuickConnectScreen } from '../screens/QuickConnectScreen'
 import { ChangePasswordScreen } from '../screens/ChangePasswordScreen'
 import { EmergencyWithdrawalScreen } from '../screens/EmergencyWithdrawalScreen'
 import { SettingsScreen } from '../screens/SettingsScreen'
-import { AboutScreen } from '../screens/AboutScreen'
+import { DataProfile } from '../screens/DataProfile'
+import { DataAccount } from '../screens/DataAccount'
 import { ErrorBoundary } from '../components/ErrorBoundary'
 
 function AppLayout({ usuario, onLogout }) {
@@ -91,14 +92,43 @@ export function AppShell() {
         />
       } />
       <Route path="/login" element={
-        estaAutenticado
-          ? <Navigate to="/main" replace />
-          : <AuthScreen onAuth={handleAuth} onVolver={() => navigate('/')} />
+        <AuthScreen
+          onVolver={() => navigate('/')}
+          onIrADatosPersonales={() => navigate('/datos-personales')}
+        />
       } />
       <Route path="/register" element={
-        estaAutenticado
-          ? <Navigate to="/main" replace />
-          : <AuthScreen onAuth={handleAuth} onVolver={() => navigate('/')} />
+        <AuthScreen
+          onVolver={() => navigate('/')}
+          onIrADatosPersonales={() => navigate('/datos-personales')}
+        />
+      } />
+      <Route path="/datos-personales" element={
+        <DataProfile />
+      } />
+      <Route path="/verificacion-registro" element={
+        <VerificacionScreen
+          identificador="registro"
+          guardarSesion={false}
+          onAuth={() => navigate('/perfil-meta')}
+          onVolver={() => navigate('/datos-personales')}
+        />
+      } />
+      <Route path="/perfil-meta" element={
+        <PerfilMetaScreen />
+      } />
+      <Route path="/datos-cuenta" element={
+        <DataAccount />
+      } />
+      <Route path="/conexion-rapida" element={
+        <QuickConnectScreen />
+      } />
+      <Route path="/signin-registro" element={
+        <SignInScreen
+          onVerificar={(email) => { setIdentificador(email); navigate('/verificacion') }}
+          onVolver={() => navigate('/')}
+          onRegister={() => navigate('/login')}
+        />
       } />
       <Route path="/signin" element={
         estaAutenticado
