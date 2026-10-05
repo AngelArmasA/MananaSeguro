@@ -21,6 +21,7 @@ import { EmergencyWithdrawalScreen } from '../screens/EmergencyWithdrawalScreen'
 import { SettingsScreen } from '../screens/SettingsScreen'
 import { DataProfile } from '../screens/DataProfile'
 import { DataAccount } from '../screens/DataAccount'
+import { DepositsScreen } from '../screens/DepositsScreen'
 import { ErrorBoundary } from '../components/ErrorBoundary'
 
 function AppLayout({ usuario, onLogout }) {
@@ -130,6 +131,7 @@ export function AppShell() {
           onRegister={() => navigate('/login')}
         />
       } />
+      <Route path="/change-password" element={<ChangePasswordScreen />} />
       <Route path="/signin" element={
         estaAutenticado
           ? <Navigate to="/main" replace />
@@ -153,6 +155,21 @@ export function AppShell() {
       <Route path="/main" element={
         estaAutenticado
           ? <MainScreen usuario={usuario} onLogout={handleLogout} />
+          : <Navigate to="/signin" replace />
+      } />
+      <Route path="/deposits" element={
+        estaAutenticado
+          ? <DepositsScreen usuario={usuario} onLogout={handleLogout} />
+          : <Navigate to="/signin" replace />
+      } />
+      <Route path="/profile-info" element={
+        estaAutenticado
+          ? <ProfileInfoScreen />
+          : <Navigate to="/signin" replace />
+      } />
+      <Route path="/settings" element={
+        estaAutenticado
+          ? <SettingsScreen usuario={usuario} onLogout={handleLogout} />
           : <Navigate to="/signin" replace />
       } />
       <Route path="/*" element={

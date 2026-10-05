@@ -2,6 +2,8 @@ import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import ardilla from '../assets/Ardilla_vector.png'
+import LandingNavbar from './components/LandingNavbar'
+import Footer from './components/Footer'
 
 // TODO: reemplazar por catálogos reales (API / constantes)
 const BANKS = ['BBVA', 'Santander', 'Banorte', 'Citibanamex', 'HSBC', 'Scotiabank']
@@ -93,8 +95,6 @@ export function ProfileInfoScreen({ initialData = {}, onSubmit }) {
   const [form, setForm] = useState({ ...INITIAL_FORM, ...initialData })
   const [fotoPreview, setFotoPreview] = useState(null)
 
-  // Libera la URL de la vista previa anterior al cambiar de foto
-  // o al salir de la pantalla (el efecto ya no llama a setState).
   useEffect(() => {
     if (!fotoPreview) return
     return () => URL.revokeObjectURL(fotoPreview)
@@ -105,7 +105,6 @@ export function ProfileInfoScreen({ initialData = {}, onSubmit }) {
     setForm((prev) => ({ ...prev, [name]: value }))
   }
 
-  // La vista previa se crea aquí, en el evento, y no dentro de un efecto
   const handleFile = (e) => {
     const file = e.target.files?.[0] ?? null
     setForm((prev) => ({ ...prev, foto: file }))
@@ -118,19 +117,21 @@ export function ProfileInfoScreen({ initialData = {}, onSubmit }) {
   const handleSubmit = (e) => {
     e.preventDefault()
     if (passwordsMismatch) return
-    // TODO: validación real + envío al backend
-    onSubmit ? onSubmit(form) : navigate('/home')
+    onSubmit ? onSubmit(form) : navigate('/main')
   }
 
   return (
-    <section className="bg-[#0f0e0d] min-h-[calc(100dvh-57px)] flex items-start justify-center p-4 sm:p-6 lg:p-12 text-white font-sans antialiased">
-      <div className="w-full max-w-md sm:max-w-xl lg:max-w-6xl mx-auto">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-20 items-start">
+    <div className="bg-[#0f0e0d] min-h-screen flex flex-col text-white">
+      <LandingNavbar soloVolver onVolver={() => navigate('/main')} />
 
-          {/* ================= SECCIÓN IZQUIERDA (Intro + mascota) ================= */}
+      <section className="flex-1 py-10 px-4 sm:px-6 lg:px-12">
+        <div className="w-full max-w-6xl mx-auto">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-20 items-start">
+
+          {/* IZQUIERDA */}
           <div className="flex flex-col gap-5 lg:gap-8 lg:sticky lg:top-28">
 
-            {/* Botón "Regresar" (solo móvil) */}
+            {/* Regresar móvil */}
             <button
               type="button"
               onClick={() => navigate(-1)}
@@ -142,40 +143,32 @@ export function ProfileInfoScreen({ initialData = {}, onSubmit }) {
               <span>{t('perfilInfo.regresar', 'Regresar')}</span>
             </button>
 
-            <h1 className="font-display font-black text-3xl sm:text-4xl lg:text-6xl tracking-tight leading-[1.1]">
-              {t('perfilInfo.tituloParte1', 'Información')}{' '}
-              <span className="lg:block">
-                {t('perfilInfo.tituloParte2', 'de tu')}{' '}
-                <span className="text-[#d96b00]">{t('perfilInfo.tituloParte3', 'perfil')}</span>
-              </span>
+            <h1
+              className="font-display font-bold text-white tracking-tight leading-[1.05]"
+              style={{ fontSize: 'clamp(3rem,6vw,5rem)' }}
+            >
+              {t('perfilInfo.tituloParte1', 'Información')} {t('perfilInfo.tituloParte2', 'de tu')}{' '}
+              <em className="text-brand not-italic">{t('perfilInfo.tituloParte3', 'perfil')}</em>
             </h1>
 
             <div>
-              <p className="border-l-4 border-[#d96b00] pl-3 text-lg sm:text-xl lg:text-3xl font-medium leading-snug mb-3">
+              <p className="border-l-4 border-brand pl-3 text-lg font-medium leading-snug mb-3 text-white">
                 {t('perfilInfo.subtitulo', 'Tus datos, seguros')}
               </p>
-              <p className="text-sm lg:text-base text-white/70 leading-relaxed max-w-md">
-                {t(
-                  'perfilInfo.descripcion',
-                  'Toda la información que compartes está protegida bajo los más altos estándares de seguridad.'
-                )}
+              <p className="text-white/55 text-base leading-relaxed max-w-md">
+                {t('perfilInfo.descripcion', 'Toda la información que compartes está protegida bajo los más altos estándares de seguridad.')}
               </p>
             </div>
 
-            {/* Mascota (solo escritorio) */}
-            <img
-              src={ardilla}
-              alt=""
-              aria-hidden="true"
-              className="hidden lg:block w-64 xl:w-80 h-auto select-none pointer-events-none"
-            />
+            <img src={ardilla} alt="" aria-hidden="true"
+              className="hidden lg:block w-64 xl:w-80 h-auto select-none pointer-events-none" />
           </div>
 
-          {/* ================= TARJETA FORMULARIO ================= */}
+          {/* FORMULARIO */}
           <form
             onSubmit={handleSubmit}
             noValidate
-            className="w-full max-w-md mx-auto lg:mx-0 lg:justify-self-end bg-[#141312] sm:bg-[#181716] p-6 sm:p-8 rounded-3xl border border-white/10 shadow-2xl shadow-black/80 flex flex-col gap-7"
+            className="w-full max-w-md mx-auto lg:mx-0 bg-[#1a1917] p-6 sm:p-8 rounded-3xl border border-white/10 shadow-2xl shadow-black/80 flex flex-col gap-7"
           >
 
             {/* ---------- Foto de perfil ---------- */}
@@ -253,6 +246,9 @@ export function ProfileInfoScreen({ initialData = {}, onSubmit }) {
 
         </div>
       </div>
-    </section>
+      </section>
+
+      <Footer dark />
+    </div>
   )
 }

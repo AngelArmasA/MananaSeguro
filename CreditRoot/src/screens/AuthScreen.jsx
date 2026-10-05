@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { useNavigate } from 'react-router-dom'
 import { TriangleAlert } from 'lucide-react'
 import Footer from './components/Footer'
 import LandingNavbar from './components/LandingNavbar'
@@ -8,6 +9,7 @@ import { BrandLogo } from '../components/ui/BrandLogo'
 
 export function AuthScreen({ onVolver, onIrADatosPersonales }) {
   const { t } = useTranslation()
+  const navigate = useNavigate()
   const [error] = useState(null)
 
   return (
@@ -73,7 +75,7 @@ export function AuthScreen({ onVolver, onIrADatosPersonales }) {
                 <p className="text-sm text-white/45">
                   {t('calc.yaTienesCuenta')}{' '}
                   <button
-                    onClick={onVolver}
+                    onClick={() => navigate('/signin-registro')}
                     className="text-white font-semibold underline underline-offset-2 hover:text-brand transition-colors cursor-pointer"
                   >
                     {t('calc.iniciarSesion')}

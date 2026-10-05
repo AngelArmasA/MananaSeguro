@@ -1,4 +1,5 @@
 import { useTranslation } from 'react-i18next'
+import { useNavigate } from 'react-router-dom'
 import { ArrowUpRight, ArrowDownLeft, ExternalLink, Flame } from 'lucide-react'
 import { BrandLogo } from '../components/ui/BrandLogo'
 import Footer from './components/Footer'
@@ -56,6 +57,7 @@ function PromoCard({ children }) {
 
 function Navbar({ onLogout }) {
   const { i18n } = useTranslation()
+  const navigate = useNavigate()
   function toggleLang() { i18n.changeLanguage(i18n.language === 'es' ? 'en' : 'es') }
   return (
     <nav className="sticky top-0 z-50 bg-bg border-b border-white/8 px-4 py-1.5">
@@ -71,7 +73,7 @@ function Navbar({ onLogout }) {
             {i18n.language === 'es' ? 'EN' : 'ES'}
           </button>
           <button
-            onClick={onLogout}
+            onClick={() => navigate('/settings')}
             className={`w-8 h-8 rounded-full flex items-center justify-center ${navBtnBase}`}
             aria-label="Perfil"
           >
@@ -89,6 +91,7 @@ function Navbar({ onLogout }) {
 // ── MainScreen ───────────────────────────────────────────────────────────────
 
 export function MainScreen({ usuario, onLogout }) {
+  const navigate = useNavigate()
   const u = {
     saldoMXN: 0,
     tasaCetes: 0,
@@ -137,7 +140,10 @@ export function MainScreen({ usuario, onLogout }) {
               Activo CETES <span className="text-brand font-semibold">{u.tasaCetes}%</span>
             </p>
             <div className="grid grid-cols-2 gap-2 mt-1">
-              <button className="flex flex-col items-center justify-center gap-1.5 bg-brand hover:bg-brand-dark rounded-xl py-4 transition-all cursor-pointer">
+              <button
+                onClick={() => navigate('/deposits')}
+                className="flex flex-col items-center justify-center gap-1.5 bg-brand hover:bg-brand-dark rounded-xl py-4 transition-all cursor-pointer"
+              >
                 <ArrowUpRight size={22} />
                 <span className="text-xs font-semibold">Depositar</span>
               </button>

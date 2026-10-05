@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useLocation } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { Mail, Lock, TriangleAlert } from 'lucide-react'
 import LandingNavbar from './components/LandingNavbar'
 import Footer from './components/Footer'
@@ -9,6 +9,7 @@ import { autenticarUsuario } from '../data/mockUsers'
 
 export function SignInScreen({ onVerificar, onVolver, onRegister }) {
   const { t } = useTranslation()
+  const navigate = useNavigate()
   const location = useLocation()
   const cuentaCreada = location.state?.cuentaCreada ?? false
   const [email, setEmail] = useState('')
@@ -117,7 +118,7 @@ export function SignInScreen({ onVerificar, onVolver, onRegister }) {
                   {/* Recuperar */}
                   <p className="text-xs text-white/40 text-center">
                     ¿Olvidaste tu contraseña?{' '}
-                    <button type="button" className="text-white/60 underline underline-offset-2 hover:text-white transition-colors cursor-pointer">
+                    <button type="button" onClick={() => navigate('/change-password')} className="text-white/60 underline underline-offset-2 hover:text-white transition-colors cursor-pointer">
                       Recuperar
                     </button>
                   </p>

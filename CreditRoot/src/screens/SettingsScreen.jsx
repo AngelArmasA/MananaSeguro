@@ -2,7 +2,6 @@ import { useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import {
-  ArrowLeft,
   FileText,
   Info,
   LogOut,
@@ -12,8 +11,8 @@ import {
   UserRound,
   Zap,
 } from 'lucide-react'
-import ardilla from '../assets/Ardilla_vector.png'
-import brandLogo from '../assets/LOGO_MS.png'
+import LandingNavbar from './components/LandingNavbar'
+import Footer from './components/Footer'
 
 const settingsActions = [
   { id: 'profile', icon: <UserRound size={19} strokeWidth={2} aria-hidden="true" /> },
@@ -26,153 +25,89 @@ const settingsActions = [
 ]
 
 export function SettingsScreen({ usuario, onLogout, onAction }) {
-  const { t, i18n } = useTranslation()
+  const { t } = useTranslation()
   const navigate = useNavigate()
   const location = useLocation()
   const [selectedAction, setSelectedAction] = useState(null)
-  const [profileMenuOpen, setProfileMenuOpen] = useState(false)
   const firstName = usuario?.nombre?.trim() || t('settings.namePlaceholder')
-  const lastNames = [usuario?.apellidoPaterno, usuario?.apellidoMaterno]
-    .filter(Boolean)
-    .join(' ')
+  const lastNames = [usuario?.apellidoPaterno, usuario?.apellidoMaterno].filter(Boolean).join(' ')
   const displayName = `${firstName} ${lastNames || t('settings.lastNamePlaceholder')}`
-
-  function toggleLanguage() {
-    i18n.changeLanguage(i18n.resolvedLanguage?.startsWith('es') ? 'en' : 'es')
-  }
 
   function handleAction(actionId) {
     setSelectedAction(actionId)
     onAction?.(actionId)
-
-    if (actionId === 'privacy') {
-      navigate('/change-password', { state: { from: '/settings' } })
-      return
-    }
-
-    if (actionId === 'about') {
-      navigate('/about', { state: { from: location.pathname } })
-    }
+    if (actionId === 'profile') { navigate('/profile-info'); return }
+    if (actionId === 'privacy') { navigate('/change-password', { state: { from: '/settings' } }); return }
+    if (actionId === 'about') { navigate('/about', { state: { from: location.pathname } }) }
   }
 
   return (
-    <div className="flex min-h-screen flex-col bg-[#100f0e] text-[#f4f0ec]">
-      <header className="relative z-10 flex h-[60px] items-center justify-between border-b border-white/10 px-5 sm:px-8">
-        <div className="flex items-center gap-2 sm:gap-4">
-          <button
-            type="button"
-            onClick={() => navigate(location.state?.from || '/home')}
-            className="flex h-9 items-center gap-1 rounded-lg px-2 text-sm text-white/65 transition hover:bg-white/5 hover:text-white"
-            aria-label={t('settings.back')}
-          >
-            <ArrowLeft size={17} aria-hidden="true" />
-            <span className="hidden sm:inline">{t('settings.back')}</span>
-          </button>
-          <button
-            type="button"
-            onClick={() => navigate('/home')}
-            className="flex min-h-10 items-center gap-2 text-left"
-            aria-label={t('settings.goHome')}
-          >
-            <img src={brandLogo} alt="" className="h-8 w-8 object-contain" />
-            <span className="hidden text-lg font-bold sm:inline sm:text-xl">
-              {t('nav.marca')} {t('nav.marcaAccent')}
-            </span>
-          </button>
-        </div>
+    <div className="bg-[#0f0e0d] min-h-screen flex flex-col text-white">
+      <LandingNavbar soloVolver onVolver={() => navigate('/main')} />
 
-        <div className="flex items-center gap-3">
-          <button
-            type="button"
-            onClick={toggleLanguage}
-            className="h-9 min-w-10 rounded-lg border border-white/25 px-2 text-xs font-semibold transition hover:border-white/60 hover:bg-white/5"
-            aria-label={t('nav.cambiarIdioma')}
-          >
-            {i18n.resolvedLanguage?.startsWith('es') ? 'EN' : 'ES'}
-          </button>
-          <div className="relative">
-            <button
-              type="button"
-              onClick={() => setProfileMenuOpen((open) => !open)}
-              aria-expanded={profileMenuOpen}
-              aria-label={t('settings.openProfile')}
-              className="flex h-9 w-10 items-center justify-center rounded-lg border border-white/25 transition hover:border-white/60 hover:bg-white/5"
-            >
-              <UserRound size={20} strokeWidth={1.5} aria-hidden="true" />
-            </button>
-            {profileMenuOpen && (
-              <div className="absolute right-0 top-11 z-20 w-64 rounded-xl border border-white/10 bg-[#1b1917] p-4 shadow-xl">
-                <p className="truncate text-sm font-semibold">{displayName}</p>
-                {usuario?.email && (
-                  <p className="mt-1 truncate text-xs text-white/55">{usuario.email}</p>
-                )}
+      <section className="flex-1 py-10 px-4 sm:px-6 lg:px-12">
+        <div className="w-full max-w-6xl mx-auto">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-20 items-start">
+
+            {/* IZQUIERDA */}
+            <div className="flex flex-col gap-6">
+
+              {/* Avatar + nombre */}
+              <div className="flex items-center gap-5">
+                <div className="w-[76px] h-[76px] rounded-full bg-[#1c1b1a] border border-white/10 flex items-center justify-center shrink-0">
+                  {usuario?.foto
+                    ? <img src={usuario.foto} alt={displayName} className="w-full h-full rounded-full object-cover" />
+                    : <UserRound size={36} className="text-white/30" strokeWidth={1.5} />
+                  }
+                </div>
+                <h2 className="font-display font-bold text-white text-2xl leading-tight">{displayName}</h2>
+              </div>
+
+              {/* Título */}
+              <h1
+                className="font-display font-bold text-white tracking-tight leading-[1.05]"
+                style={{ fontSize: 'clamp(3rem,6vw,5rem)' }}
+              >
+                {t('settings.title')}
+                <em className="text-brand not-italic block">{t('settings.titleAccent')}</em>
+              </h1>
+
+              {/* Botón cerrar sesión */}
+              <div className="mt-2">
                 <button
                   type="button"
                   onClick={onLogout}
-                  className="mt-4 inline-flex min-h-10 w-full items-center gap-2 rounded-lg px-2 text-sm text-white/75 transition hover:bg-white/5 hover:text-white"
+                  className="w-full max-w-xs flex items-center justify-center gap-3 bg-brand hover:bg-brand-dark active:scale-[0.98] text-white font-semibold py-4 px-6 rounded-xl transition-all hover:-translate-y-px hover:shadow-lg hover:shadow-brand/30 cursor-pointer text-base"
                 >
-                  <LogOut size={16} aria-hidden="true" />
+                  <LogOut size={18} aria-hidden="true" />
                   {t('settings.signOut')}
                 </button>
               </div>
-            )}
+            </div>
+
+            {/* CARD DERECHA */}
+            <div className="bg-[#1a1917] border border-white/10 rounded-3xl p-6 sm:p-8 shadow-2xl shadow-black/80">
+              <p className="text-white/45 text-sm font-medium mb-4">{t('settings.menuTitle')}</p>
+              <div className="flex flex-col gap-1">
+                {settingsActions.map(({ id, icon }) => (
+                  <button
+                    key={id}
+                    type="button"
+                    onClick={() => handleAction(id)}
+                    className="flex items-center gap-4 w-full px-3 py-3 rounded-xl text-sm text-white/80 hover:bg-white/8 hover:text-white transition-all cursor-pointer text-left"
+                  >
+                    <span className="text-white/50">{icon}</span>
+                    <span>{t(`settings.actions.${id}`)}</span>
+                  </button>
+                ))}
+              </div>
+            </div>
+
           </div>
         </div>
-      </header>
+      </section>
 
-      <main className="mx-auto grid w-full max-w-[1120px] flex-1 content-center gap-10 px-6 py-10 sm:px-10 lg:grid-cols-[0.95fr_1.05fr] lg:gap-16 lg:px-12">
-        <section className="flex flex-col justify-center" aria-labelledby="settings-title">
-          <div className="mb-6 flex items-center gap-5">
-            <img
-              src={ardilla}
-              alt={t('settings.avatarAlt')}
-              className="h-[76px] w-[76px] shrink-0 rounded-full border border-white/10 bg-[#292521] object-cover"
-            />
-            <h1 className="max-w-[300px] text-[1.6rem] font-bold leading-tight sm:text-[1.8rem]">
-              {displayName}
-            </h1>
-          </div>
-
-          <h2 id="settings-title" className="max-w-[460px] text-[2.6rem] font-black leading-[1.03] sm:text-[3.5rem]">
-            {t('settings.title')}
-            <span className="mt-1 block text-[#e97816]">{t('settings.titleAccent')}</span>
-          </h2>
-
-          <div className="mt-10 max-w-[380px]">
-            <p className="mb-4 text-sm text-white/55">{t('settings.signOutLabel')}</p>
-            <button
-              type="button"
-              onClick={onLogout}
-              className="inline-flex min-h-11 w-full items-center justify-center gap-3 rounded-md bg-[#e97816] px-4 text-sm font-semibold text-white transition hover:bg-[#f08727] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#f08727]"
-            >
-              <LogOut size={18} aria-hidden="true" />
-              {t('settings.signOut')}
-            </button>
-          </div>
-        </section>
-
-        <section className="w-full rounded-[24px] bg-white/[0.035] p-5 sm:p-7" aria-labelledby="settings-menu-title">
-          <h2 id="settings-menu-title" className="mb-5 px-2 text-sm font-medium text-white/55">
-            {t('settings.menuTitle')}
-          </h2>
-          <div className="space-y-1">
-            {settingsActions.map(({ id, icon }) => (
-              <button
-                key={id}
-                type="button"
-                onClick={() => handleAction(id)}
-                className="flex min-h-11 w-full items-center gap-4 rounded-lg bg-black/10 px-3 text-left text-sm transition hover:bg-white/[0.08] focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#e97816]"
-              >
-                {icon}
-                <span>{t(`settings.actions.${id}`)}</span>
-              </button>
-            ))}
-          </div>
-          <p className="sr-only" role="status" aria-live="polite">
-            {selectedAction ? t('settings.actionReady', { action: t(`settings.actions.${selectedAction}`) }) : ''}
-          </p>
-        </section>
-      </main>
+      <Footer dark />
     </div>
   )
 }
