@@ -3,11 +3,9 @@ import { useNavigate } from 'react-router-dom'
 import { ArrowUpRight, ArrowDownLeft, ExternalLink, Flame } from 'lucide-react'
 import { BrandLogo } from '../components/ui/BrandLogo'
 import Footer from './components/Footer'
-import logoPng from '/src/assets/LogoPng.png'
+import LandingNavbar from './components/LandingNavbar'
 
 // ── Shared constants ────────────────────────────────────────────────────────
-const navBtnBase = 'border border-white/20 text-white/70 hover:text-white hover:border-white/40 transition-all cursor-pointer'
-const pillCls    = `text-xs font-bold px-3 py-1.5 rounded-lg ${navBtnBase}`
 const cardCls    = 'bg-card border border-white/10 rounded-2xl'
 
 const mxnFmt = new Intl.NumberFormat('es-MX', {
@@ -58,39 +56,6 @@ function PromoCard({ children, onKnowMore }) {
   )
 }
 
-function Navbar({ onLogout }) {
-  const { i18n } = useTranslation()
-  const navigate = useNavigate()
-  function toggleLang() { i18n.changeLanguage(i18n.language === 'es' ? 'en' : 'es') }
-  return (
-    <nav className="sticky top-0 z-50 bg-bg border-b border-white/8 px-4 py-1.5">
-      <div className="container mx-auto flex justify-between items-center">
-        <div className="flex items-center gap-2">
-          <img src={logoPng} alt="Logo" className="h-7 w-7 object-contain rounded-lg shrink-0" />
-          <span className="font-display font-bold text-lg text-white tracking-tight">
-            Mañana <span className="text-brand">Seguro</span>
-          </span>
-        </div>
-        <div className="flex items-center gap-2">
-          <button className={pillCls} onClick={toggleLang}>
-            {i18n.language === 'es' ? 'EN' : 'ES'}
-          </button>
-          <button
-            onClick={() => navigate('/settings')}
-            className={`w-8 h-8 rounded-full flex items-center justify-center ${navBtnBase}`}
-            aria-label="Perfil"
-          >
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-              <circle cx="12" cy="8" r="4" />
-              <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7" />
-            </svg>
-          </button>
-        </div>
-      </div>
-    </nav>
-  )
-}
-
 // ── MainScreen ───────────────────────────────────────────────────────────────
 
 export function MainScreen({ usuario, onLogout }) {
@@ -107,7 +72,7 @@ export function MainScreen({ usuario, onLogout }) {
 
   return (
     <div className="bg-bg min-h-screen text-white">
-      <Navbar onLogout={onLogout} />
+      <LandingNavbar appMode />
 
       <div className="container mx-auto px-4 py-5 max-w-5xl">
 

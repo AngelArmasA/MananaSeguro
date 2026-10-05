@@ -1,7 +1,6 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { ArrowUpRight } from 'lucide-react'
-import { BrandLogo } from '../components/ui/BrandLogo'
 import LandingNavbar from './components/LandingNavbar'
 import Footer from './components/Footer'
 
@@ -45,13 +44,6 @@ export function DepositsScreen({ usuario, onLogout }) {
 
           {/* Hero izquierda */}
           <div className="flex flex-col justify-center gap-4">
-            <div className="flex items-center gap-4">
-              <BrandLogo size="lg" />
-              <div>
-                <p className="text-white/60 text-sm font-medium leading-tight">Somos</p>
-                <p className="text-white font-display font-bold text-2xl leading-tight">MañanaSeguro.</p>
-              </div>
-            </div>
             <h1
               className="font-display font-bold tracking-tight leading-[1.05]"
               style={{ fontSize: 'clamp(2.8rem,6vw,4.5rem)' }}

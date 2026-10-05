@@ -5,6 +5,8 @@ import LandingNavbar from './components/LandingNavbar'
 import Footer from './components/Footer'
 
 // TODO: reemplazar por catálogos reales (API / constantes)
+
+// TODO: estos datos pueden venir del backend
 const YEARS = Array.from({ length: 100 }, (_, i) => String(new Date().getFullYear() - i))
 const MONTHS = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre']
 const DAYS = Array.from({ length: 31 }, (_, i) => String(i + 1))

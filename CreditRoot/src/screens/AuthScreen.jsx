@@ -5,7 +5,6 @@ import { TriangleAlert } from 'lucide-react'
 import Footer from './components/Footer'
 import LandingNavbar from './components/LandingNavbar'
 import ardilla from '../assets/Ardilla_vector.png'
-import { BrandLogo } from '../components/ui/BrandLogo'
 
 export function AuthScreen({ onVolver, onIrADatosPersonales }) {
   const { t } = useTranslation()
@@ -21,14 +20,6 @@ export function AuthScreen({ onVolver, onIrADatosPersonales }) {
 
           {/* ── Columna izquierda ── */}
           <div className="hidden lg:flex flex-col justify-center anim-fade-up-1">
-            <div className="flex items-center gap-4 mb-10">
-              <BrandLogo size="lg" />
-              <div>
-                <p className="text-white/60 text-sm font-medium leading-tight">Somos</p>
-                <p className="text-white font-display font-bold text-xl leading-tight">MañanaSeguro.</p>
-              </div>
-            </div>
-
             <h1
               className="font-display font-bold text-white tracking-tight"
               style={{ fontSize: 'clamp(3rem,7vw,5rem)', lineHeight: 1.05 }}

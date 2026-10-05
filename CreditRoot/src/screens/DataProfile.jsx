@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import { TriangleAlert } from 'lucide-react'
+import { Check, Circle, TriangleAlert } from 'lucide-react'
 import LandingNavbar from './components/LandingNavbar'
 import Footer from './components/Footer'
 
@@ -20,6 +20,14 @@ export function DataProfile({ onContinuar }) {
   })
   const [error, setError] = useState(null)
   const [loading, setLoading] = useState(false)
+
+  const requirements = [
+    { id: 'length',    valid: form.password.length >= 12 },
+    { id: 'uppercase', valid: /\p{Lu}/u.test(form.password) },
+    { id: 'lowercase', valid: /\p{Ll}/u.test(form.password) },
+    { id: 'number',    valid: /\p{N}/u.test(form.password) },
+    { id: 'symbol',    valid: /[^\p{L}\p{N}]/u.test(form.password) },
+  ]
 
   function handleChange(e) {
     const { name, value } = e.target
@@ -127,6 +135,21 @@ export function DataProfile({ onContinuar }) {
                     value={form.email} onChange={handleChange} className={inputCls} />
                   <input name="password" type="password" placeholder="Contraseña*"
                     value={form.password} onChange={handleChange} className={inputCls} />
+
+                  {form.password.length > 0 && (
+                    <div className="rounded-xl border border-white/10 bg-[#1c1b1a] p-4">
+                      <p className="mb-3 text-sm font-semibold text-white">{t('changePassword.requirementsTitle')}</p>
+                      <ul className="space-y-2">
+                        {requirements.map(({ id, valid }) => (
+                          <li key={id} className={`flex items-center gap-2 text-sm ${valid ? 'text-green-400' : 'text-white/45'}`}>
+                            {valid ? <Check size={14} /> : <Circle size={12} />}
+                            <span>{t(`changePassword.requirements.${id}`)}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+
                   <input name="confirmPassword" type="password" placeholder="Confirma tu contraseña*"
                     value={form.confirmPassword} onChange={handleChange} className={inputCls} />
                 </div>

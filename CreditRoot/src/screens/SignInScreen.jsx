@@ -4,8 +4,8 @@ import { useLocation, useNavigate } from 'react-router-dom'
 import { Mail, Lock, TriangleAlert } from 'lucide-react'
 import LandingNavbar from './components/LandingNavbar'
 import Footer from './components/Footer'
-import { BrandLogo } from '../components/ui/BrandLogo'
 import { autenticarUsuario } from '../data/mockUsers'
+import logoGoogle from '../assets/Logo_Google.png'
 
 export function SignInScreen({ onVerificar, onVolver, onRegister }) {
   const { t } = useTranslation()
@@ -45,13 +45,6 @@ export function SignInScreen({ onVerificar, onVolver, onRegister }) {
 
           {/* ── Columna izquierda ── */}
           <div className="hidden lg:flex flex-col anim-fade-up-1">
-            <div className="flex items-center gap-4 mb-10">
-              <BrandLogo size="lg" />
-              <div>
-                <p className="text-white/60 text-sm font-medium leading-tight">Somos</p>
-                <p className="text-white font-display font-bold text-xl leading-tight">MañanaSeguro.</p>
-              </div>
-            </div>
             <h1
               className="font-display font-bold text-white tracking-tight"
               style={{ fontSize: 'clamp(3rem,7vw,5rem)', lineHeight: 1.05 }}
@@ -137,6 +130,19 @@ export function SignInScreen({ onVerificar, onVolver, onRegister }) {
                     ) : 'Continuar'}
                   </button>
                 </form>
+
+                {/* Divisor */}
+                <div className="flex items-center gap-3">
+                  <div className="flex-1 h-px bg-white/10" />
+                  <span className="text-xs text-white/30">o</span>
+                  <div className="flex-1 h-px bg-white/10" />
+                </div>
+
+                {/* Google */}
+                <button type="button" disabled className="w-full flex items-center justify-center gap-3 bg-white text-black font-medium py-3.5 rounded-xl border border-gray-200 cursor-not-allowed opacity-80">
+                      <img src={logoGoogle} alt="Google" className="w-5 h-5 object-contain" />
+                          Continuar con Google
+                </button>
 
                 {/* Link registro */}
                 <p className="text-sm text-white/45 text-center">

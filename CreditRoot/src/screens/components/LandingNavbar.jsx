@@ -1,12 +1,14 @@
 import { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { useDarkMode } from '../../hooks/useDarkMode'
 import logoPng from "/src/assets/LogoPng.png"
 
-function LandingNavbar({ onLogin, onRegister, onVolver, soloVolver }) {
+function LandingNavbar({ onLogin, onRegister, onVolver, soloVolver, appMode }) {
     const [scrolled, setScrolled] = useState(false)
     const { t, i18n } = useTranslation()
     const { dark, toggle } = useDarkMode()
+    const navigate = useNavigate()
 
     useEffect(() => {
         const onScroll = () => setScrolled(window.scrollY > 20)
@@ -29,7 +31,26 @@ function LandingNavbar({ onLogin, onRegister, onVolver, soloVolver }) {
                     </span>
                 </div>
 
-                {soloVolver ? (
+                {appMode ? (
+                    <div className="flex items-center gap-2">
+                        <button
+                            className="text-xs font-bold px-3 py-1.5 rounded-lg border border-white/20 text-white/70 hover:text-white hover:border-white/40 transition-all cursor-pointer"
+                            onClick={toggleLang}
+                            aria-label={t('nav.cambiarIdioma')}>
+                            {i18n.language === 'es' ? 'EN' : 'ES'}
+                        </button>
+                        <button
+                            onClick={() => navigate('/settings')}
+                            className="w-8 h-8 rounded-full flex items-center justify-center border border-white/20 text-white/70 hover:text-white hover:border-white/40 transition-all cursor-pointer"
+                            aria-label="Perfil"
+                        >
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                                <circle cx="12" cy="8" r="4" />
+                                <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7" />
+                            </svg>
+                        </button>
+                    </div>
+                ) : soloVolver ? (
                     <div className="flex items-center gap-2">
                         <button
                             className="text-xs font-bold px-3 py-1.5 rounded-lg border border-white/20 text-white/70 hover:text-white hover:border-white/40 transition-all cursor-pointer"
@@ -45,7 +66,6 @@ function LandingNavbar({ onLogin, onRegister, onVolver, soloVolver }) {
                     </div>
                 ) : (
                     <div className="flex items-center gap-2">
-                        {/* Toggle idioma — único control visible en el navbar del Landing */}
                         <button
                             className="text-xs font-bold px-3 py-1.5 rounded-lg border border-white/20 text-white/70 hover:text-white hover:border-white/40 transition-all cursor-pointer"
                             onClick={toggleLang}

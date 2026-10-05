@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import LandingNavbar from './components/LandingNavbar'
 import Footer from './components/Footer'
-import { BrandLogo } from '../components/ui/BrandLogo'
 
 // TODO: reemplazar por catálogo real (API / constantes)
 const GOALS = ['5 años', '10 años', '15 años', '20 años']
@@ -94,15 +93,6 @@ export function GoalEstablishedScreen({
 
             {/* COLUMNA IZQUIERDA */}
             <div className="flex flex-col gap-6">
-
-              {/* Logo + Somos */}
-              <div className="flex items-center gap-4">
-                <BrandLogo size="md" />
-                <div>
-                  <p className="text-white/60 text-base font-medium leading-tight">Somos</p>
-                  <p className="text-white font-display font-bold text-2xl leading-tight">Mañana<span className="text-brand">Seguro.</span></p>
-                </div>
-              </div>
 
               {/* Título */}
               <h1

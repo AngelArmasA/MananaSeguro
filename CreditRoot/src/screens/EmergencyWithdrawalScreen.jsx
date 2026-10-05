@@ -4,7 +4,6 @@ import { Check, ChevronDown } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
 import LandingNavbar from './components/LandingNavbar'
 import Footer from './components/Footer'
-import { BrandLogo } from '../components/ui/BrandLogo'
 
 const monthOptions = [12, 18, 24, 36]
 
@@ -35,18 +34,12 @@ export function EmergencyWithdrawalScreen() {
     <div className="bg-bg min-h-screen flex flex-col text-white">
       <LandingNavbar soloVolver onVolver={() => navigate('/main')} />
 
-      <main className="flex-1 px-4 py-10 sm:px-6 lg:px-8">
-        <div className="mx-auto w-full max-w-[1380px]">
-          <div className="grid items-start gap-8 lg:grid-cols-[1.08fr_0.92fr] lg:gap-12 xl:gap-16">
-            <section className="w-full max-w-[560px]">
-              <div className="mb-8 flex items-center gap-4">
-                <BrandLogo size="lg" />
-                <div>
-                  <p className="text-white/60 text-base font-medium leading-tight">Somos</p>
-                  <p className="text-white font-display font-bold text-2xl leading-tight">Mañana<span className="text-brand">Seguro.</span></p>
-                </div>
-              </div>
+      <main className="flex-1 px-4 py-10 sm:px-6 lg:px-12">
+        <div className="mx-auto w-full max-w-6xl">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-start">
 
+            {/* IZQUIERDA */}
+            <div className="flex flex-col gap-5 lg:gap-8">
               <h1
                 className="font-display font-bold text-white tracking-tight leading-[1.05]"
                 style={{ fontSize: 'clamp(3rem,6vw,5rem)' }}
@@ -54,9 +47,13 @@ export function EmergencyWithdrawalScreen() {
                 {t('emergencyWithdrawal.title')}
                 <em className="text-brand not-italic block">{t('emergencyWithdrawal.titleAccent')}</em>
               </h1>
-            </section>
+              <p className="text-sm text-white/60 leading-relaxed max-w-md">
+                Estamos contigo en los momentos imprevistos. Solicita tu retiro de forma rápida y segura, y ajusta tus pagos mensuales según tus posibilidades.
+              </p>
+            </div>
 
-            <section className="w-full max-w-[560px]">
+            {/* DERECHA */}
+            <div className="w-full">
               <div className="bg-card border border-white/10 rounded-3xl p-5 sm:p-6 shadow-2xl shadow-black/80">
                 <div className="mb-5 flex items-center justify-between gap-3 text-[#d8d0ca]">
                   <span className="text-[0.96rem] font-medium">{t('emergencyWithdrawal.accountLabel')}</span>
@@ -163,7 +160,8 @@ export function EmergencyWithdrawalScreen() {
                   )}
                 </form>
               </div>
-            </section>
+            </div>
+
           </div>
         </div>
       </main>

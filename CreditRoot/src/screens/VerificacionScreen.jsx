@@ -4,7 +4,6 @@ import { useTranslation } from 'react-i18next'
 import { XCircle } from 'lucide-react'
 import LandingNavbar from './components/LandingNavbar'
 import Footer from './components/Footer'
-import { BrandLogo } from '../components/ui/BrandLogo'
 import { OtpInput } from '../components/ui/OtpInput'
 import { verifyCode } from '../lib/auth.mock'
 
@@ -73,13 +72,6 @@ export function VerificacionScreen({ identificador, onAuth, onVolver, guardarSes
 
           {/* ── Columna izquierda ── */}
           <div className="hidden lg:flex flex-col anim-fade-up-1">
-            <div className="flex items-center gap-4 mb-10">
-              <BrandLogo size="lg" />
-              <div>
-                <p className="text-white/60 text-sm font-medium leading-tight">Somos</p>
-                <p className="text-white font-display font-bold text-xl leading-tight">MañanaSeguro.</p>
-              </div>
-            </div>
             <h1
               className="font-display font-bold text-white tracking-tight mb-6"
               style={{ fontSize: 'clamp(3rem,7vw,5rem)', lineHeight: 1.05 }}

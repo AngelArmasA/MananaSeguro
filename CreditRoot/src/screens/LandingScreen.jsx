@@ -94,7 +94,7 @@ export function LandingScreen({ onLogin, onRegister }) {
 
       <TresPasos />
       <CtaFinal onRegister={onRegister} onLogin={onLogin} />
-      <Footer />
+      <Footer dark />
     </div>
   )
 }
