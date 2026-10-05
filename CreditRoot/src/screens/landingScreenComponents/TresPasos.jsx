@@ -2,7 +2,6 @@ import { useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { AtSign, DollarSign, TrendingUp } from 'lucide-react'
 import { useScrollReveal } from '../../hooks/useScrollReveal'
-import { Card } from '../../components/ui/Card'
 
 const STEP_ICONS = [AtSign, DollarSign, TrendingUp]
 
@@ -39,13 +38,9 @@ function TresPasos() {
           {pasos.map((p, i) => {
             const Icon = STEP_ICONS[i]
             return (
-              <Card
+              <div
                 key={p.num}
-                variant="flat"
-                padding="lg"
-                rounded="2xl"
-                className={`relative overflow-hidden transition-all duration-500
-                  bg-[#1a1814] border-white/10
+                className={`relative overflow-hidden rounded-2xl p-7 lg:p-8 bg-[#1a1814] border border-white/10 transition-all duration-500
                   ${visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}
                 style={{ transitionDelay: `${i * 120}ms` }}
               >
@@ -74,7 +69,7 @@ function TresPasos() {
                 <p className="text-sm text-white/55 leading-relaxed relative">
                   {p.desc}
                 </p>
-              </Card>
+              </div>
             )
           })}
         </div>

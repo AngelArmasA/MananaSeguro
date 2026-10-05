@@ -31,7 +31,7 @@ export function SettingsScreen({ usuario, onLogout, onAction }) {
   const [selectedAction, setSelectedAction] = useState(null)
   const firstName = usuario?.nombre?.trim() || t('settings.namePlaceholder')
   const lastNames = [usuario?.apellidoPaterno, usuario?.apellidoMaterno].filter(Boolean).join(' ')
-  const displayName = `${firstName} ${lastNames || t('settings.lastNamePlaceholder')}`
+  const displayName = lastNames ? `${firstName} ${lastNames}` : firstName
 
   function handleAction(actionId) {
     setSelectedAction(actionId)

@@ -43,11 +43,14 @@ function HistorialItem({ item }) {
   )
 }
 
-function PromoCard({ children }) {
+function PromoCard({ children, onKnowMore }) {
   return (
     <div className={`${cardCls} p-5 flex flex-col items-center text-center gap-1.5`}>
       {children}
-      <button className="mt-2 flex items-center gap-1.5 bg-brand hover:bg-brand-dark rounded-md px-3 py-1.5 text-xs font-semibold text-white transition-all cursor-pointer">
+      <button
+        onClick={onKnowMore}
+        className="mt-2 flex items-center gap-1.5 bg-brand hover:bg-brand-dark rounded-md px-3 py-1.5 text-xs font-semibold text-white transition-all cursor-pointer"
+      >
         <ExternalLink size={12} />
         Conoce más
       </button>
@@ -183,6 +186,12 @@ export function MainScreen({ usuario, onLogout }) {
                   {mxnFmt.format(u.totalEstimadoMXN)} MXN
                 </p>
               </div>
+              <button
+                onClick={() => navigate('/goal')}
+                className="mt-2 w-full flex items-center justify-center gap-1.5 bg-white/8 hover:bg-white/12 rounded-lg px-3 py-2 text-xs font-semibold text-white/70 hover:text-white transition-all cursor-pointer"
+              >
+                Saber más
+              </button>
             </div>
 
             {/* Meses */}
@@ -206,7 +215,7 @@ export function MainScreen({ usuario, onLogout }) {
 
         {/* Fila 3: Promo cards */}
         <div className="grid lg:grid-cols-2 gap-3">
-          <PromoCard>
+          <PromoCard onKnowMore={() => navigate('/incentives')}>
             <p className="text-white/60 text-sm">Recibe hasta el</p>
             <p className="font-display font-bold text-brand leading-none" style={{ fontSize: '2.8rem' }}>5%</p>
             <p className="text-white/60 text-sm leading-relaxed">
@@ -215,7 +224,7 @@ export function MainScreen({ usuario, onLogout }) {
             </p>
           </PromoCard>
 
-          <PromoCard>
+          <PromoCard onKnowMore={() => navigate('/emergency')}>
             <p className="text-white/60 text-sm">¿Tienes una emergencia?</p>
             <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="#e37310" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
               <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>

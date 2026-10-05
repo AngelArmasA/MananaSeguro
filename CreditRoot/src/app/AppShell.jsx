@@ -1,16 +1,11 @@
 // src/app/AppShell.jsx
 import { useEffect, useState } from 'react'
 import { Routes, Route, Navigate, useNavigate } from 'react-router-dom'
-import { AppHeader } from '../components/layout/AppHeader'
-import { AppFooter } from '../components/layout/AppFooter'
 import { LandingScreen } from '../screens/LandingScreen'
 import { AuthScreen } from '../screens/AuthScreen'
 import { SignInScreen } from '../screens/SignInScreen'
 import { VerificacionScreen } from '../screens/VerificacionScreen'
 import { MainScreen } from '../screens/MainScreen'
-import { HomeScreen } from '../screens/HomeScreen'
-import { DashboardScreen } from '../screens/DashboardScreen'
-import { WithdrawalScreen } from '../screens/WithdrawalScreen'
 import { PerfilMetaScreen } from '../screens/PerfilMetaScreen'
 import { GoalEstablishedScreen } from '../screens/GoalEstablishedScreen'
 import { IncentivesScreen } from '../screens/IncentivesScreen'
@@ -23,26 +18,6 @@ import { DataProfile } from '../screens/DataProfile'
 import { DataAccount } from '../screens/DataAccount'
 import { DepositsScreen } from '../screens/DepositsScreen'
 import { ErrorBoundary } from '../components/ErrorBoundary'
-
-function AppLayout({ usuario, onLogout }) {
-  return (
-    <div className="bg-surface dark:bg-[#0f0e0d] min-h-screen">
-      <AppHeader usuario={usuario} onLogout={onLogout} />
-      <main>
-        <ErrorBoundary>
-          <Routes>
-            <Route path="/home"       element={<HomeScreen usuario={usuario} />} />
-            <Route path="/dashboard"  element={<DashboardScreen />} />
-            <Route path="/withdrawal" element={<WithdrawalScreen />} />
-            <Route path="/planner"    element={<Navigate to="/dashboard" replace />} />
-            <Route path="*"           element={<Navigate to="/home" replace />} />
-          </Routes>
-        </ErrorBoundary>
-      </main>
-      <AppFooter />
-    </div>
-  )
-}
 
 export function AppShell() {
   const navigate = useNavigate()
@@ -170,6 +145,21 @@ export function AppShell() {
       <Route path="/settings" element={
         estaAutenticado
           ? <SettingsScreen usuario={usuario} onLogout={handleLogout} />
+          : <Navigate to="/signin" replace />
+      } />
+      <Route path="/emergency" element={
+        estaAutenticado
+          ? <EmergencyWithdrawalScreen usuario={usuario} />
+          : <Navigate to="/signin" replace />
+      } />
+      <Route path="/incentives" element={
+        estaAutenticado
+          ? <IncentivesScreen usuario={usuario} />
+          : <Navigate to="/signin" replace />
+      } />
+      <Route path="/goal" element={
+        estaAutenticado
+          ? <GoalEstablishedScreen />
           : <Navigate to="/signin" replace />
       } />
       <Route path="/*" element={
