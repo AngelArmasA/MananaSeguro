@@ -23,7 +23,7 @@ const mxnFmt = new Intl.NumberFormat('es-MX', {
   minimumFractionDigits: 2,
 })
 
-export function DepositsScreen({ usuario, onLogout }) {
+export function DepositsScreen() {
   const navigate = useNavigate()
   const [copiado, setCopiado] = useState(false)
 

@@ -1,6 +1,5 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { useTranslation } from 'react-i18next'
 import LandingNavbar from './components/LandingNavbar'
 import Footer from './components/Footer'
 
@@ -66,7 +65,6 @@ const INITIAL = {
 
 export function DataAccount() {
   const navigate = useNavigate()
-  const { t } = useTranslation()
   const [form, setForm] = useState(INITIAL)
 
   const handleChange = (e) => {

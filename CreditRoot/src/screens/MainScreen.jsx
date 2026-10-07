@@ -1,4 +1,3 @@
-import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 import { ArrowUpRight, ArrowDownLeft, ExternalLink, Flame } from 'lucide-react'
 import { BrandLogo } from '../components/ui/BrandLogo'
@@ -58,7 +57,7 @@ function PromoCard({ children, onKnowMore }) {
 
 // ── MainScreen ───────────────────────────────────────────────────────────────
 
-export function MainScreen({ usuario, onLogout }) {
+export function MainScreen({ usuario }) {
   const navigate = useNavigate()
   const u = {
     saldoMXN: 0,

@@ -1,5 +1,4 @@
 import { useState } from 'react'
-import { useTranslation } from 'react-i18next'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { Mail, Lock, TriangleAlert } from 'lucide-react'
 import LandingNavbar from './components/LandingNavbar'
@@ -8,7 +7,6 @@ import { autenticarUsuario } from '../data/mockUsers'
 import logoGoogle from '../assets/Logo_Google.png'
 
 export function SignInScreen({ onVerificar, onVolver, onRegister }) {
-  const { t } = useTranslation()
   const navigate = useNavigate()
   const location = useLocation()
   const cuentaCreada = location.state?.cuentaCreada ?? false

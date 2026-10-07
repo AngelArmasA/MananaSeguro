@@ -4,10 +4,12 @@ import { useTranslation } from 'react-i18next'
 import { useDarkMode } from '../../hooks/useDarkMode'
 import logoPng from "/src/assets/LogoPng.png"
 
-function LandingNavbar({ onLogin, onRegister, onVolver, soloVolver, appMode }) {
+// onLogin y onRegister: reservadas para el flujo de auth del Landing (aún no implementado en navbar)
+function LandingNavbar({ onVolver, soloVolver, appMode }) {
     const [scrolled, setScrolled] = useState(false)
     const { t, i18n } = useTranslation()
-    const { dark, toggle } = useDarkMode()
+    // _dark y _toggle: dark mode pendiente de implementar en navbar
+    const { dark: _dark, toggle: _toggle } = useDarkMode()
     const navigate = useNavigate()
 
     useEffect(() => {

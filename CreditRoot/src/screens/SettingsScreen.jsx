@@ -1,4 +1,3 @@
-import { useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import {
@@ -28,13 +27,11 @@ export function SettingsScreen({ usuario, onLogout, onAction }) {
   const { t } = useTranslation()
   const navigate = useNavigate()
   const location = useLocation()
-  const [selectedAction, setSelectedAction] = useState(null)
   const firstName = usuario?.nombre?.trim() || t('settings.namePlaceholder')
   const lastNames = [usuario?.apellidoPaterno, usuario?.apellidoMaterno].filter(Boolean).join(' ')
   const displayName = lastNames ? `${firstName} ${lastNames}` : firstName
 
   function handleAction(actionId) {
-    setSelectedAction(actionId)
     onAction?.(actionId)
     if (actionId === 'profile') { navigate('/profile-info'); return }
     if (actionId === 'privacy') { navigate('/change-password', { state: { from: '/settings' } }); return }
