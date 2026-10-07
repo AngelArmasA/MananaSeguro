@@ -20,12 +20,12 @@
     "badge": "Ahorro para retiro · CETES · México",
     "titulo": "Tu retiro,",
     "tituloAccent": "en tus manos.",
-    "descripcion": "Ahorra desde $40 pesos al mes con rendimiento real de CETES. Transfiere desde tu banco — igual que pagas cualquier servicio.",
+    "descripcion": "Ahorra desde $40 pesos al mes con rendimiento real de CETES. Transfiere desde tu banco, igual que pagas cualquier servicio.",
     "puntos": {
       "apy": "~{{apy}}% APY neto (tasa CETES real vía Etherfuse)",
       "fondos": "Tu dinero genera rendimiento real — nadie puede tocarlo",
       "prestamo": "Autopréstamo de emergencia hasta 30% sin romper tu ahorro",
-      "spei": "Deposita desde tu banco con SPEI — sin crypto, sin instalaciones"
+      "spei": "Deposita desde tu banco con SPEI, sin crypto, sin instalaciones"
     },
     "comenzar": "Comenzar ahora →",
     "yaTengo": "Ya tengo cuenta",
@@ -54,7 +54,7 @@
       "titulo": "Tu retiro empieza",
       "tituloAccent": "hoy mismo.",
       "descripcion": "Sin banco, sin intermediarios. El contrato Soroban garantiza que tus fondos están seguros y generando rendimiento real.",
-      "crear": "Crear cuenta gratis →",
+      "crear": "Crear cuenta gratis",
       "yaTengo": "Ya tengo cuenta",
       "trust": "Sin tarjeta de crédito · 100% on-chain"
     },
@@ -72,17 +72,19 @@
   "calc": {
     "proyeccion": "Proyección a {{anios}} años",
     "apy": "MXN · a {{apy}}% APY neto",
-    "tasaVivo": "Tasa CETES en vivo · {{rate}}% bruto",
-    "tasaRef": "Tasa referencial · {{rate}}%",
+    "tasaVivo": "Tasa de referencia {{rate}}%",
+    "tasaRef": "Tasa de referencia {{rate}}%",
     "cargando": "Cargando tasa...",
     "aporteLabel": "Ahorro mensual",
     "tiempoLabel": "Tiempo de ahorro",
-    "empezar": "Empezar a ahorrar →",
+    "empezar": "Crear una cuenta",
     "aniosSufijo": "años",
     "min": "1 año",
     "max": "40 años",
     "apyMxn": "Pesos mexicanos · a {{apy}}% APY neto",
-    "mascotaAlt": "Mascota Mañana Seguro"
+    "mascotaAlt": "Mascota Mañana Seguro",
+    "yaTienesCuenta": "¿Ya tienes cuenta?",
+    "iniciarSesion": "Iniciar sesión"
   },
   "auth": {
     "badge": "Tu retiro, en tus manos",
@@ -202,8 +204,8 @@
     "avatarAlt": "Avatar de perfil de Mañana Seguro",
     "namePlaceholder": "[Nombre]",
     "lastNamePlaceholder": "[Apellido]",
-    "title": "Retiro de",
-    "titleAccent": "emergencia",
+    "title": "Tu",
+    "titleAccent": "Perfil",
     "signOutLabel": "Cerrar sesión",
     "signOut": "Cerrar mi sesión actual",
     "menuTitle": "Configuración",
@@ -819,6 +821,21 @@
     "errorCrear": "Error al crear la meta",
     "minimoInline": "Mínimo ${{min}} MXN",
     "nombreDefault": "Retiro Principal"
+  },
+  "verificacion": {
+    "tituloIzq": "Verificación",
+    "descIzq": "Confirma tu identidad con el código de un solo uso que enviamos a tu dispositivo.",
+    "titulo": "Código de verificación",
+    "subtitulo": "Código de un solo uso · duración 3 minutos",
+    "instruccion": "Enviamos un código de 5 dígitos a tu {{medio}}, ingrésalo debajo para acceder.",
+    "medio": "número de teléfono",
+    "acceder": "Acceder",
+    "verificando": "Verificando...",
+    "reenviarEn": "Solicitar otro código en {{tiempo}} segundos",
+    "solicitarOtro": "Solicitar otro código",
+    "errorTitulo": "Error: datos incorrectos",
+    "errorCodigo": "El código ingresado no es válido. Verifica e intenta de nuevo.",
+    "regresar": "Regresar"
   },
   "errorBoundary": {
     "titulo": "Algo salió mal",

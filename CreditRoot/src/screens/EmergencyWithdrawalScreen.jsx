@@ -1,9 +1,9 @@
 import { useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { ArrowLeft, Check, ChevronDown } from 'lucide-react'
+import { Check, ChevronDown } from 'lucide-react'
+import { useNavigate } from 'react-router-dom'
 import LandingNavbar from './components/LandingNavbar'
 import Footer from './components/Footer'
-import brandLogo from '../assets/LOGO_MS.png'
 
 const monthOptions = [12, 18, 24, 36]
 
@@ -28,56 +28,57 @@ export function EmergencyWithdrawalScreen() {
     setRequestReady(true)
   }
 
+  const navigate = useNavigate()
+
   return (
-    <div className="flex min-h-screen flex-col bg-[#12100f] text-[#f5efe9]">
-      <LandingNavbar compactRegister />
+    <div className="bg-bg min-h-screen flex flex-col text-white">
+      <LandingNavbar soloVolver onVolver={() => navigate('/main')} />
 
-      <main className="flex flex-1 items-center justify-center px-4 py-8 sm:px-6 lg:px-8">
-        <div className="mx-auto w-full max-w-[1380px]">
-          <div className="grid items-center gap-8 lg:grid-cols-[1.08fr_0.92fr] lg:gap-12 xl:gap-16">
-            <section className="w-full max-w-[560px]">
-              <div className="mb-8 flex items-center gap-3">
-                <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-[22px] bg-[#e4741d] shadow-[0_10px_24px_rgba(228,116,29,0.35)]">
-                  <img src={brandLogo} alt="" className="h-10 w-10 object-contain" />
-                </div>
-                <div className="text-[2rem] font-black leading-none tracking-[-0.06em] text-[#f5efe8] sm:text-[2.6rem]">
-                  {t('emergencyWithdrawal.brand')}{' '}
-                  <span className="text-[#e4741d]">{t('emergencyWithdrawal.brandAccent')}</span>
-                </div>
-              </div>
+      <main className="flex-1 px-4 py-10 sm:px-6 lg:px-12">
+        <div className="mx-auto w-full max-w-6xl">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-start">
 
-              <h1 className="text-[3.1rem] font-black leading-[0.9] tracking-[-0.08em] text-[#f8f3ee] sm:text-[4.3rem] lg:text-[5.6rem]">
+            {/* IZQUIERDA */}
+            <div className="flex flex-col gap-5 lg:gap-8">
+              <h1
+                className="font-display font-bold text-white tracking-tight leading-[1.05]"
+                style={{ fontSize: 'clamp(3rem,6vw,5rem)' }}
+              >
                 {t('emergencyWithdrawal.title')}
-                <span className="mt-2 block text-[#e4741d]">{t('emergencyWithdrawal.titleAccent')}</span>
+                <em className="text-brand not-italic block">{t('emergencyWithdrawal.titleAccent')}</em>
               </h1>
-            </section>
+              <p className="text-sm text-white/60 leading-relaxed max-w-md">
+                Estamos contigo en los momentos imprevistos. Solicita tu retiro de forma rápida y segura, y ajusta tus pagos mensuales según tus posibilidades.
+              </p>
+            </div>
 
-            <section className="w-full max-w-[560px]">
-              <div className="rounded-[20px] border border-[#3b3634] bg-[#171513]/90 p-5 shadow-[0_0_0_1px_rgba(255,255,255,0.02)] sm:p-6">
+            {/* DERECHA */}
+            <div className="w-full">
+              <div className="bg-card border border-white/10 rounded-3xl p-5 sm:p-6 shadow-2xl shadow-black/80">
                 <div className="mb-5 flex items-center justify-between gap-3 text-[#d8d0ca]">
                   <span className="text-[0.96rem] font-medium">{t('emergencyWithdrawal.accountLabel')}</span>
                   <button
                     type="button"
-                    className="rounded-full border border-[#4f4945] bg-[#1f1d1b] px-3 py-1 text-xs font-semibold text-[#d8d0ca] transition hover:border-[#6a625d] hover:text-white"
+                    className="rounded-full border border-white/20 bg-white/5 px-3 py-1 text-xs font-semibold text-white/70 transition hover:border-white/40 hover:text-white"
                     onClick={() => setRequestReady(false)}
                   >
                     {t('emergencyWithdrawal.availableLabel')}
                   </button>
                 </div>
 
-                <div className="rounded-[16px] bg-[#1f1d1b] p-4">
-                  <div className="text-[1.1rem] font-medium text-[#d8d0ca]">{t('emergencyWithdrawal.accountLabel')}</div>
-                  <div className="mt-3 text-[2.4rem] font-black leading-none tracking-[-0.06em] text-[#f5efe8] sm:text-[3.4rem]">
+                <div className="rounded-2xl bg-white/5 p-4">
+                  <div className="text-sm font-medium text-white/50">{t('emergencyWithdrawal.accountLabel')}</div>
+                  <div className="mt-3 font-display font-bold text-white leading-none" style={{ fontSize: 'clamp(2rem,4vw,3rem)' }}>
                     {formattedAmount}
                   </div>
-                  <div className="mt-4 text-[0.9rem] text-[#d5c9c0]">{t('emergencyWithdrawal.rateLabel')} 4.59%</div>
+                  <div className="mt-4 text-sm text-white/40">{t('emergencyWithdrawal.rateLabel')} <span className="text-brand font-semibold">4.59%</span></div>
                 </div>
 
-                <div className="mt-4 rounded-[16px] border border-[#332f2d] bg-[#171513]/80 p-4 text-[#d7cec7]">
-                  <div className="text-[1.1rem] leading-relaxed text-[#d7cec7]">
+                <div className="mt-4 rounded-2xl border border-white/8 bg-white/3 p-4">
+                  <div className="text-sm leading-relaxed text-white/50">
                     {t('emergencyWithdrawal.availableExplanation')}
                   </div>
-                  <div className="mt-5 text-[2.2rem] font-black leading-none tracking-[-0.06em] text-[#f5efe8] sm:text-[3rem]">
+                  <div className="mt-5 font-display font-bold text-white leading-none" style={{ fontSize: 'clamp(1.8rem,3.5vw,2.6rem)' }}>
                     ${new Intl.NumberFormat('en-US', { maximumFractionDigits: 0 }).format(1200000)}
                   </div>
                 </div>
@@ -87,8 +88,8 @@ export function EmergencyWithdrawalScreen() {
                     <label className="mb-2 block text-[0.96rem] font-medium text-[#f1e9e3]">
                       {t('emergencyWithdrawal.stepOne')}
                     </label>
-                    <div className="flex items-center overflow-hidden rounded-xl border border-[#4a4541] bg-[#272422]">
-                      <span className="flex items-center justify-center border-r border-[#4a4541] bg-[#201e1d] px-4 py-3.5 text-xl font-medium text-[#f1e9e3]">
+                    <div className="flex items-center overflow-hidden rounded-xl border border-white/15 bg-white/5">
+                      <span className="flex items-center justify-center border-r border-white/15 bg-white/5 px-4 py-3.5 text-xl font-medium text-white/70">
                         $
                       </span>
                       <input
@@ -97,12 +98,12 @@ export function EmergencyWithdrawalScreen() {
                         step="1000"
                         value={amount}
                         onChange={(event) => setAmount(event.target.value)}
-                        className="w-full bg-transparent px-4 py-3.5 text-lg text-[#f5efe8] outline-none placeholder:text-[#b7ada2]"
+                        className="w-full bg-transparent px-4 py-3.5 text-lg text-white outline-none placeholder:text-white/30"
                         placeholder="0"
                         aria-label={t('emergencyWithdrawal.stepOne')}
                       />
                     </div>
-                    <div className="mt-3 text-[0.94rem] text-[#d7cdc5]">{t('emergencyWithdrawal.disposable')}</div>
+                    <div className="mt-3 text-sm text-white/40">{t('emergencyWithdrawal.disposable')}</div>
                   </div>
 
                   <div>
@@ -113,7 +114,7 @@ export function EmergencyWithdrawalScreen() {
                       <select
                         value={selectedMonths}
                         onChange={(event) => setSelectedMonths(Number(event.target.value))}
-                        className="w-full appearance-none rounded-xl border border-[#4a4541] bg-[#272422] px-4 py-3.5 pr-12 text-lg text-[#f5efe8] outline-none transition focus:border-[#d98a37] focus:ring-2 focus:ring-[#d98a37]/20"
+                        className="w-full appearance-none rounded-xl border border-white/15 bg-white/5 px-4 py-3.5 pr-12 text-lg text-white outline-none transition focus:border-brand focus:ring-2 focus:ring-brand/20"
                         aria-label={t('emergencyWithdrawal.stepTwo')}
                       >
                         {monthOptions.map((months) => (
@@ -124,12 +125,12 @@ export function EmergencyWithdrawalScreen() {
                       </select>
                       <ChevronDown className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-[#d7cdc5]" size={18} />
                     </div>
-                    <div className="mt-3 text-[0.78rem] text-[#b8ada4]">
+                    <div className="mt-3 text-xs text-white/40">
                       {t('emergencyWithdrawal.termDetails')}
                     </div>
                   </div>
 
-                  <label className="flex items-start gap-3 rounded-xl border border-[#443e3a] bg-[#1d1b1a] px-3 py-3 text-sm text-[#f0e7de]">
+                  <label className="flex items-start gap-3 rounded-xl border border-white/10 bg-white/5 px-3 py-3 text-sm text-white">
                     <input
                       type="checkbox"
                       checked={termsAccepted}
@@ -137,34 +138,35 @@ export function EmergencyWithdrawalScreen() {
                       className="mt-0.5 h-4 w-4 accent-[#e4741d]"
                       aria-label={t('emergencyWithdrawal.terms')}
                     />
-                    <span className="leading-relaxed text-[#f0e7de] opacity-85">{t('emergencyWithdrawal.terms')}</span>
+                    <span className="leading-relaxed text-white/80">{t('emergencyWithdrawal.terms')}</span>
                   </label>
 
                   <button
                     type="submit"
-                    className="mt-1 w-full rounded-xl bg-[#e4741d] px-4 py-3.5 text-base font-semibold text-white shadow-[0_12px_24px_rgba(228,116,29,0.28)] transition hover:bg-[#d56a1a] disabled:cursor-not-allowed disabled:opacity-60"
+                    className="mt-1 w-full rounded-xl bg-brand hover:bg-brand-dark px-4 py-3.5 text-base font-semibold text-white shadow-lg shadow-brand/30 transition hover:-translate-y-px active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-60"
                     disabled={!amount || !termsAccepted}
                   >
                     {t('emergencyWithdrawal.submit')}
                   </button>
 
                   {requestReady && (
-                    <div className="rounded-xl border border-[#3d7a48] bg-[#1f2e24] px-3 py-3 text-sm text-[#dff6e6]">
+                    <div className="rounded-xl border border-green-800/50 bg-green-950/40 px-3 py-3 text-sm text-green-300">
                       <div className="mb-1 flex items-center gap-2 font-semibold">
                         <Check size={16} />
                         {t('emergencyWithdrawal.statusLabel')}
                       </div>
-                      <div className="text-[#dff6e6]/80">{t('emergencyWithdrawal.statusMessage')}</div>
+                      <div className="text-green-300/70">{t('emergencyWithdrawal.statusMessage')}</div>
                     </div>
                   )}
                 </form>
               </div>
-            </section>
+            </div>
+
           </div>
         </div>
       </main>
 
-      <Footer />
+      <Footer dark />
     </div>
   )
 }
