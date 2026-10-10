@@ -91,7 +91,7 @@ export function AppShell() {
       <Route path="/register" element={
         estaAutenticado
           ? <Navigate to="/home" replace />
-          : <AuthScreen initialStep="registro" onAuth={handleAuth} onVolver={() => navigate('/')} />
+          : <AuthScreen initialStep="registro" onAuth={handleAuth} onVolver={() => navigate('/')} onLogin={() => navigate('/login')} />
       } />
       <Route path="/quick-connect" element={<QuickConnectScreen />} />
       <Route path="/change-password" element={<ChangePasswordScreen />} />

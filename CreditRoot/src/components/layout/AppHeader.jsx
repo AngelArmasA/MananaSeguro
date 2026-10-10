@@ -5,7 +5,7 @@ import { Sun, Moon } from 'lucide-react'
 import { useDarkMode } from '../../hooks/useDarkMode'
 import { navigationItems } from '../../app/navigation'
 import { useEtherfuseRate } from '../../hooks/useEtherfuseRate'
-import logoCompleto from '../../assets/LOGO_MS.png'
+import logoCompleto from '../../assets/LOGO_MS_orange.png'
 
 export function AppHeader({ usuario, onLogout }) {
   const { userRate, isLive } = useEtherfuseRate()
@@ -32,7 +32,7 @@ export function AppHeader({ usuario, onLogout }) {
           {/* Logo */}
           <div className="flex items-center gap-2 cursor-pointer" onClick={() => navigate('/home')}>
             <img src={logoCompleto} alt={t('nav.logoAlt')} className="h-8 w-auto rounded-lg" />
-            <span className="font-display font-bold text-xl text-ink dark:text-white tracking-tight">
+            <span className="font-display font-bold text-xl text-white tracking-tight">
               {t('nav.marca')} <span className="text-brand">{t('nav.marcaAccent')}</span>
             </span>
           </div>

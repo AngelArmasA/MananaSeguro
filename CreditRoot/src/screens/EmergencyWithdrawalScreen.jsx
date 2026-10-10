@@ -1,9 +1,8 @@
 import { useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { ArrowLeft, Check, ChevronDown } from 'lucide-react'
+import { Check, ChevronDown } from 'lucide-react'
 import LandingNavbar from './components/LandingNavbar'
 import Footer from './components/Footer'
-import brandLogo from '../assets/LOGO_MS.png'
 
 const monthOptions = [12, 18, 24, 36]
 
@@ -36,16 +35,6 @@ export function EmergencyWithdrawalScreen() {
         <div className="mx-auto w-full max-w-[1380px]">
           <div className="grid items-center gap-8 lg:grid-cols-[1.08fr_0.92fr] lg:gap-12 xl:gap-16">
             <section className="w-full max-w-[560px]">
-              <div className="mb-8 flex items-center gap-3">
-                <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-[22px] bg-[#e4741d] shadow-[0_10px_24px_rgba(228,116,29,0.35)]">
-                  <img src={brandLogo} alt="" className="h-10 w-10 object-contain" />
-                </div>
-                <div className="text-[2rem] font-black leading-none tracking-[-0.06em] text-[#f5efe8] sm:text-[2.6rem]">
-                  {t('emergencyWithdrawal.brand')}{' '}
-                  <span className="text-[#e4741d]">{t('emergencyWithdrawal.brandAccent')}</span>
-                </div>
-              </div>
-
               <h1 className="text-[3.1rem] font-black leading-[0.9] tracking-[-0.08em] text-[#f8f3ee] sm:text-[4.3rem] lg:text-[5.6rem]">
                 {t('emergencyWithdrawal.title')}
                 <span className="mt-2 block text-[#e4741d]">{t('emergencyWithdrawal.titleAccent')}</span>

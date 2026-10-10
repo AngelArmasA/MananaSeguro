@@ -1,7 +1,7 @@
 import { useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import ardilla from '../../assets/Ardilla_vector.png'
-import logo from '../../assets/LOGO_MS.png'
+import logo from '../../assets/LOGO_MS_orange.png'
 import { useScrollReveal } from '../../hooks/useScrollReveal'
 
 function CtaFinal({ onRegister, onLogin }) {

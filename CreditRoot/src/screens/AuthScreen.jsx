@@ -9,7 +9,7 @@ import ardilla from '../assets/Ardilla_vector.png'
 
 const GOOGLE_CLIENT_ID = import.meta.env.VITE_GOOGLE_CLIENT_ID
 
-export function AuthScreen({ onAuth, onVolver, initialStep = 'inicio' }) {
+export function AuthScreen({ onAuth, onVolver, onLogin, initialStep = 'inicio' }) {
   const { t, i18n } = useTranslation()
   const [paso, setPaso] = useState(initialStep)
   const [formRegistro, setFormRegistro] = useState({
@@ -171,7 +171,7 @@ export function AuthScreen({ onAuth, onVolver, initialStep = 'inicio' }) {
   return (
     <div className="bg-[#12100f] min-h-screen overflow-x-hidden text-[#f5efe9]">
       {paso === 'registro' ? (
-        <LandingNavbar compactRegister />
+        <LandingNavbar compactRegister onLogin={onLogin} />
       ) : (
         <LandingNavbar soloVolver onVolver={onVolver} />
       )}
@@ -179,13 +179,7 @@ export function AuthScreen({ onAuth, onVolver, initialStep = 'inicio' }) {
       {paso === 'registro' ? (
         <div className="min-h-screen bg-[#12100f] text-[#f0efe9]">
           <div className="mx-auto max-w-[1380px] px-4 pt-4 sm:px-6 lg:px-8">
-            <div className="flex items-center gap-3 px-2 py-2 text-[#f2efe8]">
-              <span className="text-[2.2rem] font-black tracking-[-0.04em] text-[#f3ecdf] sm:text-[2.5rem]">
-                {t('nav.marca')} {t('nav.marcaAccent')}
-              </span>
-            </div>
-
-            <div className="grid gap-10 pt-4 pb-10 lg:grid-cols-[1.08fr_0.92fr] lg:gap-12 lg:pt-8">
+            <div className="grid gap-10 pb-10 lg:grid-cols-[1.08fr_0.92fr] lg:gap-12 lg:pt-8">
               <section className="px-2 pb-2 pt-1 lg:pt-10">
                 <h1 className="font-display text-[3.2rem] font-black leading-[0.9] tracking-[-0.07em] text-[#f3ecdf] sm:text-[4rem] lg:text-[6.2rem]">
                   {t('auth.registro.tituloDatos')}
@@ -221,15 +215,20 @@ export function AuthScreen({ onAuth, onVolver, initialStep = 'inicio' }) {
 
               <section className="flex justify-center lg:justify-end lg:pr-2">
                 <div className="w-full max-w-[540px] rounded-[18px] border border-[#3f3a38] bg-[#1e1c1b]/90 p-5 shadow-[0_0_0_1px_rgba(255,255,255,0.03)] backdrop-blur-sm sm:p-6 lg:p-7">
-                  <h3 className="font-display text-[2.2rem] font-black leading-none tracking-[-0.04em] text-[#f3efe8] sm:text-[2.6rem]">
+                  <h3 className="font-display text-[2rem] font-semibold leading-tight text-[#f3efe8] sm:text-[2.2rem]">
                     {t('auth.registro.tituloFormulario')}
                   </h3>
 
                   <form onSubmit={handleSubmitRegistro} className="mt-6 space-y-3.5">
                     {error && (
-                      <div className="rounded-xl border border-red-500/40 bg-red-500/10 px-3 py-2 text-sm text-red-200">
-                        <TriangleAlert size={16} className="mr-2 inline shrink-0" aria-hidden="true" />
-                        {error}
+                      <div role="alert" className="flex items-center gap-3 rounded-xl border border-red-400/20 bg-[#281a1b] px-3 py-3 sm:px-4">
+                        <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-red-500/15 text-red-400">
+                          <TriangleAlert size={20} aria-hidden="true" />
+                        </span>
+                        <div className="min-w-0 flex-1">
+                          <p className="text-sm font-semibold text-[#f4e8e7]">{t('auth.registro.alertTitle')}</p>
+                          <p className="break-words text-sm text-[#cbb8b6]">{error}</p>
+                        </div>
                       </div>
                     )}
 
@@ -265,7 +264,7 @@ export function AuthScreen({ onAuth, onVolver, initialStep = 'inicio' }) {
                           className="flex h-full items-center gap-2 border-r border-[#4a4744] bg-[#292623] px-3 py-3.5 text-base font-medium text-[#efe8df] transition hover:bg-[#312e2c]"
                           aria-label={t('auth.registro.seleccionarPais')}
                         >
-                          <span>{selectedCountry.flag}</span>
+                          <span className="text-xl leading-none" aria-hidden="true">{selectedCountry.flag}</span>
                           <span className="sr-only">{selectedCountryName}</span>
                           <span>{telefonoPrefix}</span>
                         </button>

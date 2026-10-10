@@ -13,7 +13,8 @@ import {
   Zap,
 } from 'lucide-react'
 import ardilla from '../assets/Ardilla_vector.png'
-import whiteLogo from '../assets/LOGO_MS_white.png'
+import brandLogo from '../assets/LOGO_MS_orange.png'
+import Footer from './components/Footer'
 
 const settingsActions = [
   { id: 'profile', icon: <UserRound size={19} strokeWidth={2} aria-hidden="true" /> },
@@ -30,7 +31,6 @@ export function SettingsScreen({ usuario, onLogout, onAction }) {
   const navigate = useNavigate()
   const location = useLocation()
   const [selectedAction, setSelectedAction] = useState(null)
-  const [profileMenuOpen, setProfileMenuOpen] = useState(false)
   const firstName = usuario?.nombre?.trim() || t('settings.namePlaceholder')
   const lastNames = [usuario?.apellidoPaterno, usuario?.apellidoMaterno]
     .filter(Boolean)
@@ -56,7 +56,7 @@ export function SettingsScreen({ usuario, onLogout, onAction }) {
   }
 
   return (
-    <div className="flex min-h-screen flex-col bg-[#100f0e] text-[#f4f0ec]">
+    <div className="dark flex min-h-screen flex-col bg-[#100f0e] text-[#f4f0ec]">
       <header className="relative z-10 flex h-[60px] items-center justify-between border-b border-white/10 px-5 sm:px-8">
         <div className="flex items-center gap-2 sm:gap-4">
           <button
@@ -66,7 +66,7 @@ export function SettingsScreen({ usuario, onLogout, onAction }) {
             aria-label={t('settings.back')}
           >
             <ArrowLeft size={17} aria-hidden="true" />
-            <span className="hidden sm:inline">{t('settings.back')}</span>
+            <span>{t('settings.back')}</span>
           </button>
           <button
             type="button"
@@ -74,9 +74,9 @@ export function SettingsScreen({ usuario, onLogout, onAction }) {
             className="flex min-h-10 items-center gap-2 text-left"
             aria-label={t('settings.goHome')}
           >
-            <img src={whiteLogo} alt="" className="h-8 w-8 object-contain" />
-            <span className="hidden text-lg font-bold text-white sm:inline sm:text-xl">
-              {t('nav.marca')} {t('nav.marcaAccent')}
+            <img src={brandLogo} alt="" className="h-8 w-8 object-contain" />
+            <span className="font-display text-lg font-bold text-white sm:text-xl">
+              {t('nav.marca')} <span className="text-brand">{t('nav.marcaAccent')}</span>
             </span>
           </button>
         </div>
@@ -90,33 +90,6 @@ export function SettingsScreen({ usuario, onLogout, onAction }) {
           >
             {i18n.resolvedLanguage?.startsWith('es') ? 'EN' : 'ES'}
           </button>
-          <div className="relative">
-            <button
-              type="button"
-              onClick={() => setProfileMenuOpen((open) => !open)}
-              aria-expanded={profileMenuOpen}
-              aria-label={t('settings.openProfile')}
-              className="flex h-9 w-10 items-center justify-center rounded-lg border border-white/25 transition hover:border-white/60 hover:bg-white/5"
-            >
-              <UserRound size={20} strokeWidth={1.5} aria-hidden="true" />
-            </button>
-            {profileMenuOpen && (
-              <div className="absolute right-0 top-11 z-20 w-64 rounded-xl border border-white/10 bg-[#1b1917] p-4 shadow-xl">
-                <p className="truncate text-sm font-semibold">{displayName}</p>
-                {usuario?.email && (
-                  <p className="mt-1 truncate text-xs text-white/55">{usuario.email}</p>
-                )}
-                <button
-                  type="button"
-                  onClick={onLogout}
-                  className="mt-4 inline-flex min-h-10 w-full items-center gap-2 rounded-lg px-2 text-sm text-white/75 transition hover:bg-white/5 hover:text-white"
-                >
-                  <LogOut size={16} aria-hidden="true" />
-                  {t('settings.signOut')}
-                </button>
-              </div>
-            )}
-          </div>
         </div>
       </header>
 
@@ -173,6 +146,7 @@ export function SettingsScreen({ usuario, onLogout, onAction }) {
           </p>
         </section>
       </main>
+      <Footer />
     </div>
   )
 }
