@@ -122,6 +122,7 @@
       "procesoRapido": "A quick process",
       "descripcionRapido": "Complete your registration in under 3 minutes and access all your account benefits.",
       "tituloFormulario": "Sign up in minutes",
+      "alertTitle": "Error",
       "nombre": "First name(s)*",
       "apellidoPaterno": "Last name*",
       "apellidoMaterno": "Second last name*",
@@ -148,9 +149,11 @@
     "tituloAccent": "connect",
     "descripcion": "Connect an account to designate a beneficiary in case of death using your MsID.",
     "msId": "MsID",
+    "msIdPlaceholder": "Enter the MsID",
     "ejemplo": "Example",
     "aceptarBeneficio": "I agree to grant my generated benefit to the person associated with this MsID.",
     "otorgarBeneficio": "Grant benefit",
+    "requestReady": "The request is ready to connect to the backend.",
     "aviso": "You can change your beneficiary later in settings. Changes are subject to security review."
   },
   "changePassword": {
@@ -233,13 +236,12 @@
     "company": "Mañana Seguro S.A. de C.V.",
     "developedBy": "Developed by",
     "teamTitle": "Development team",
-    "teamRole": "[Role / area]",
     "team": {
-      "member1": "[Team member 1]",
-      "member2": "[Team member 2]",
-      "member3": "[Team member 3]",
-      "member4": "[Team member 4]",
-      "member5": "[Team member 5]"
+      "member1": { "name": "Daniel Rosales", "role": "Co-Founder, Product Developer & UI Mobile Designer" },
+      "member2": { "name": "Renata Ortiz", "role": "Co-Founder, Product Developer & UI Mobile Designer" },
+      "member3": { "name": "Ulises Campuzano", "role": "Co-Founder & Web Developer" },
+      "member4": { "name": "Bernardo González", "role": "Co-Founder & Mobile Developer" },
+      "member5": { "name": "Davor Barrera", "role": "Co-Founder & Web Developer" }
     },
     "partners": "Our partners",
     "socialTitle": "Social media"

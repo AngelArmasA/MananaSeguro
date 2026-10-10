@@ -4,22 +4,37 @@ import { useTranslation } from 'react-i18next'
 import { Check, Circle, TriangleAlert } from 'lucide-react'
 import LandingNavbar from './components/LandingNavbar'
 import Footer from './components/Footer'
+import { COUNTRY_LIST, COUNTRY_LOOKUP, getLocalizedCountryName } from '../data/countries'
+
+function getCountryFlagUrl(flag) {
+  const countryCode = [...flag]
+    .map((indicator) => String.fromCharCode(indicator.codePointAt(0) - 127397))
+    .join('')
+    .toLowerCase()
+
+  return `https://flagcdn.com/w40/${countryCode}.png`
+}
 
 export function DataProfile({ onContinuar }) {
   const navigate = useNavigate()
-  const { t } = useTranslation()
+  const { t, i18n } = useTranslation()
 
   const [form, setForm] = useState({
     nombre: '',
     apellidoPaterno: '',
     apellidoMaterno: '',
     telefono: '',
+    pais: 'México',
     email: '',
     password: '',
     confirmPassword: '',
   })
   const [error, setError] = useState(null)
   const [loading, setLoading] = useState(false)
+  const [countryPickerOpen, setCountryPickerOpen] = useState(false)
+  const [countrySearch, setCountrySearch] = useState('')
+  const selectedCountry = COUNTRY_LOOKUP[form.pais] ?? COUNTRY_LOOKUP['México']
+  const localizedCountry = getLocalizedCountryName(selectedCountry, i18n.resolvedLanguage ?? i18n.language)
 
   const requirements = [
     { id: 'length',    valid: form.password.length >= 12 },
@@ -122,13 +137,59 @@ export function DataProfile({ onContinuar }) {
                   </label>
 
                   {/* Teléfono con prefijo */}
-                  <div className="flex items-center bg-[#1c1b1a] border border-white/15 rounded-xl overflow-hidden focus-within:border-brand focus-within:ring-2 focus-within:ring-brand/20 transition">
-                    <span className="px-3 py-3 text-sm text-white/60 border-r border-white/15 shrink-0 select-none">
-                      +52
-                    </span>
-                    <input name="telefono" type="tel" placeholder="Número de teléfono*"
-                      value={form.telefono} onChange={handleChange}
-                      className="flex-1 bg-transparent px-4 py-3 text-sm text-white placeholder:text-white/35 outline-none" />
+                  <div className="relative">
+                    <div className="flex items-center bg-[#1c1b1a] border border-white/15 rounded-xl overflow-hidden focus-within:border-brand focus-within:ring-2 focus-within:ring-brand/20 transition">
+                      <button
+                        type="button"
+                        onClick={() => setCountryPickerOpen((open) => !open)}
+                        aria-label={t('auth.registro.seleccionarPais')}
+                        aria-expanded={countryPickerOpen}
+                        className="flex items-center gap-2 self-stretch border-r border-white/15 px-3 text-sm text-white/75 transition hover:bg-white/5"
+                      >
+                        <img src={getCountryFlagUrl(selectedCountry.flag)} alt="" aria-hidden="true" className="h-[18px] w-6 shrink-0 rounded-[2px] object-cover" />
+                        <span className="sr-only">{localizedCountry}</span>
+                        <span>{selectedCountry.code}</span>
+                      </button>
+                      <input name="telefono" type="tel" placeholder={t('auth.registro.telefono')}
+                        value={form.telefono} onChange={handleChange}
+                        className="flex-1 bg-transparent px-4 py-3 text-sm text-white placeholder:text-white/35 outline-none" />
+                    </div>
+
+                    {countryPickerOpen && (
+                      <div className="absolute left-0 right-0 top-[calc(100%+8px)] z-30 overflow-hidden rounded-xl border border-white/15 bg-[#171615] shadow-2xl shadow-black/50">
+                        <div className="border-b border-white/10 p-2.5">
+                          <input
+                            type="search"
+                            value={countrySearch}
+                            onChange={(event) => setCountrySearch(event.target.value)}
+                            placeholder={t('auth.registro.buscarPais')}
+                            className="w-full rounded-lg border border-white/10 bg-white/5 px-3 py-2 text-sm text-white outline-none placeholder:text-white/35 focus:border-brand"
+                          />
+                        </div>
+                        <div className="max-h-64 overflow-y-auto">
+                          {COUNTRY_LIST.filter((country) => {
+                            const query = countrySearch.trim().toLowerCase()
+                            const countryName = getLocalizedCountryName(country, i18n.resolvedLanguage ?? i18n.language)
+                            return !query || country.name.toLowerCase().includes(query) || countryName.toLowerCase().includes(query) || country.code.includes(query)
+                          }).map((country) => (
+                            <button
+                              key={country.name}
+                              type="button"
+                              onClick={() => {
+                                setForm((previous) => ({ ...previous, pais: country.name }))
+                                setCountryPickerOpen(false)
+                                setCountrySearch('')
+                              }}
+                              className="flex w-full items-center gap-3 border-b border-white/5 px-3 py-2.5 text-left text-sm text-white/80 transition last:border-0 hover:bg-white/5"
+                            >
+                              <img src={getCountryFlagUrl(country.flag)} alt="" aria-hidden="true" loading="lazy" className="h-[18px] w-6 shrink-0 rounded-[2px] object-cover" />
+                              <span className="min-w-0 flex-1 truncate">{getLocalizedCountryName(country, i18n.resolvedLanguage ?? i18n.language)}</span>
+                              <span className="shrink-0 text-white/45">{country.code}</span>
+                            </button>
+                          ))}
+                        </div>
+                      </div>
+                    )}
                   </div>
 
                   <input name="email" type="email" placeholder="Correo electrónico*"

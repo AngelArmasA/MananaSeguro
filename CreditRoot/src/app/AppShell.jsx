@@ -17,6 +17,7 @@ import { SettingsScreen } from '../screens/SettingsScreen'
 import { DataProfile } from '../screens/DataProfile'
 import { DataAccount } from '../screens/DataAccount'
 import { DepositsScreen } from '../screens/DepositsScreen'
+import { AboutScreen } from '../screens/AboutScreen'
 import { ErrorBoundary } from '../components/ErrorBoundary'
 
 export function AppShell() {
@@ -99,6 +100,7 @@ export function AppShell() {
       <Route path="/conexion-rapida" element={
         <QuickConnectScreen />
       } />
+      <Route path="/quick-connect" element={<QuickConnectScreen />} />
       <Route path="/signin-registro" element={
         <SignInScreen
           onVerificar={(email) => { setIdentificador(email); navigate('/verificacion') }}
@@ -107,6 +109,7 @@ export function AppShell() {
         />
       } />
       <Route path="/change-password" element={<ChangePasswordScreen />} />
+      <Route path="/about" element={<AboutScreen />} />
       <Route path="/signin" element={
         estaAutenticado
           ? <Navigate to="/main" replace />
@@ -148,6 +151,11 @@ export function AppShell() {
           : <Navigate to="/signin" replace />
       } />
       <Route path="/emergency" element={
+        estaAutenticado
+          ? <EmergencyWithdrawalScreen usuario={usuario} />
+          : <Navigate to="/signin" replace />
+      } />
+      <Route path="/emergency-withdrawal" element={
         estaAutenticado
           ? <EmergencyWithdrawalScreen usuario={usuario} />
           : <Navigate to="/signin" replace />

@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { useDarkMode } from '../../hooks/useDarkMode'
-import logoPng from "/src/assets/LogoPng.png"
+import logoPng from '../../assets/LOGO_MS_orange.png'
 
 // onLogin y onRegister: reservadas para el flujo de auth del Landing (aún no implementado en navbar)
 function LandingNavbar({ onVolver, soloVolver, appMode }) {

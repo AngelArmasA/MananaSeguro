@@ -122,6 +122,7 @@
       "procesoRapido": "Proceso rápido",
       "descripcionRapido": "Completa tu registro en menos de 3 minutos y accede a todos los beneficios de tu cuenta.",
       "tituloFormulario": "Regístrate en minutos",
+      "alertTitle": "Error",
       "nombre": "Nombre(s)*",
       "apellidoPaterno": "Apellido paterno*",
       "apellidoMaterno": "Apellido materno*",
@@ -148,9 +149,11 @@
     "tituloAccent": "rápida",
     "descripcion": "Conecta una cuenta para ser beneficiaria en caso de descenso con tu MsID.",
     "msId": "MsID",
+    "msIdPlaceholder": "Ingresa el MsID",
     "ejemplo": "Ejemplo",
     "aceptarBeneficio": "Acepto otorgar mi beneficio como beneficiario generado a la persona del MsID.",
     "otorgarBeneficio": "Otorgar beneficio",
+    "requestReady": "La solicitud está lista para conectarse al backend.",
     "aviso": "Puedes cambiar tu beneficiario más adelante en la configuración, recuerda que los cambios están sujetos a revisión de seguridad."
   },
   "changePassword": {
@@ -233,13 +236,12 @@
     "company": "Mañana Seguro S.A. de C.V.",
     "developedBy": "Desarrollado por",
     "teamTitle": "Equipo de desarrollo",
-    "teamRole": "[Cargo / área]",
     "team": {
-      "member1": "[Nombre del equipo 1]",
-      "member2": "[Nombre del equipo 2]",
-      "member3": "[Nombre del equipo 3]",
-      "member4": "[Nombre del equipo 4]",
-      "member5": "[Nombre del equipo 5]"
+      "member1": { "name": "Daniel Rosales", "role": "Cofundador, desarrollador de producto y diseñador UI móvil" },
+      "member2": { "name": "Renata Ortiz", "role": "Cofundadora, desarrolladora de producto y diseñadora UI móvil" },
+      "member3": { "name": "Ulises Campuzano", "role": "Cofundador y desarrollador web" },
+      "member4": { "name": "Bernardo González", "role": "Cofundador y desarrollador móvil" },
+      "member5": { "name": "Davor Barrera", "role": "Cofundador y desarrollador web" }
     },
     "partners": "Nuestros aliados",
     "socialTitle": "Redes sociales"
