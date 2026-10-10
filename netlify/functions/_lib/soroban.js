@@ -8,7 +8,7 @@ import { traducirErrorContrato } from './erroresContrato.js'
  * El cliente manda una INTENCIÓN tipada ({ type, amountUsdc, lockYears }) y
  * el servidor construye la transacción él mismo. Nunca firma un XDR que le
  * llegue de fuera.
- *
+ * 
  * La alternativa —que el cliente arme el XDR y el servidor solo lo firme—
  * obligaría a validar XDR arbitrario: cuenta origen, tipo de operación,
  * contrato invocado, función, argumentos, ausencia de operaciones extra y

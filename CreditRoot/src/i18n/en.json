@@ -20,12 +20,12 @@
     "badge": "Retirement savings · CETES · Mexico",
     "titulo": "Your retirement,",
     "tituloAccent": "in your hands.",
-    "descripcion": "Save from $40 pesos/month with real CETES yield. Transfer from your bank — just like paying any bill.",
+    "descripcion": "Save from $40 pesos/month with real CETES yield. Transfer from your bank, just like paying any bill.",
     "puntos": {
       "apy": "~{{apy}}% net APY (real CETES rate via Etherfuse)",
       "fondos": "Your money earns real yield — nobody can touch it",
       "prestamo": "Emergency autoloan up to 30% without breaking your savings",
-      "spei": "Deposit from your bank via SPEI — no crypto, no installs"
+      "spei": "Deposit from your bank via SPEI, no crypto, no installs"
     },
     "comenzar": "Get started →",
     "yaTengo": "I already have an account",
@@ -54,7 +54,7 @@
       "titulo": "Your retirement starts",
       "tituloAccent": "today.",
       "descripcion": "No bank, no intermediaries. The Soroban contract guarantees your funds are safe and earning real yield.",
-      "crear": "Create free account →",
+      "crear": "Create free account",
       "yaTengo": "I already have an account",
       "trust": "No credit card · 100% on-chain"
     },
@@ -72,17 +72,19 @@
   "calc": {
     "proyeccion": "Projection at {{anios}} years",
     "apy": "MXN · at {{apy}}% net APY",
-    "tasaVivo": "Live CETES rate · {{rate}}% gross",
-    "tasaRef": "Reference rate · {{rate}}%",
+    "tasaVivo": "Reference rate {{rate}}%",
+    "tasaRef": "Reference rate {{rate}}%",
     "cargando": "Loading rate...",
     "aporteLabel": "Monthly savings",
     "tiempoLabel": "Savings period",
-    "empezar": "Start saving →",
+    "empezar": "Create an account",
     "aniosSufijo": "years",
     "min": "1 year",
     "max": "40 years",
     "apyMxn": "Mexican pesos · at {{apy}}% net APY",
-    "mascotaAlt": "Mañana Seguro mascot"
+    "mascotaAlt": "Mañana Seguro mascot",
+    "yaTienesCuenta": "Already have an account?",
+    "iniciarSesion": "Sign in"
   },
   "auth": {
     "badge": "Your retirement, in your hands",
@@ -205,8 +207,8 @@
     "avatarAlt": "Mañana Seguro profile avatar",
     "namePlaceholder": "[First name]",
     "lastNamePlaceholder": "[Last name]",
-    "title": "Emergency",
-    "titleAccent": "withdrawal",
+    "title": "Your",
+    "titleAccent": "Profile",
     "signOutLabel": "Sign out",
     "signOut": "Sign out of this session",
     "menuTitle": "Settings",
@@ -822,8 +824,22 @@
     "minimoInline": "Minimum ${{min}} MXN",
     "nombreDefault": "Main Retirement"
   },
+  "verificacion": {
+    "tituloIzq": "Verification",
+    "descIzq": "Confirm your identity with the one-time code we sent to your device.",
+    "titulo": "Verification code",
+    "subtitulo": "One-time code · valid for 3 minutes",
+    "instruccion": "We sent a 5-digit code to your {{medio}}, enter it below to access.",
+    "medio": "phone number",
+    "acceder": "Access",
+    "verificando": "Verifying...",
+    "reenviarEn": "Request another code in {{tiempo}} seconds",
+    "solicitarOtro": "Request another code",
+    "errorTitulo": "Error: incorrect data",
+    "errorCodigo": "The code entered is not valid. Check and try again.",
+    "regresar": "Go back"
+  },
   "errorBoundary": {
-    "titulo": "Something went wrong",
     "descripcion": "An unexpected error occurred while processing your request. Your money and information are safe. Try again or go back home.",
     "reintentar": "Try again",
     "volverInicio": "Back to home",

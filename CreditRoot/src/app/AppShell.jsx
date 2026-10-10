@@ -1,43 +1,24 @@
 // src/app/AppShell.jsx
 import { useEffect, useState } from 'react'
 import { Routes, Route, Navigate, useNavigate } from 'react-router-dom'
-import { AppHeader } from '../components/layout/AppHeader'
-import { AppFooter } from '../components/layout/AppFooter'
 import { LandingScreen } from '../screens/LandingScreen'
 import { AuthScreen } from '../screens/AuthScreen'
-import { HomeScreen } from '../screens/HomeScreen'
-import { DashboardScreen } from '../screens/DashboardScreen'
-import { WithdrawalScreen } from '../screens/WithdrawalScreen'
+import { SignInScreen } from '../screens/SignInScreen'
+import { VerificacionScreen } from '../screens/VerificacionScreen'
+import { MainScreen } from '../screens/MainScreen'
+import { PerfilMetaScreen } from '../screens/PerfilMetaScreen'
+import { GoalEstablishedScreen } from '../screens/GoalEstablishedScreen'
+import { IncentivesScreen } from '../screens/IncentivesScreen'
+import { ProfileInfoScreen } from '../screens/ProfileInfoScreen'
 import { QuickConnectScreen } from '../screens/QuickConnectScreen'
 import { ChangePasswordScreen } from '../screens/ChangePasswordScreen'
 import { EmergencyWithdrawalScreen } from '../screens/EmergencyWithdrawalScreen'
 import { SettingsScreen } from '../screens/SettingsScreen'
+import { DataProfile } from '../screens/DataProfile'
+import { DataAccount } from '../screens/DataAccount'
+import { DepositsScreen } from '../screens/DepositsScreen'
 import { AboutScreen } from '../screens/AboutScreen'
 import { ErrorBoundary } from '../components/ErrorBoundary'
-
-function AppLayout({ usuario, onLogout }) {
-  return (
-    <div className="bg-surface dark:bg-[#0f0e0d] min-h-screen">
-      <AppHeader usuario={usuario} onLogout={onLogout} />
-      <main>
-        {/* Si DepositFlow / WithdrawalFlow (u otra pantalla) lanzan durante el
-            polling, el ErrorBoundary muestra un fallback en vez de dejar la
-            app en blanco. */}
-        <ErrorBoundary>
-          <Routes>
-            <Route path="/home"       element={<HomeScreen usuario={usuario} />} />
-            <Route path="/dashboard"  element={<DashboardScreen />} />
-            <Route path="/withdrawal" element={<WithdrawalScreen />} />
-            {/* Simulador redirige al dashboard donde está integrado */}
-            <Route path="/planner"    element={<Navigate to="/dashboard" replace />} />
-            <Route path="*"           element={<Navigate to="/home" replace />} />
-          </Routes>
-        </ErrorBoundary>
-      </main>
-      <AppFooter />
-    </div>
-  )
-}
 
 export function AppShell() {
   const navigate = useNavigate()
@@ -50,6 +31,9 @@ export function AppShell() {
       return null
     }
   })
+
+  // identificador (email) que viene de /signin hacia /verificacion
+  const [identificador, setIdentificador] = useState(null)
 
   useEffect(() => {
     function onStorage(e) {
@@ -64,11 +48,12 @@ export function AppShell() {
   function handleAuth(datos) {
     setUsuario(datos)
     localStorage.setItem('ms_usuario', JSON.stringify(datos))
-    navigate('/home')
+    navigate('/main')
   }
 
   function handleLogout() {
     setUsuario(null)
+    setIdentificador(null)
     localStorage.removeItem('ms_usuario')
     navigate('/')
   }
@@ -79,44 +64,116 @@ export function AppShell() {
     <Routes>
       <Route path="/" element={
         <LandingScreen
-          onLogin={() => navigate('/login')}
-          onRegister={() => navigate('/register')}
+          onLogin={() => navigate('/signin')}
+          onRegister={() => navigate('/login')}
         />
       } />
       <Route path="/login" element={
-        estaAutenticado
-          ? <Navigate to="/home" replace />
-          : <AuthScreen initialStep="inicio" onAuth={handleAuth} onVolver={() => navigate('/')} />
+        <AuthScreen
+          onVolver={() => navigate('/')}
+          onIrADatosPersonales={() => navigate('/datos-personales')}
+        />
       } />
       <Route path="/register" element={
-        estaAutenticado
-          ? <Navigate to="/home" replace />
-          : <AuthScreen initialStep="registro" onAuth={handleAuth} onVolver={() => navigate('/')} onLogin={() => navigate('/login')} />
+        <AuthScreen
+          onVolver={() => navigate('/')}
+          onIrADatosPersonales={() => navigate('/datos-personales')}
+        />
+      } />
+      <Route path="/datos-personales" element={
+        <DataProfile />
+      } />
+      <Route path="/verificacion-registro" element={
+        <VerificacionScreen
+          identificador="registro"
+          guardarSesion={false}
+          onAuth={() => navigate('/perfil-meta')}
+          onVolver={() => navigate('/datos-personales')}
+        />
+      } />
+      <Route path="/perfil-meta" element={
+        <PerfilMetaScreen />
+      } />
+      <Route path="/datos-cuenta" element={
+        <DataAccount />
+      } />
+      <Route path="/conexion-rapida" element={
+        <QuickConnectScreen />
       } />
       <Route path="/quick-connect" element={<QuickConnectScreen />} />
+      <Route path="/signin-registro" element={
+        <SignInScreen
+          onVerificar={(email) => { setIdentificador(email); navigate('/verificacion') }}
+          onVolver={() => navigate('/')}
+          onRegister={() => navigate('/login')}
+        />
+      } />
       <Route path="/change-password" element={<ChangePasswordScreen />} />
-      <Route path="/emergency-withdrawal" element={<EmergencyWithdrawalScreen />} />
       <Route path="/about" element={<AboutScreen />} />
+      <Route path="/signin" element={
+        estaAutenticado
+          ? <Navigate to="/main" replace />
+          : <SignInScreen
+              onVerificar={(email) => { setIdentificador(email); navigate('/verificacion') }}
+              onVolver={() => navigate('/')}
+              onRegister={() => navigate('/login')}
+            />
+      } />
+      <Route path="/verificacion" element={
+        estaAutenticado
+          ? <Navigate to="/main" replace />
+          : identificador
+            ? <VerificacionScreen
+                identificador={identificador}
+                onAuth={handleAuth}
+                onVolver={() => navigate('/signin')}
+              />
+            : <Navigate to="/signin" replace />
+      } />
+      <Route path="/main" element={
+        estaAutenticado
+          ? <MainScreen usuario={usuario} onLogout={handleLogout} />
+          : <Navigate to="/signin" replace />
+      } />
+      <Route path="/deposits" element={
+        estaAutenticado
+          ? <DepositsScreen usuario={usuario} onLogout={handleLogout} />
+          : <Navigate to="/signin" replace />
+      } />
+      <Route path="/profile-info" element={
+        estaAutenticado
+          ? <ProfileInfoScreen />
+          : <Navigate to="/signin" replace />
+      } />
       <Route path="/settings" element={
         estaAutenticado
           ? <SettingsScreen usuario={usuario} onLogout={handleLogout} />
-          : <Navigate to="/login" replace />
+          : <Navigate to="/signin" replace />
       } />
-      {import.meta.env.DEV && (
-        <Route
-          path="/settings-preview"
-          element={
-            <SettingsScreen
-              usuario={{ nombre: '[Nombre]', apellidoPaterno: '[Apellido]' }}
-              onLogout={() => navigate('/login')}
-            />
-          }
-        />
-      )}
+      <Route path="/emergency" element={
+        estaAutenticado
+          ? <EmergencyWithdrawalScreen usuario={usuario} />
+          : <Navigate to="/signin" replace />
+      } />
+      <Route path="/emergency-withdrawal" element={
+        estaAutenticado
+          ? <EmergencyWithdrawalScreen usuario={usuario} />
+          : <Navigate to="/signin" replace />
+      } />
+      <Route path="/incentives" element={
+        estaAutenticado
+          ? <IncentivesScreen usuario={usuario} />
+          : <Navigate to="/signin" replace />
+      } />
+      <Route path="/goal" element={
+        estaAutenticado
+          ? <GoalEstablishedScreen />
+          : <Navigate to="/signin" replace />
+      } />
       <Route path="/*" element={
         estaAutenticado
-          ? <AppLayout usuario={usuario} onLogout={handleLogout} />
-          : <Navigate to="/login" replace />
+          ? <Navigate to="/main" replace />
+          : <Navigate to="/signin" replace />
       } />
     </Routes>
   )

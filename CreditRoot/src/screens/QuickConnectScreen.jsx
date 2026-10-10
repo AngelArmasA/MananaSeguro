@@ -20,7 +20,7 @@ export function QuickConnectScreen() {
 
   return (
     <div className="flex min-h-screen flex-col bg-[#12100f] text-[#f5efe9]">
-      <LandingNavbar compactRegister onVolver={() => navigate(location.state?.from || '/')} />
+      <LandingNavbar soloVolver onVolver={() => navigate(location.state?.from || '/main')} />
 
       <main className="flex w-full flex-1 items-center px-4 py-8 sm:px-6 lg:px-8 lg:py-20">
         <div className="mx-auto w-full max-w-[1280px]">

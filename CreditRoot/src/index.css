@@ -14,6 +14,9 @@
   --color-gray: #a69f97;
   --color-dark: #000000;
   --color-white: #FBF6EC;
+  --color-success: #3ecf8e;
+  --color-bg: #0f0e0d;
+  --color-card: #1a1814;
 }
 
 @keyframes fadeUp {

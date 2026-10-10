@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
-import { ArrowLeft, Check, Circle, Eye, EyeOff, Lock } from 'lucide-react'
+import { Check, Circle, Eye, EyeOff, Lock } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import LandingNavbar from './components/LandingNavbar'
 import Footer from './components/Footer'
@@ -31,79 +31,79 @@ export function ChangePasswordScreen() {
   }
 
   function handleBack() {
-    navigate(location.state?.from || '/login')
+    navigate(location.state?.from || '/signin')
   }
 
   return (
-    <div className="flex min-h-screen flex-col bg-[#12100f] text-[#f5efe9]">
-      <LandingNavbar compactRegister />
+    <div className="bg-[#0f0e0d] min-h-screen flex flex-col text-white">
+      <LandingNavbar soloVolver onVolver={handleBack} />
 
-      <main className="flex flex-1 items-center justify-center px-4 py-8 sm:px-6 lg:px-8">
-        <div className="relative mx-auto w-full max-w-[1400px]">
-          <div className="relative z-10 mx-auto flex w-full max-w-[1200px] flex-col items-center justify-center gap-8 lg:flex-row lg:items-center lg:justify-between lg:gap-16">
-            <section className="w-full max-w-[520px] lg:max-w-[560px]">
-              <button
-                type="button"
-                onClick={handleBack}
-                className="mb-8 inline-flex items-center gap-2 text-sm font-medium text-[#d7d0ca] transition hover:text-white"
+      <section className="flex-1 py-10 px-4 sm:px-6 lg:px-12">
+        <div className="w-full max-w-6xl mx-auto">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-20 items-start">
+
+            {/* Izquierda */}
+            <div className="hidden lg:flex flex-col justify-start items-start space-y-6 pt-2">
+              <h1
+                className="font-display font-bold text-white tracking-tight leading-[1.05]"
+                style={{ fontSize: 'clamp(3rem,6vw,5rem)' }}
               >
-                <ArrowLeft size={16} />
-                <span>{t('changePassword.back')}</span>
-              </button>
-
-              <h1 className="font-display text-[2.8rem] font-black leading-[0.9] tracking-[-0.08em] text-[#f3efe8] sm:text-[4rem] lg:text-[5.8rem]">
-                {t('changePassword.title')}
-                <span className="mt-1 block text-[#e4741d]">{t('changePassword.titleAccent')}</span>
+                {t('changePassword.title')}{' '}
+                <em className="text-brand not-italic block">{t('changePassword.titleAccent')}</em>
               </h1>
-
-              <p className="mt-6 max-w-[420px] text-[1.05rem] leading-relaxed text-[#d1c7bf] sm:text-[1.25rem]">
+              <p className="text-white/55 text-base leading-relaxed max-w-md">
                 {t('changePassword.description')}
               </p>
-            </section>
+            </div>
 
-            <section className="w-full max-w-[500px]">
-              <div className="rounded-[20px] border border-[#3c3735] bg-[#181614]/90 p-5 shadow-[0_0_0_1px_rgba(255,255,255,0.02)] backdrop-blur-sm sm:p-6">
-                <h2 className="text-[2rem] font-black leading-[1.05] tracking-[-0.06em] text-[#f3efe8] sm:text-[2.4rem]">
-                  {t('changePassword.cardTitle')}
-                </h2>
-                <p className="mt-2 text-[1rem] leading-relaxed text-[#d9d1c9] sm:text-[1.05rem]">
-                  {t('changePassword.cardSubtitle')}
-                </p>
+            {/* Tarjeta */}
+            <div className="w-full max-w-md mx-auto">
+              <div className="bg-[#1a1917] border border-white/10 shadow-2xl shadow-black/80 p-6 sm:p-10 rounded-3xl flex flex-col">
 
-                <form onSubmit={handleSubmit} className="mt-6 space-y-4">
+                {/* Encabezado móvil */}
+                <div className="lg:hidden mb-6">
+                  <h2 className="font-display font-bold text-white text-3xl tracking-tight mb-2">
+                    {t('changePassword.title')}{' '}
+                    <em className="text-brand not-italic">{t('changePassword.titleAccent')}</em>
+                  </h2>
+                </div>
+
+                {/* Encabezado escritorio */}
+                <div className="hidden lg:block mb-6 text-center">
+                  <h3 className="font-display font-bold text-2xl text-white">
+                    {t('changePassword.cardTitle')}
+                  </h3>
+                  <p className="text-white/55 text-sm mt-1">{t('changePassword.cardSubtitle')}</p>
+                </div>
+
+                <form onSubmit={handleSubmit} className="flex flex-col gap-4">
                   <label className="relative block">
                     <span className="sr-only">{t('changePassword.newPassword')}</span>
-                    <span className="pointer-events-none absolute inset-y-0 left-4 flex items-center text-[#d9d1c9]">
-                      <Lock size={18} />
+                    <span className="pointer-events-none absolute inset-y-0 left-4 flex items-center text-white/40">
+                      <Lock size={16} />
                     </span>
                     <input
                       type={showPassword ? 'text' : 'password'}
                       value={password}
-                      onChange={(event) => {
-                        setPassword(event.target.value)
-                        setRequestReady(false)
-                      }}
+                      onChange={(event) => { setPassword(event.target.value); setRequestReady(false) }}
                       placeholder={t('changePassword.newPassword')}
                       autoComplete="new-password"
                       required
-                      className="w-full rounded-xl border border-[#4d4744] bg-[#2b2927] py-3.5 pl-11 pr-11 text-base text-[#f3efe8] placeholder:text-[#b7aea7] outline-none transition focus:border-[#d98a37] focus:ring-2 focus:ring-[#d98a37]/20"
+                      className="w-full bg-[#1c1b1a] text-white text-sm border border-white/20 rounded-xl py-3 pl-11 pr-11 outline-none transition-colors focus:border-[#d96b00] focus:ring-2 focus:ring-[#d96b00]/40 placeholder:text-white/35"
                     />
-                    <button
-                      type="button"
-                      onClick={() => setShowPassword((value) => !value)}
-                      className="absolute inset-y-0 right-4 flex items-center text-[#d9d1c9] transition hover:text-white"
-                      aria-label={t('changePassword.showPassword')}
-                    >
-                      {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                    <button type="button" onClick={() => setShowPassword(v => !v)}
+                      className="absolute inset-y-0 right-4 flex items-center text-white/40 hover:text-white transition-colors"
+                      aria-label={t('changePassword.showPassword')}>
+                      {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
                     </button>
                   </label>
 
-                  <div className="rounded-xl border border-[#3c3735] bg-[#201e1c] p-4">
-                    <p className="mb-3 text-sm font-semibold text-[#f3efe8]">{t('changePassword.requirementsTitle')}</p>
-                    <ul className="space-y-2" aria-label={t('changePassword.requirementsTitle')}>
+                  <div className="rounded-xl border border-white/10 bg-[#1c1b1a] p-4">
+                    <p className="mb-3 text-sm font-semibold text-white">{t('changePassword.requirementsTitle')}</p>
+                    <ul className="space-y-2">
                       {requirements.map(({ id, valid }) => (
-                        <li key={id} className={`flex items-center gap-2 text-sm ${valid ? 'text-[#8bd4a0]' : 'text-[#bdb4ad]'}`}>
-                          {valid ? <Check size={16} aria-hidden="true" /> : <Circle size={14} aria-hidden="true" />}
+                        <li key={id} className={`flex items-center gap-2 text-sm ${valid ? 'text-green-400' : 'text-white/45'}`}>
+                          {valid ? <Check size={14} /> : <Circle size={12} />}
                           <span>{t(`changePassword.requirements.${id}`)}</span>
                         </li>
                       ))}
@@ -112,33 +112,27 @@ export function ChangePasswordScreen() {
 
                   <label className="relative block">
                     <span className="sr-only">{t('changePassword.confirmPassword')}</span>
-                    <span className="pointer-events-none absolute inset-y-0 left-4 flex items-center text-[#d9d1c9]">
-                      <Lock size={18} />
+                    <span className="pointer-events-none absolute inset-y-0 left-4 flex items-center text-white/40">
+                      <Lock size={16} />
                     </span>
                     <input
                       type={showConfirmPassword ? 'text' : 'password'}
                       value={confirmPassword}
-                      onChange={(event) => {
-                        setConfirmPassword(event.target.value)
-                        setRequestReady(false)
-                      }}
+                      onChange={(event) => { setConfirmPassword(event.target.value); setRequestReady(false) }}
                       placeholder={t('changePassword.confirmPassword')}
                       autoComplete="new-password"
                       required
-                      className="w-full rounded-xl border border-[#4d4744] bg-[#2b2927] py-3.5 pl-11 pr-11 text-base text-[#f3efe8] placeholder:text-[#b7aea7] outline-none transition focus:border-[#d98a37] focus:ring-2 focus:ring-[#d98a37]/20"
+                      className="w-full bg-[#1c1b1a] text-white text-sm border border-white/20 rounded-xl py-3 pl-11 pr-11 outline-none transition-colors focus:border-[#d96b00] focus:ring-2 focus:ring-[#d96b00]/40 placeholder:text-white/35"
                     />
-                    <button
-                      type="button"
-                      onClick={() => setShowConfirmPassword((value) => !value)}
-                      className="absolute inset-y-0 right-4 flex items-center text-[#d9d1c9] transition hover:text-white"
-                      aria-label={t('changePassword.showConfirmPassword')}
-                    >
-                      {showConfirmPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                    <button type="button" onClick={() => setShowConfirmPassword(v => !v)}
+                      className="absolute inset-y-0 right-4 flex items-center text-white/40 hover:text-white transition-colors"
+                      aria-label={t('changePassword.showConfirmPassword')}>
+                      {showConfirmPassword ? <EyeOff size={16} /> : <Eye size={16} />}
                     </button>
                   </label>
 
                   {confirmPassword && (
-                    <p className={`text-sm ${passwordsMatch ? 'text-[#8bd4a0]' : 'text-[#e59a8e]'}`} role="status">
+                    <p className={`text-sm ${passwordsMatch ? 'text-green-400' : 'text-red-400'}`} role="status">
                       {t(passwordsMatch ? 'changePassword.passwordsMatch' : 'changePassword.passwordsDoNotMatch')}
                     </p>
                   )}
@@ -146,23 +140,25 @@ export function ChangePasswordScreen() {
                   <button
                     type="submit"
                     disabled={!passwordIsValid || !passwordsMatch}
-                    className="mt-2 w-full rounded-xl bg-[#e4741d] px-4 py-3.5 text-base font-semibold text-white shadow-[0_10px_20px_rgba(228,116,29,0.25)] transition hover:bg-[#d56a1a] disabled:cursor-not-allowed disabled:opacity-50"
+                    className="w-full bg-[#d96b00] hover:bg-[#c05e00] active:scale-[0.98] disabled:opacity-40 disabled:cursor-not-allowed text-white font-semibold py-4 px-6 rounded-xl transition-all hover:-translate-y-px hover:shadow-lg hover:shadow-[#d96b00]/30 text-base cursor-pointer"
                   >
                     {t('changePassword.submit')}
                   </button>
+
                   {requestReady && (
-                    <p className="rounded-lg border border-[#3d7a48] bg-[#1f2e24] px-3 py-2 text-sm text-[#dff6e6]" role="status">
+                    <p className="rounded-xl border border-green-500/30 bg-green-500/10 px-4 py-3 text-sm text-green-400 text-center" role="status">
                       {t('changePassword.requestReady')}
                     </p>
                   )}
                 </form>
               </div>
-            </section>
+            </div>
+
           </div>
         </div>
-      </main>
+      </section>
 
-      <Footer />
+      <Footer dark />
     </div>
   )
 }

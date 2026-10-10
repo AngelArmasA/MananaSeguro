@@ -1,0 +1,87 @@
+{
+  "red": "testnet",
+  "fecha_generacion": "2026-09-28",
+  "nota": "Stellar testnet se resetea periodicamente; ver respaldo en Drive si estos hashes ya no resuelven en el explorador.",
+  "transacciones": [
+    {
+      "hash": "407576d7b847274d6be57263264bd377ffdc9a48ffda7285067c4df6a636262d",
+      "timestamp": "2026-09-28T22:52:22Z"
+    },
+    {
+      "hash": "c7df037b30881fa8ece019d4574b28bc562078b500974af83acf6693f97ee17d",
+      "timestamp": "2026-09-28T22:52:17Z"
+    },
+    {
+      "hash": "b67a926ebd0b0a06a586abae0840ec998c7fca0a8113f940f4ba52b73a9baaf1",
+      "timestamp": "2026-09-28T22:52:12Z"
+    },
+    {
+      "hash": "dcf224d25dc1fe5b044c37393ae658d7708ae0d68f20ca8ee89a040c3ae04b56",
+      "timestamp": "2026-09-28T22:52:02Z"
+    },
+    {
+      "hash": "813dea5c66f944a73ea0a936211bcfd58a559ef10908f272f61162ffc2223644",
+      "timestamp": "2026-09-28T22:51:57Z"
+    },
+    {
+      "hash": "73d361580267b45b98135196402f75b3e8b6ee0fe1b5890d3a295e3db39f4625",
+      "timestamp": "2026-09-28T22:51:52Z"
+    },
+    {
+      "hash": "f4527d0ba84475aa50933c7cfce83b4cb273e12c08186b4ee9495a2c04c99981",
+      "timestamp": "2026-09-28T22:51:47Z"
+    },
+    {
+      "hash": "8c1d1427763a2b56d19f1c390ff10a0d4d862ce8c99e753d04e494cb2d805fd9",
+      "timestamp": "2026-09-28T22:51:42Z"
+    },
+    {
+      "hash": "5d53a3131e5465431b7146587e5909567d2d1a94db2eedebfdb418e7a2c2cd45",
+      "timestamp": "2026-09-28T22:51:37Z"
+    },
+    {
+      "hash": "8d26d2e9b69611f5d101950654b40f832f87ffe5de17164172add9edfea24b2b",
+      "timestamp": "2026-09-28T22:51:32Z"
+    },
+    {
+      "hash": "58abf3fa4e650fb55bad2be337193e798b38a1ee690819bb0c27e6c942bfb3bf",
+      "timestamp": "2026-09-28T22:51:27Z"
+    },
+    {
+      "hash": "b30b6d65d6f3f7b68d1c68e83cfd46f553b20c716c4a23a55374d67730edef40",
+      "timestamp": "2026-09-28T22:51:22Z"
+    },
+    {
+      "hash": "02dc06885ee84052f20c7bb5f93b3a78ba8ff765814abc42c32904dfceb363e7",
+      "timestamp": "2026-09-28T22:51:17Z"
+    },
+    {
+      "hash": "9be55515f3661ad786e5351f36764f9fe31397249d3d56b4e5fb77407b7f571a",
+      "timestamp": "2026-09-28T22:51:12Z"
+    },
+    {
+      "hash": "e01427efba1400577eceeecf2881e7aee2b4e06591fcaec53b0a3a98d85b6cf2",
+      "timestamp": "2026-09-28T22:51:02Z"
+    },
+    {
+      "hash": "b5fcdeba1035b44b60ab43cebb78302f40c78d55ded96e4fd18e9973667e8ca3",
+      "timestamp": "2026-09-28T22:50:57Z"
+    },
+    {
+      "hash": "ac3b10b42b29f0ae75cf051c43389569ea8988c3f8f08d488d68c2bd9077d209",
+      "timestamp": "2026-09-28T22:50:52Z"
+    },
+    {
+      "hash": "0691105c4cb7f4d2be124b1994605931bac301f823dbf5e3ceb3b36fc2933ff0",
+      "timestamp": "2026-09-28T22:50:47Z"
+    },
+    {
+      "hash": "6264ed30fcb44706dcf95b6549ac97d71732ef90439b23678a436bbdc12d8628",
+      "timestamp": "2026-09-28T22:50:42Z"
+    },
+    {
+      "hash": "5291d41aeb0744647980260e1fc6e4e5d506f68d341de4596fec02e513562479",
+      "timestamp": "2026-09-28T22:50:37Z"
+    }
+  ]
+}
