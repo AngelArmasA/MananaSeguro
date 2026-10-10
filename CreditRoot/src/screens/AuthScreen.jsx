@@ -9,6 +9,15 @@ import ardilla from '../assets/Ardilla_vector.png'
 
 const GOOGLE_CLIENT_ID = import.meta.env.VITE_GOOGLE_CLIENT_ID
 
+function getCountryFlagUrl(flag) {
+  const countryCode = [...flag]
+    .map((indicator) => String.fromCharCode(indicator.codePointAt(0) - 127397))
+    .join('')
+    .toLowerCase()
+
+  return `https://flagcdn.com/w40/${countryCode}.png`
+}
+
 export function AuthScreen({ onAuth, onVolver, onLogin, initialStep = 'inicio' }) {
   const { t, i18n } = useTranslation()
   const [paso, setPaso] = useState(initialStep)
@@ -264,7 +273,12 @@ export function AuthScreen({ onAuth, onVolver, onLogin, initialStep = 'inicio' }
                           className="flex h-full items-center gap-2 border-r border-[#4a4744] bg-[#292623] px-3 py-3.5 text-base font-medium text-[#efe8df] transition hover:bg-[#312e2c]"
                           aria-label={t('auth.registro.seleccionarPais')}
                         >
-                          <span className="text-xl leading-none" aria-hidden="true">{selectedCountry.flag}</span>
+                          <img
+                            src={getCountryFlagUrl(selectedCountry.flag)}
+                            alt=""
+                            aria-hidden="true"
+                            className="h-[18px] w-6 shrink-0 rounded-[2px] object-cover"
+                          />
                           <span className="sr-only">{selectedCountryName}</span>
                           <span>{telefonoPrefix}</span>
                         </button>
@@ -312,7 +326,13 @@ export function AuthScreen({ onAuth, onVolver, onLogin, initialStep = 'inicio' }
                                 className="flex w-full items-center justify-between gap-3 border-b border-[#363230] px-3 py-2.5 text-left text-sm text-[#f3efe8] transition hover:bg-[#2b2927] last:border-b-0"
                               >
                                 <span className="flex items-center gap-3">
-                                  <span className="text-lg">{country.flag}</span>
+                                  <img
+                                    src={getCountryFlagUrl(country.flag)}
+                                    alt=""
+                                    aria-hidden="true"
+                                    loading="lazy"
+                                    className="h-[18px] w-6 shrink-0 rounded-[2px] object-cover"
+                                  />
                                   <span>{getLocalizedCountryName(country, i18n.resolvedLanguage ?? i18n.language)}</span>
                                 </span>
                                 <span className="text-[#d8c7b4]">{country.code}</span>
